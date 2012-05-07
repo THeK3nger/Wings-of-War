@@ -8,6 +8,7 @@
 #define	PLANE_H
 
 #include "Card.h"
+#include <math.h>
 
 class Plane {
 public:
