@@ -1,13 +1,11 @@
-/* 
- * File:   Game.h
- * Author: davide
- *
- * Created on May 7, 2012, 6:46 PM
- */
-
 #ifndef GAME_H
 #define	GAME_H
 
+/*!
+ * \brief This class is the core class of the Game.
+ * 
+ * It contains various stuff to execute the game.
+ */
 class Game {
 public:
     Game();
