@@ -34,7 +34,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/World.o \
+	${OBJECTDIR}/Plane.o \
+	${OBJECTDIR}/Card.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/WoWBrain.o
 
 
 # C Compiler Flags
@@ -61,10 +66,35 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/World.o: World.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
+
+${OBJECTDIR}/Plane.o: Plane.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane.o Plane.cpp
+
+${OBJECTDIR}/Card.o: Card.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card.o Card.cpp
+
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/Game.o: Game.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 
 # Subprojects
 .build-subprojects:
