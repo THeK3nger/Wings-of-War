@@ -12,11 +12,12 @@
 #define	WORLD_H
 
 class World{
-    float width;
-    float height;
-    std::vector<Plane> planes;
+    private:
+        float width;
+        float height;
+        std::vector<Plane> planes;
 
-        public:
+    public:
         World(float w, float h, std::vector<Plane> p);
         ~World();
         void draw();

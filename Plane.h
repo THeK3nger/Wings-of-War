@@ -20,6 +20,7 @@ public:
     void move(Card card);
     int getDamage();
     int getHealth();
+    int getId();
     
     void setDamage(int value);
     

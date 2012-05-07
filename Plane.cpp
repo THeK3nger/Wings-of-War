@@ -82,6 +82,10 @@ int Plane::getLastMove()
     
 }
 
+int Plane::getId(){
+    return this->id;
+}
+
 bool Plane::moveIsValid(Card card)
 {
     
