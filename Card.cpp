@@ -1,10 +1,3 @@
-/* 
- * File:   Card.cpp
- * Author: davide
- * 
- * Created on May 7, 2012, 6:44 PM
- */
-
 #include "Card.h"
 
 Card::Card() {
@@ -23,5 +16,5 @@ Card::CType Card::getCardType() {
 void Card::getMovement(float* outMove) {
     outMove[0] = this->dx;
     outMove[1] = this->dy;
-    outMove[2] = this->theta;
+    outMove[2] = this->dtheta;
 }
