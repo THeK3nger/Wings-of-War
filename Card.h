@@ -10,10 +10,23 @@
 
 class Card {
 public:
+    enum CType {
+        STRAIGHT,
+        R_STEER,
+        L_STEER,
+    };
+    
     Card();
     Card(const Card& orig);
     virtual ~Card();
 private:
+    float dx;
+    float dy;
+    float theta;
+    CType type;
+    
+    void getMovement(float* outMove);
+    CType getCardType();    
 
 };
 
