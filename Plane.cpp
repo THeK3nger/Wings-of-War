@@ -1,10 +1,3 @@
-/* 
- * File:   Plane.cpp
- * Author: davide
- * 
- * Created on May 7, 2012, 6:44 PM
- */
-
 #include "Plane.h"
 
 Plane::Plane()
@@ -72,7 +65,7 @@ void Plane::setDamage(int value)
 
 }
     
-void Plane::getPosition(float* thePosition)
+void Plane::getPosition(float* outPosition)
 {
 
 }
