@@ -19,14 +19,15 @@ public:
     Card();
     Card(const Card& orig);
     virtual ~Card();
+    
+    void getMovement(float* outMove);
+    CType getCardType(); 
+    
 private:
     float dx;
     float dy;
     float theta;
-    CType type;
-    
-    void getMovement(float* outMove);
-    CType getCardType();    
+    CType type;   
 
 };
 
