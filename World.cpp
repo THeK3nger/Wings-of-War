@@ -25,7 +25,7 @@ void World::draw(){
 
 Plane* World::GetAereoById(int id){
     for (int i=0; i<this->planes.size(); i++){
-        if(this->planes[i].id == id)
+        if(this->planes[i].getId == id)
             return &(this->planes[i]);
     }
 }
