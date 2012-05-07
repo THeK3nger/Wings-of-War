@@ -30,9 +30,12 @@ void Plane::move(Card card)
         
         card.getMovement(deltas);
         
-        this->posx+=deltas[0];
-        this->posy+=deltas[1];
-        this->theta+=deltas[2];
+//        this->posx+=deltas[0];
+//        this->posy+=deltas[1];
+//        this->theta+=deltas[2];
+        this->posx = this->posx + deltas[0]*cos(this->theta) - deltas[1]*sin(this->theta);
+        this->posy = this->posy + deltas[0]*sin(this->theta) + deltas[1]*cos(this->theta);
+        this->theta = this->theta + deltas[2];
     }
 }
 
