@@ -1,9 +1,10 @@
 #include "Card.h"
 
-Card::Card() {
-}
-
-Card::Card(const Card& orig) {
+Card::Card(CType type, float mov_x, float mov_y, float mov_theta){
+    this->type = type;
+    this->dx = mov_x;
+    this->dy = mov_y;
+    this->dtheta = mov_theta;
 }
 
 Card::~Card() {

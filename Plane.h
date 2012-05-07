@@ -12,8 +12,7 @@
 class Plane {
 public:
     
-    Plane();
-    Plane(const Plane& orig);
+    Plane(int id, int health, float x, float y, float theta);
     virtual ~Plane();
     
     /*!
@@ -37,6 +36,7 @@ public:
     int getId();
     
     //TODO: Check this name. I don't like it. [IM]
+    // I agree, what about "incrementDamage(int damage_to_add)"?
     void setDamage(int value);
     
     /*!

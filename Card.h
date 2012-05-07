@@ -22,14 +22,15 @@ public:
     /*!
      * Describe the card type. (for now only 3)
      */
+    // LATER THEY WILL BE "dangerous", "normal", "straight", "himmelmann"
+    // The curves will be specified via the x, y and theta in the card
     enum CType {
         STRAIGHT,
         R_STEER,
         L_STEER,
     };
     
-    Card();
-    Card(const Card& orig);
+    Card(CType type, float mov_x, float mov_y, float mov_theta);
     virtual ~Card();
     
     /*!

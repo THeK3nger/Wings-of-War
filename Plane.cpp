@@ -1,13 +1,12 @@
 #include "Plane.h"
 
-Plane::Plane()
-{
-
-}
-
-Plane::Plane(const Plane& orig)
-{
-
+Plane::Plane(int id, int health, float x, float y, float theta){
+    this->id = id;
+    this->health = health;
+    this->posx = x;
+    this->posy = y;
+    this->theta = theta;
+    this->damage = 0;
 }
 
 Plane::~Plane()
@@ -52,27 +51,29 @@ void Plane::move(Card card)
 
 int Plane::getDamage()
 {
-
+    return (this->health - this->damage);
 }
 
 int Plane::getHealth()
 {
-
+    return this->health;
 }
     
-void Plane::setDamage(int value)
+void Plane::setDamage(int amount)
 {
-
+    this->damage += amount;
 }
     
 void Plane::getPosition(float* outPosition)
 {
-
+    outPosition[0] = this->posx;
+    outPosition[1] = this->posy;
+    outPosition[2] = this->theta;
 }
     
 int Plane::getLastMove()
 {
-    
+    return this->lastmove;
 }
 
 int Plane::getId(){
@@ -81,6 +82,10 @@ int Plane::getId(){
 
 bool Plane::moveIsValid(Card card)
 {
-    
+    // TODO -- will have to adequate the output to the last movement
+    // namely:  "normal" manoveurs are always available, except if the last one was an "himmelmann"
+    //          "himmelmann" is possible only if last manoveur was "straight"
+    //          "straight" is always possible
+    //          "dangerous" are possible only if last manoveur was "straight" or "normal"
     return true;
 }
