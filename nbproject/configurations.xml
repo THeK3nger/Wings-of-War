@@ -4,6 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Card.h</itemPath>
+      <itemPath>Game.h</itemPath>
+      <itemPath>Plane.h</itemPath>
+      <itemPath>WoWBrain.h</itemPath>
+      <itemPath>World.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +17,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Card.cpp</itemPath>
+      <itemPath>Game.cpp</itemPath>
+      <itemPath>Plane.cpp</itemPath>
+      <itemPath>WoWBrain.cpp</itemPath>
+      <itemPath>World.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
