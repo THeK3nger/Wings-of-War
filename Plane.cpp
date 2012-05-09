@@ -49,12 +49,12 @@ void Plane::move(Card card)
     }
 }
 
-int Plane::getDamage()
+int Plane::remainingHealth()
 {
     return (this->health - this->damage);
 }
 
-int Plane::getHealth()
+int Plane::getMaxHealth()
 {
     return this->health;
 }

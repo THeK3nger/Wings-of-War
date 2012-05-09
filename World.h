@@ -35,6 +35,12 @@ class World{
          * 
          */
         Plane* GetAereoById(int id); // return pointer of the plane
+        
+        /*! GETTER */
+        float getHeight() const;
+        float getWidth() const; 
+        
+        
 };
 
 #endif	/* WORLD_H */

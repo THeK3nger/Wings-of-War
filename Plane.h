@@ -25,10 +25,8 @@ public:
      */
     void move(Card card);
     
-    //TODO: Check this getter. I don't like it. [IM]
-    //Maybe "getRemainingHealth()"? [H]
-    int getDamage();
-    int getHealth();
+    int remainingHealth();
+    int getMaxHealth();
     
     /*!
      * Return Plane ID.

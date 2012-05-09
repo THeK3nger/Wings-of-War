@@ -22,3 +22,11 @@ Plane* World::GetAereoById(int id){
             return &(this->planes[i]);
     }
 }
+
+float World::getHeight() const {
+    return height;
+}
+
+float World::getWidth() const {
+    return width;
+}

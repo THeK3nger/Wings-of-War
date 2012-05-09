@@ -8,9 +8,13 @@
 #ifndef WOWBRAIN_H
 #define	WOWBRAIN_H
 
+#include "Plane.h"
+#include "World.h"
+#include "Card.h"
+
 class WoWBrain {
 public:
-    WoWBrain();
+    WoWBrain(Plane* plane);
     WoWBrain(const WoWBrain& orig);
     virtual ~WoWBrain();
     
@@ -21,7 +25,7 @@ public:
      * 
      * \return The ID of AI-controlled Plane.
      */
-    int getAIPlaneID();
+    int getAIPlane();
     
     /*!
      * Ask to AI for the best available move given the current status.
@@ -33,9 +37,16 @@ public:
      */
     Card* returnBestCards(float maxtime);    
     
+    /*!
+     * Return a pointer to a list of Cards representing all the possible
+     * moves available in the current state.
+     */
+    Card* nextValidMoves();
+    
 private:
     
     World* current_world;
+    Plane* aiplane;
 
 };
 
