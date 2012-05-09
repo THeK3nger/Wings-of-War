@@ -39,9 +39,12 @@ public:
      */
     int getId();
     
-    //TODO: Check this name. I don't like it. [IM]
-    // I agree, what about "incrementDamage(int damage_to_add)"? [H]
-    void setDamage(int value);
+    /*!
+     * Inflict damage to Plane.
+     * 
+     * \param amount Amount of damage sustained by the Plane.
+     */
+    void inflictDamage(int amount);
     
     /*!
      * Return the current Plane position and orientation.

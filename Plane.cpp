@@ -59,7 +59,7 @@ int Plane::getHealth()
     return this->health;
 }
     
-void Plane::setDamage(int amount)
+void Plane::inflictDamage(int amount)
 {
     this->damage += amount;
 }
