@@ -31,10 +31,11 @@ public:
      * \param maxtime Time limit (NOW UNUSED).
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    Card* returnBestCards(float maxtime);
-    
+    Card* returnBestCards(float maxtime);    
     
 private:
+    
+    World* current_world;
 
 };
 
