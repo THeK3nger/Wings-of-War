@@ -1,8 +1,5 @@
 #include "Plane.h"
 
-
-#include <vector>
-
 Plane::Plane(int id, int health, float x, float y, float theta, std::vector<Card> cards){
     this->id = id;
     this->health = health;

@@ -3,6 +3,7 @@
 
 #include "Card.h"
 #include <math.h>
+#include <vector>
 
 #define SHOOTING_RADIUS 10
 #define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
