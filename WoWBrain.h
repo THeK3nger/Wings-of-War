@@ -13,6 +13,27 @@ public:
     WoWBrain();
     WoWBrain(const WoWBrain& orig);
     virtual ~WoWBrain();
+    
+    //DRAFT: All this functions are just a preliminary draft.
+    
+    /*!
+     * Return ID of AI-controlled Plane.
+     * 
+     * \return The ID of AI-controlled Plane.
+     */
+    int getAIPlaneID();
+    
+    /*!
+     * Ask to AI for the best available move given the current status.
+     * 
+     * Implemented with Iterative-Deepening-Search with Alpha-Beta Pruning.
+     * 
+     * \param maxtime Time limit (NOW UNUSED).
+     * \return A pointer to the best available move. (FUTURE: best 3-moves).
+     */
+    Card* returnBestCards(float maxtime);
+    
+    
 private:
 
 };
