@@ -1,12 +1,19 @@
 #include "Plane.h"
 
-Plane::Plane(int id, int health, float x, float y, float theta){
+
+#include <vector>
+
+Plane::Plane(int id, int health, float x, float y, float theta, std::vector<Card> cards){
     this->id = id;
     this->health = health;
     this->posx = x;
     this->posy = y;
     this->theta = theta;
     this->damage = 0;
+    
+    for (int i=0; i<cards.size(); i++){
+        this->cards.push_back(cards[i]);
+    }
 }
 
 Plane::~Plane()

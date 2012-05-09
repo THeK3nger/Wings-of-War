@@ -25,7 +25,7 @@ public:
      * 
      * \return The ID of AI-controlled Plane.
      */
-    int getAIPlane();
+    Plane* getAIPlane();
     
     /*!
      * Ask to AI for the best available move given the current status.

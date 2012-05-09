@@ -5,7 +5,7 @@
 #include <math.h>
 
 #define SHOOTING_RADIUS 10
-#define SHOOTING_ANGLE  60
+#define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
 
 /*!
  * \brief This class represents an airplane of the game "Wings-of-War".
@@ -15,7 +15,7 @@
 class Plane {
 public:
     
-    Plane(int id, int health, float x, float y, float theta);
+    Plane(int id, int health, float x, float y, float theta, std::vector<Card> cards);
     virtual ~Plane();
     
     /*!
@@ -25,7 +25,14 @@ public:
      */
     void move(Card card);
     
+    /*!
+     *  Returns the difference between the maximum health value of this Plane and the damage it has received
+     */
     int remainingHealth();
+    
+    /*!
+     * Returns the Maximum Health Value for this Plane (I.E. the initial value)
+     */
     int getMaxHealth();
     
     /*!
@@ -85,6 +92,12 @@ private:
     int damage;                 // Accumulated Damage
     int health;                 // Max Health
     Card::CType lastmove;       // Type of the last move.
+    std::vector<Card> cards;    // Manoeuvre cards for this plane
+                                // TODO -- I think it is a good idea to put the cards list
+                                //         in the plane itself, because (in the extended game) every
+                                //         plane has a set of manoeuvres, that contribute to its
+                                //         characterization. The alternative is to put it in the
+                                //         "WoWBrain" Class
     
 };
 

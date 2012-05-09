@@ -34,7 +34,7 @@ class World{
          * \return The Plane with the desired ID.
          * 
          */
-        Plane* GetAereoById(int id); // return pointer of the plane
+        Plane* GetPlaneById(int id);
         
         /*! GETTER */
         float getHeight() const;
