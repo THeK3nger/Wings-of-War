@@ -4,6 +4,9 @@
 #include "Card.h"
 #include <math.h>
 
+#define SHOOTING_RADIUS 10;
+#define SHOOTING_ANGLE  60;
+
 /*!
  * \brief This class represents an airplane of the game "Wings-of-War".
  * 
