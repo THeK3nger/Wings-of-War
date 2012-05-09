@@ -89,3 +89,26 @@ bool Plane::moveIsValid(Card card)
     //          "dangerous" are possible only if last manoveur was "straight" or "normal"
     return true;
 }
+
+bool Plane::canShootTo(Plane target){
+    // TODO -- for the moment, we assume that the central points of the two planes must be in the range (in the real game, it is enough to reach ANY part of the card)
+    
+    // prepare infos
+    float target_pos[3];
+    target.getPosition(target_pos);
+    float diff_x = this->posx - target_pos[0];
+    float diff_y = this->posy - target_pos[1];
+    
+    // check distance
+    if (pow((diff_x),2) + pow((diff_y),2) > pow(SHOOTING_RADIUS,2))
+        return false;
+    
+    // check angle
+    float relative_angle = atan2(diff_y,diff_x) - this->theta;
+    if (relative_angle < 0) relative_angle = -relative_angle;   // this takes the absolute value
+    if ((relative_angle > SHOOTING_ANGLE) && (relative_angle < 2*M_PI - SHOOTING_ANGLE))    // the plane can shoot when the angle is about 2π (E.G. this plane is oriented at [π-∂], the angle with the enemy is [-π+∂], the difference is [2π-2∂])
+        return false;
+    
+    // if the check arrives here, the plane is within both shooting range and shooting angle
+    return true; 
+}

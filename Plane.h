@@ -4,8 +4,8 @@
 #include "Card.h"
 #include <math.h>
 
-#define SHOOTING_RADIUS 10;
-#define SHOOTING_ANGLE  60;
+#define SHOOTING_RADIUS 10
+#define SHOOTING_ANGLE  60
 
 /*!
  * \brief This class represents an airplane of the game "Wings-of-War".
@@ -26,6 +26,7 @@ public:
     void move(Card card);
     
     //TODO: Check this getter. I don't like it. [IM]
+    //Maybe "getRemainingHealth()"? [H]
     int getDamage();
     int getHealth();
     
@@ -39,7 +40,7 @@ public:
     int getId();
     
     //TODO: Check this name. I don't like it. [IM]
-    // I agree, what about "incrementDamage(int damage_to_add)"?
+    // I agree, what about "incrementDamage(int damage_to_add)"? [H]
     void setDamage(int value);
     
     /*!
@@ -63,6 +64,14 @@ public:
      * \return True if the Card is valid, False otherwise.
      */
     bool moveIsValid(Card card);
+    
+    /*!
+     * Checks whether this plane can shoot to the target plane
+     * 
+     * \param target Target plane
+     * \return True if the target Plane is shootable, False otherwise
+     */
+    bool canShootTo(Plane target);      // TODO - WATCH OUT! If we want to use more than one plane per team, we should add a vector of planes as input, to check whether there are other planes in the line (planes in the line prevent shooting) [H]
     
 private:
        
