@@ -16,7 +16,7 @@
 class Plane {
 public:
     
-    Plane(int id, int health, float x, float y, float theta, std::vector<Card> cards);
+    Plane(int id, int health, float x, float y, float theta);
     virtual ~Plane();
     
     /*!
@@ -104,7 +104,8 @@ private:
     int damage;                 // Accumulated Damage
     int health;                 // Max Health
     Card::CType lastmove;       // Type of the last move.
-    std::vector<Card> cards;    // Manoeuvre cards for this plane
+    // TODO: Card List must be a reference. I remove this for now.
+    //std::vector<Card> cards;    // Manoeuvre cards for this plane
                                 // TODO -- I think it is a good idea to put the cards list
                                 //         in the plane itself, because (in the extended game) every
                                 //         plane has a set of manoeuvres, that contribute to its
