@@ -1,5 +1,28 @@
 #include "Plane.h"
 
+/*!
+ * Projects the input angle in the [-π, π] interval
+ */
+float normalizeAngle(float angle){
+    float absangle = (angle > 0? angle : -angle); // absolute value of angle
+
+    // now, bring the angle in the interval [-2pi, 2pi]
+    if(absangle>2*M_PI){
+        if(angle > 0){ // must decrease the value
+            while(angle > 2*M_PI) angle -= 2*M_PI;  // any better idea to do the module operation between two floats?
+        }
+        else{  // must increase the value
+            while(angle < -2*M_PI) angle += 2*M_PI;
+        }
+    }
+
+    // now, bring the angle in the [-pi, pi] interval
+    absangle = (angle > 0? angle : -angle);
+    if (absangle > M_PI){
+        (angle > 0? angle -= 2*M_PI : angle += 2*M_PI);
+    }
+}
+
 Plane::Plane(int id, int health, float x, float y, float theta, std::vector<Card> cards){
     this->id = id;
     this->health = health;
@@ -26,31 +49,23 @@ void Plane::move(Card card)
         
         card.getMovement(deltas);
         
-//        this->posx+=deltas[0];
-//        this->posy+=deltas[1];
-//        this->theta+=deltas[2];
         this->posx = this->posx + deltas[0]*cos(this->theta) - deltas[1]*sin(this->theta);
         this->posy = this->posy + deltas[0]*sin(this->theta) + deltas[1]*cos(this->theta);
         this->theta = this->theta + deltas[2];
         
-        float abstheta = (this->theta > 0? this->theta : -this->theta); // absolute value of theta
-        
-        // now, bring the angle in the interval [-2pi, 2pi]
-        if(abstheta>2*M_PI){
-            if(this->theta > 0){ // must decrease the value
-                while(this->theta > 2*M_PI) this->theta -= 2*M_PI;  // any better idea to do the module operation between two floats?
-            }
-            else{  // must increase the value
-                while(this->theta < -2*M_PI) this->theta += 2*M_PI;
-            }
-        }
-        
-        // now, bring the angle in the [-pi, pi] interval
-        abstheta = (this->theta > 0? this->theta : -this->theta);
-        if (abstheta > M_PI){
-            (this->theta > 0? this->theta -= 2*M_PI : this->theta += 2*M_PI);
-        }
+        this->theta = normalizeAngle(this->theta);
     }
+}
+
+void Plane::revertMove(Card card){
+    float deltas[3];
+    card.getMovement(deltas);
+    
+    this->theta -= deltas[2];
+    this->theta = normalizeAngle(this->theta);
+    
+    this->posx = this->posx - deltas[0]*cos(this->theta) + deltas[1]*sin(this->theta);
+    this->posy = this->posy - deltas[0]*sin(this->theta) - deltas[1]*cos(this->theta);
 }
 
 int Plane::remainingHealth()
@@ -78,6 +93,10 @@ void Plane::getPosition(float* outPosition)
 int Plane::getLastMove()
 {
     return this->lastmove;
+}
+
+void Plane::setLastMove(Card::CType last_move_type){
+    this->lastmove = last_move_type;
 }
 
 int Plane::getId(){

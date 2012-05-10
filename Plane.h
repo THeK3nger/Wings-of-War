@@ -27,6 +27,12 @@ public:
     void move(Card card);
     
     /*!
+     * Apply the reverted movement of the given Card.
+     * \param card The card representing the movement to revert
+     */
+    void revertMove(Card card);
+    
+    /*!
      *  Returns the difference between the maximum health value of this Plane and the damage it has received
      */
     int remainingHealth();
@@ -65,6 +71,11 @@ public:
      * \return The type of the last move.
      */
     int getLastMove();
+    
+    /*!
+     * Sets the type of the last used move.
+     */
+    void setLastMove(Card::CType last_move_type);
     
     /*!
      * Check if a move Card `card` is valid or not.
