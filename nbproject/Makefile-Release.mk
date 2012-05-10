@@ -41,6 +41,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/WoWBrain.o
 
+# Test Directory
+TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
+
+# Test Files
+TESTFILES= \
+	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
+	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war
 
 # C Compiler Flags
 CFLAGS=
@@ -98,6 +105,129 @@ ${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp
 
 # Subprojects
 .build-subprojects:
+
+# Build Test Targets
+.build-tests-conf: .build-conf ${TESTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/CardTest.o ${TESTDIR}/tests/CardTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/PlaneTest.o ${TESTDIR}/tests/PlaneTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
+
+
+${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTest.o tests/CardTest.cpp
+
+
+${TESTDIR}/tests/CardTestRunner.o: tests/CardTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
+
+
+${TESTDIR}/tests/PlaneTest.o: tests/PlaneTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTest.o tests/PlaneTest.cpp
+
+
+${TESTDIR}/tests/PlaneTestRunner.o: tests/PlaneTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
+
+
+${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/World.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/World.o ${OBJECTDIR}/World_nomain.o;\
+	fi
+
+${OBJECTDIR}/Plane_nomain.o: ${OBJECTDIR}/Plane.o Plane.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Plane.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane_nomain.o Plane.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Plane.o ${OBJECTDIR}/Plane_nomain.o;\
+	fi
+
+${OBJECTDIR}/Card_nomain.o: ${OBJECTDIR}/Card.o Card.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Card.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card_nomain.o Card.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Card.o ${OBJECTDIR}/Card_nomain.o;\
+	fi
+
+${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/main.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Game.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
+	fi
+
+${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/WoWBrain.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain_nomain.o WoWBrain.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/WoWBrain.o ${OBJECTDIR}/WoWBrain_nomain.o;\
+	fi
+
+# Run Test Targets
+.test-conf:
+	@if [ "${TEST}" = "" ]; \
+	then  \
+	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
+	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
+	else  \
+	    ./${TEST} || true; \
+	fi
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}

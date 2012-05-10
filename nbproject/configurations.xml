@@ -28,6 +28,19 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f1" displayName="CardTest" projectFiles="true" kind="TEST">
+        <itemPath>tests/CardTest.cpp</itemPath>
+        <itemPath>tests/CardTest.h</itemPath>
+        <itemPath>tests/CardTestRunner.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2"
+                     displayName="PlaneTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/PlaneTest.cpp</itemPath>
+        <itemPath>tests/PlaneTest.h</itemPath>
+        <itemPath>tests/PlaneTestRunner.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -45,6 +58,48 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
