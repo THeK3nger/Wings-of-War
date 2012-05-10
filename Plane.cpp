@@ -21,6 +21,7 @@ float normalizeAngle(float angle){
     if (absangle > M_PI){
         (angle > 0? angle -= 2*M_PI : angle += 2*M_PI);
     }
+    return angle;
 }
 
 Plane::Plane(int id, int health, float x, float y, float theta){

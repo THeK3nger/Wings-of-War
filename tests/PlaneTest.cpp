@@ -59,7 +59,14 @@ void PlaneTest::testInflictDamage() {
 }
 
 void PlaneTest::testMove() {
-    CPPUNIT_FAIL("Not Yet Implemented!");
+    float rotation = M_PI/4;
+    Card test_card(Card::L_STEER, 10, 2, rotation);
+    test_plane->move(test_card);
+    float* position = new float[3];
+    test_plane->getPosition(position);
+    CPPUNIT_ASSERT(position[0] == 10);
+    CPPUNIT_ASSERT(position[1] == 2);
+    CPPUNIT_ASSERT(position[2] == rotation);
 }
 
 void PlaneTest::testMoveIsValid() {
