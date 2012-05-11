@@ -18,7 +18,7 @@ PlaneTest::~PlaneTest() {
 }
 
 void PlaneTest::setUp() {
-    test_plane = new Plane(1, 20, 0, 0, 0);
+    test_plane = new Plane(1, 20, 0, 0, 0); // if you change x,y,theta here, you have to change the test functions too
 }
 
 void PlaneTest::tearDown() {
@@ -59,14 +59,15 @@ void PlaneTest::testInflictDamage() {
 }
 
 void PlaneTest::testMove() {
-    float rotation = M_PI/4;
-    Card test_card(Card::L_STEER, 10, 2, rotation);
-    test_plane->move(test_card);
     float* position = new float[3];
+    
+    float rotation = -M_PI/4;
+    Card test_card(Card::R_STEER, 10, -2, rotation);
+    test_plane->move(test_card);
     test_plane->getPosition(position);
     CPPUNIT_ASSERT(position[0] == 10);
-    CPPUNIT_ASSERT(position[1] == 2);
-    CPPUNIT_ASSERT(position[2] == rotation);
+    CPPUNIT_ASSERT(position[1] == -2);
+    CPPUNIT_ASSERT(floorf(position[2] * 100 + 0.5)/100 == floorf(rotation * 100 + 0.5)/100);
 }
 
 void PlaneTest::testMoveIsValid() {
@@ -78,10 +79,20 @@ void PlaneTest::testRemainingHealth() {
 }
 
 void PlaneTest::testRevertMove() {
-    CPPUNIT_FAIL("Not Yet Implemented!");
+    float* position = new float[3];
+    Card test_card(Card::R_STEER, 10, -2, -M_PI/3);
+    test_plane->move(test_card);
+    test_plane->revertMove(test_card);
+    test_plane->getPosition(position);
+    CPPUNIT_ASSERT(position[0] == 0);
+    CPPUNIT_ASSERT(position[1] == 0);
+    CPPUNIT_ASSERT(position[2] == 0);
 }
 
 void PlaneTest::testSetLastMove() {
     CPPUNIT_FAIL("Not Yet Implemented!");
 }
 
+void PlaneTest::testSetCardSet(){
+    CPPUNIT_FAIL("Not Yet Implemented!");
+}

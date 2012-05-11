@@ -8,6 +8,11 @@
 #define SHOOTING_RADIUS 10
 #define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
 
+struct CardSet{
+    Card * cards;
+    int cards_number;   // the cards number will become a macro if all the planes have the same cards number
+};
+
 /*!
  * \brief This class represents an airplane of the game "Wings-of-War".
  * 
@@ -18,6 +23,19 @@ public:
     
     Plane(int id, int health, float x, float y, float theta);
     virtual ~Plane();
+    
+    // I added the following method to avoid having a huge Plane constructor
+    /*!
+     * Assigns the given cards set to this Plane
+     * 
+     * \param cset the CardSet struct to assign to this plane
+     */
+    void setCardSet(CardSet cset);
+    
+    /*!
+     * Returns the cardSet associated to this Plane
+     */
+    CardSet getCardSet();
     
     /*!
      * Apply a movement Card `card` to this Plane.
@@ -111,7 +129,7 @@ private:
                                 //         plane has a set of manoeuvres, that contribute to its
                                 //         characterization. The alternative is to put it in the
                                 //         "WoWBrain" Class
-    
+    CardSet cardset;
 };
 
 #endif	/* PLANE_H */

@@ -42,6 +42,14 @@ Plane::~Plane()
 
 }
 
+void Plane::setCardSet(CardSet cset){
+    this->cardset = cset;
+}
+
+CardSet Plane::getCardSet(){
+    return this->cardset;
+}
+
 void Plane::move(Card card)
 {
     if(this->moveIsValid(card))
@@ -50,8 +58,8 @@ void Plane::move(Card card)
         
         card.getMovement(deltas);
         
-        this->posx = this->posx + deltas[0]*cos(this->theta) - deltas[1]*sin(this->theta);
-        this->posy = this->posy + deltas[0]*sin(this->theta) + deltas[1]*cos(this->theta);
+        this->posx = floorf((this->posx + deltas[0]*cos(this->theta) - deltas[1]*sin(this->theta)) * 100 + 0.5)/100;
+        this->posy = floorf((this->posy + deltas[0]*sin(this->theta) + deltas[1]*cos(this->theta)) * 100 + 0.5)/100;
         this->theta = this->theta + deltas[2];
         
         this->theta = normalizeAngle(this->theta);
@@ -65,8 +73,8 @@ void Plane::revertMove(Card card){
     this->theta -= deltas[2];
     this->theta = normalizeAngle(this->theta);
     
-    this->posx = this->posx - deltas[0]*cos(this->theta) + deltas[1]*sin(this->theta);
-    this->posy = this->posy - deltas[0]*sin(this->theta) - deltas[1]*cos(this->theta);
+    this->posx = floorf((this->posx - deltas[0]*cos(this->theta) + deltas[1]*sin(this->theta)) * 100 + 0.5)/100;
+    this->posy = floorf((this->posy - deltas[0]*sin(this->theta) - deltas[1]*cos(this->theta)) * 100 + 0.5)/100;
 }
 
 int Plane::remainingHealth()
@@ -120,8 +128,8 @@ bool Plane::canShootTo(Plane target){
     // prepare infos
     float target_pos[3];
     target.getPosition(target_pos);
-    float diff_x = this->posx - target_pos[0];
-    float diff_y = this->posy - target_pos[1];
+    float diff_x = target_pos[0] - this->posx;
+    float diff_y = target_pos[1] - this->posy;
     
     // check distance
     if (pow((diff_x),2) + pow((diff_y),2) > pow(SHOOTING_RADIUS,2))
@@ -132,6 +140,7 @@ bool Plane::canShootTo(Plane target){
     if (relative_angle < 0) relative_angle = -relative_angle;   // this takes the absolute value
     if ((relative_angle > SHOOTING_ANGLE) && (relative_angle < 2*M_PI - SHOOTING_ANGLE))    // the plane can shoot when the angle is about 2π (E.G. this plane is oriented at [π-∂], the angle with the enemy is [-π+∂], the difference is [2π-2∂])
         return false;
+
     
     // if the check arrives here, the plane is within both shooting range and shooting angle
     return true; 

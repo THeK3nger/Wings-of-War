@@ -25,7 +25,8 @@ class PlaneTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testRemainingHealth);
     CPPUNIT_TEST(testRevertMove);
     CPPUNIT_TEST(testSetLastMove);
-
+    CPPUNIT_TEST(testSetCardSet);
+    
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -46,7 +47,8 @@ private:
     void testRemainingHealth();
     void testRevertMove();
     void testSetLastMove();
-
+    void testSetCardSet();
+    
     Plane* test_plane;
 
 };
