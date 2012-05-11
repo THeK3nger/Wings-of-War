@@ -40,15 +40,15 @@ public:
     /*!
      * Apply a movement Card `card` to this Plane.
      * 
-     * \param card The desired movement card.
+     * \param card Pointetr to the desired movement card.
      */
-    void move(Card card);
+    void move(Card *card);
     
     /*!
      * Apply the reverted movement of the given Card.
-     * \param card The card representing the movement to revert
+     * \param card Pointer to the card representing the movement to revert
      */
-    void revertMove(Card card);
+    void revertMove(Card *card);
     
     /*!
      *  Returns the difference between the maximum health value of this Plane and the damage it has received
@@ -98,18 +98,18 @@ public:
     /*!
      * Check if a move Card `card` is valid or not.
      * 
-     * \param card Move Card to be checked.
+     * \param card Pointer to the Move Card to be checked.
      * \return True if the Card is valid, False otherwise.
      */
-    bool moveIsValid(Card card);
+    bool moveIsValid(Card *card);
     
     /*!
      * Checks whether this plane can shoot to the target plane
      * 
-     * \param target Target plane
+     * \param target Pointer to the target plane
      * \return True if the target Plane is shootable, False otherwise
      */
-    bool canShootTo(Plane target);      // TODO - WATCH OUT! If we want to use more than one plane per team, we should add a vector of planes as input, to check whether there are other planes in the line (planes in the line prevent shooting) [H]
+    bool canShootTo(Plane *target);      // TODO - WATCH OUT! If we want to use more than one plane per team, we should add a vector of planes as input, to check whether there are other planes in the line (planes in the line prevent shooting) [H]
     
 private:
        

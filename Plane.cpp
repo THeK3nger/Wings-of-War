@@ -50,13 +50,13 @@ CardSet Plane::getCardSet(){
     return this->cardset;
 }
 
-void Plane::move(Card card)
+void Plane::move(Card * card)
 {
     if(this->moveIsValid(card))
     {
         float deltas[3];
         
-        card.getMovement(deltas);
+        card->getMovement(deltas);
         
         this->posx = floorf((this->posx + deltas[0]*cos(this->theta) - deltas[1]*sin(this->theta)) * 100 + 0.5)/100;
         this->posy = floorf((this->posy + deltas[0]*sin(this->theta) + deltas[1]*cos(this->theta)) * 100 + 0.5)/100;
@@ -66,9 +66,9 @@ void Plane::move(Card card)
     }
 }
 
-void Plane::revertMove(Card card){
+void Plane::revertMove(Card * card){
     float deltas[3];
-    card.getMovement(deltas);
+    card->getMovement(deltas);
     
     this->theta -= deltas[2];
     this->theta = normalizeAngle(this->theta);
@@ -112,7 +112,7 @@ int Plane::getId(){
     return this->id;
 }
 
-bool Plane::moveIsValid(Card card)
+bool Plane::moveIsValid(Card * card)
 {
     // TODO -- will have to adequate the output to the last movement
     // namely:  "normal" manoveurs are always available, except if the last one was an "himmelmann"
@@ -122,12 +122,12 @@ bool Plane::moveIsValid(Card card)
     return true;
 }
 
-bool Plane::canShootTo(Plane target){
+bool Plane::canShootTo(Plane *target){
     // TODO -- for the moment, we assume that the central points of the two planes must be in the range (in the real game, it is enough to reach ANY part of the card)
     
     // prepare infos
     float target_pos[3];
-    target.getPosition(target_pos);
+    target->getPosition(target_pos);
     float diff_x = target_pos[0] - this->posx;
     float diff_y = target_pos[1] - this->posy;
     

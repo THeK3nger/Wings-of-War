@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     
     float position[3];
  
-    Card n1(Card::R_STEER,10,-2,-M_PI/4);
+    Card *n1 = new Card(Card::R_STEER,10,-2,-M_PI/4);
     
     p1.move(n1);
     p1.getPosition(position);
@@ -38,10 +38,13 @@ int main(int argc, char** argv) {
     cout << "plane position after reverting n1 (2 times): " << position[0] << ' ' << position[1] << ' ' << position[2] << '\n';
     cout.flush();
     
-    Plane p2(2, 15, 1, 0, 0);
+    Plane *p2 = new Plane(2, 15, 1, 0, 0);
     
     cout << "plane 1 " << (p1.canShootTo(p2)?"CAN":"CANNOT") << " shoot to plane 2\n";
     cout.flush();
+    
+    delete n1;
+    delete p2;
     
     return 0;
 }
