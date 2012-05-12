@@ -7,6 +7,7 @@
 
 #ifndef WOWBRAIN_H
 #define	WOWBRAIN_H
+#define SEARCH_DEPTH 4
 
 #include "Plane.h"
 #include "World.h"
@@ -35,15 +36,26 @@ public:
      * \param maxtime Time limit (NOW UNUSED).
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    Card* returnBestCards(float maxtime);    
+    CardSet* returnBestCards(float maxtime);    
     
     /*!
      * Return a pointer to a list of Cards representing all the possible
      * moves available in the current state.
      */
-    Card* nextValidMoves();
+    CardSet* nextValidMoves();
+    
+    /*!
+     * Computes the heuristic based o the actual world state
+     */
+    int computeHeuristic();
     
 private:
+    
+    /*!
+     * Implements the alphaBetaPruning algorithm
+     * \param depth the reached depth
+     */
+    int alphaBetaPruningStep(int depth, bool maximizing, CardSet *cardset, int alpha, int beta);
     
     World* current_world;
     Plane* aiplane;

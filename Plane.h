@@ -9,7 +9,7 @@
 #define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
 
 struct CardSet{
-    Card * cards;
+    Card ** cards;
     int cards_number;   // the cards number will become a macro if all the planes have the same cards number
 };
 
@@ -30,12 +30,12 @@ public:
      * 
      * \param cset the CardSet struct to assign to this plane
      */
-    void setCardSet(CardSet cset);
+    void setCardSet(CardSet *cset);
     
     /*!
-     * Returns the cardSet associated to this Plane
+     * Returns a pointer to the cardSet associated to this Plane
      */
-    CardSet getCardSet();
+    CardSet* getCardSet();
     
     /*!
      * Apply a movement Card `card` to this Plane.
@@ -129,7 +129,7 @@ private:
                                 //         plane has a set of manoeuvres, that contribute to its
                                 //         characterization. The alternative is to put it in the
                                 //         "WoWBrain" Class
-    CardSet cardset;
+    CardSet* cardset;
 };
 
 #endif	/* PLANE_H */

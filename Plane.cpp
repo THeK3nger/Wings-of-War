@@ -42,11 +42,11 @@ Plane::~Plane()
 
 }
 
-void Plane::setCardSet(CardSet cset){
+void Plane::setCardSet(CardSet *cset){
     this->cardset = cset;
 }
 
-CardSet Plane::getCardSet(){
+CardSet* Plane::getCardSet(){
     return this->cardset;
 }
 
