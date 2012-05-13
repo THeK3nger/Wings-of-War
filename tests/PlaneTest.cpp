@@ -28,8 +28,8 @@ void PlaneTest::tearDown() {
 void PlaneTest::testCanShootTo() {
     Plane target1 = Plane(2, 20, 5, 0, 0);
     Plane target2 = Plane(3, 20, -5, 0, 0);
-    CPPUNIT_ASSERT(test_plane->canShootTo(target1));
-    CPPUNIT_ASSERT(!(test_plane->canShootTo(target2)));
+    CPPUNIT_ASSERT(test_plane->canShootTo(&target1));
+    CPPUNIT_ASSERT(!(test_plane->canShootTo(&target2)));
 }
 
 void PlaneTest::testGetId() {
@@ -63,7 +63,7 @@ void PlaneTest::testMove() {
     
     float rotation = -M_PI/4;
     Card test_card(Card::R_STEER, 10, -2, rotation);
-    test_plane->move(test_card);
+    test_plane->move(&test_card);
     test_plane->getPosition(position);
     CPPUNIT_ASSERT(position[0] == 10);
     CPPUNIT_ASSERT(position[1] == -2);
@@ -81,8 +81,8 @@ void PlaneTest::testRemainingHealth() {
 void PlaneTest::testRevertMove() {
     float* position = new float[3];
     Card test_card(Card::R_STEER, 10, -2, -M_PI/3);
-    test_plane->move(test_card);
-    test_plane->revertMove(test_card);
+    test_plane->move(&test_card);
+    test_plane->revertMove(&test_card);
     test_plane->getPosition(position);
     CPPUNIT_ASSERT(position[0] == 0);
     CPPUNIT_ASSERT(position[1] == 0);
