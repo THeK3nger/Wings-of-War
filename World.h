@@ -14,10 +14,10 @@ class World{
     private:
         float width;
         float height;
-        std::vector<Plane> planes;
+        std::vector<Plane*> planes;
 
     public:
-        World(float w, float h, std::vector<Plane> p);
+        World(float w, float h);
         ~World();
         
         /*!
@@ -36,10 +36,12 @@ class World{
          */
         Plane* GetPlaneById(int id);
         
+        void addPlane(Plane* plane);
+        
         /*! GETTER */
         float getHeight() const;
         float getWidth() const; 
-        std::vector<Plane> * getPlanes();
+        std::vector<Plane*> * getPlanes();
         
 };
 

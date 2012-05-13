@@ -62,12 +62,12 @@ std::vector<CardSequence> WoWBrain::returnBestCards(float maxtime) {
     std::vector<CardSequence> best_seq;
     CardSequence cs;
     Plane * opponent;
-    std::vector<Plane> * planes = this->current_world->getPlanes();
+    std::vector<Plane*> * planes = this->current_world->getPlanes();
     
     // look for the opponent
     for (int i = 0; i < planes->size(); i++){
-        if((*planes)[i].getId() != this->aiplane->getId()){
-            opponent = &((*planes)[i]);
+        if((*planes)[i]->getId() != this->aiplane->getId()){
+            opponent = (*planes)[i];
         }
     }
     
