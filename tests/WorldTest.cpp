@@ -18,33 +18,33 @@ WorldTest::~WorldTest() {
 }
 
 void WorldTest::setUp() {
+    testworld = new World(100,100);
 }
 
 void WorldTest::tearDown() {
+    delete testworld;
 }
 
 void WorldTest::testGetPlaneById() {
-    int id;
-    World world;
-    Plane* result = world.GetPlaneById(id);
-    if (true /*check result*/) {
-        CPPUNIT_ASSERT(false);
-    }
+    Plane* plane1 = new Plane(100,10,1,1,0);
+    Plane* plane2 = new Plane(200,10,10,10,0);
+    testworld->addPlane(plane1);
+    testworld->addPlane(plane2);
+    Plane* result = testworld->GetPlaneById(100);
+    CPPUNIT_ASSERT(plane1 == result);
+    result = testworld->GetPlaneById(200);
+    CPPUNIT_ASSERT(plane2 == result);
+    result = testworld->GetPlaneById(300);
+    CPPUNIT_ASSERT(0 == result);
 }
 
 void WorldTest::testGetHeight() {
-    World world;
-    float result = world.getHeight();
-    if (true /*check result*/) {
-        CPPUNIT_ASSERT(false);
-    }
+    int height = testworld->getHeight();
+    CPPUNIT_ASSERT(height == 100);
 }
 
 void WorldTest::testGetWidth() {
-    World world;
-    float result = world.getWidth();
-    if (true /*check result*/) {
-        CPPUNIT_ASSERT(false);
-    }
+    int width = testworld->getWidth();
+    CPPUNIT_ASSERT(width == 100);
 }
 

@@ -9,6 +9,7 @@
 #define	WORLDTEST_H
 
 #include <cppunit/extensions/HelperMacros.h>
+#include "../World.h"
 
 class WorldTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(WorldTest);
@@ -29,6 +30,8 @@ private:
     void testGetPlaneById();
     void testGetHeight();
     void testGetWidth();
+    
+    World* testworld;
 
 };
 
