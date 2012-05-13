@@ -128,6 +128,21 @@ bool Plane::moveIsValid(Card * card)
     return true;
 }
 
+bool Plane::canSee(Plane* target){
+    float target_pos[3];
+    target->getPosition(target_pos);
+    
+    float diff_x = target_pos[0] - this->posx;
+    float diff_y = target_pos[1] - this->posy;
+    
+    float relative_angle = atan2(diff_y,diff_x) - this->theta;
+    if (relative_angle < 0) relative_angle = -relative_angle;   // this takes the absolute value
+    if ((relative_angle > SHOOTING_ANGLE) && (relative_angle < 2*M_PI - SHOOTING_ANGLE))    // the plane can shoot when the angle is about 2π (E.G. this plane is oriented at [π-∂], the angle with the enemy is [-π+∂], the difference is [2π-2∂])
+        return false;
+    
+    return true;
+}
+
 bool Plane::canShootTo(Plane *target){
     // TODO -- for the moment, we assume that the central points of the two planes must be in the range (in the real game, it is enough to reach ANY part of the card)
     
@@ -141,7 +156,7 @@ bool Plane::canShootTo(Plane *target){
     if (pow((diff_x),2) + pow((diff_y),2) > pow(SHOOTING_RADIUS,2))
         return false;
     
-    // check angle
+    // check angle      --      TODO: I decided not to call the "canSee" method here, so it doesn't have to compute again target_pos, diff_x and diff_y... is it too much?
     float relative_angle = atan2(diff_y,diff_x) - this->theta;
     if (relative_angle < 0) relative_angle = -relative_angle;   // this takes the absolute value
     if ((relative_angle > SHOOTING_ANGLE) && (relative_angle < 2*M_PI - SHOOTING_ANGLE))    // the plane can shoot when the angle is about 2π (E.G. this plane is oriented at [π-∂], the angle with the enemy is [-π+∂], the difference is [2π-2∂])

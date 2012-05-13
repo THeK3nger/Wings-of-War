@@ -112,8 +112,16 @@ public:
      */
     bool canShootTo(Plane *target);      // TODO - WATCH OUT! If we want to use more than one plane per team, we should add a vector of planes as input, to check whether there are other planes in the line (planes in the line prevent shooting) [H]
     
+    /*!
+     * Checks whether this plane can see the target plane
+     * 
+     * \param target Pointer to the target plane
+     * \return True if the target Plane is in the shooting angle, False otherwise
+     */
+    bool canSee(Plane *target);      // I added this because sometimes (heuristic) we want to know something about the angle, even if it is not possible to shoot
+    
 private:
-       
+    
     float posx;         // Current Position on the X axis.
     float posy;         // Current Position on the Y axis.
     float theta;        // Current Orientation
