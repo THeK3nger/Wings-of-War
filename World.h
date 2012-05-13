@@ -39,7 +39,7 @@ class World{
         /*! GETTER */
         float getHeight() const;
         float getWidth() const; 
-        
+        std::vector<Plane> * getPlanes();
         
 };
 

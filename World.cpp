@@ -30,3 +30,7 @@ float World::getHeight() const {
 float World::getWidth() const {
     return width;
 }
+
+std::vector<Plane> * World::getPlanes(){
+    return &this->planes;
+}

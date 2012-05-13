@@ -8,10 +8,19 @@
 #ifndef WOWBRAIN_H
 #define	WOWBRAIN_H
 #define SEARCH_DEPTH 4
+#define CHOICES_PER_TURN 1
+#define MAX_HEURISTIC 1000
 
 #include "Plane.h"
 #include "World.h"
 #include "Card.h"
+#include <vector>
+
+// struct CardSequence needed because we must store a sequence of cards
+struct CardSequence{
+    Card** cards;
+    int length;
+};
 
 class WoWBrain {
 public:
@@ -36,13 +45,14 @@ public:
      * \param maxtime Time limit (NOW UNUSED).
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    CardSet* returnBestCards(float maxtime);    
+    std::vector<CardSequence> returnBestCards(float maxtime); 
     
     /*!
      * Return a pointer to a list of Cards representing all the possible
-     * moves available in the current state.
+     * moves available to the given plane in the current state.
+     * \param plane A pointer to the Plane to analyze
      */
-    CardSet* nextValidMoves();
+    CardSet* nextValidMoves(Plane * plane); // this needs a plane as input because we want to compute the next possible moves of either the AI plane and the opponent plane
     
     /*!
      * Computes the heuristic based o the actual world state
@@ -55,7 +65,7 @@ private:
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta);
+    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, CardSequence *actual_sequence, std::vector<CardSequence> *sequences, Plane * opponent);
     
     World* current_world;
     Plane* aiplane;
