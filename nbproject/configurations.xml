@@ -57,6 +57,13 @@
         <compilerSet>default</compilerSet>
       </toolsSet>
       <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerOptionItem>-lsfml-window</linkerOptionItem>
+            <linkerOptionItem>-lsfml-graphics</linkerOptionItem>
+            <linkerOptionItem>-lsfml-system</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <folder path="TestFiles/f1">
         <cTool>

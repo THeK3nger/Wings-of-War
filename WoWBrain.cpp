@@ -73,11 +73,35 @@ CardSet* WoWBrain::returnBestCards(float maxtime) {
     return 0;
 }
 
-int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, CardSet *cardset, int alpha, int beta){
+
+// TODO: This is still the "normal" implementation of the algorithm, that is good as long as we have to pick a move, but we will need three, so it must be adapted.
+// [I.E. we have to stack the moves, and put them in the "bestmoves" sequences (replacing the "less good" ones) when they reduce the difference between beta and alpha without making it negative... maybe XD]
+// TODO: this is still depth based, not time based
+int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta){
     if (depth == SEARCH_DEPTH)         // leaf node
         return this->computeHeuristic();
     
+    CardSet * possible_moves = this->nextValidMoves();
     
+    Card::CType previous_move = this->aiplane->getLastMove();
+    
+    for (int i = 0; i < possible_moves->cards_number; i++){
+        this->aiplane->move(possible_moves->cards[i]);      // applies a move card
+        int child_value = this->alphaBetaPruningStep(depth+1, !maximizing, alpha, beta);    // recursively calls the alphabeta step on this child
+        this->aiplane->revertMove(possible_moves->cards[i]);        // reverts the move
+        this->aiplane->setLastMove(previous_move);      // restores the last move
+        
+        if (maximizing){ // max player ply
+            if (alpha < child_value) alpha = child_value;
+            if (beta < alpha) break;// "strictly lesser than alpha" because the heuristic value is discrete, hence we want to return more than one optimal move
+        }
+        else{ // min player ply
+            if (beta > child_value) beta = child_value;
+            if (beta < alpha) break;// "strictly lesser than alpha" because the heuristic value is discrete, hence we want to return more than one optimal move
+        }
+    }
+    
+    return (maximizing?alpha:beta);
 }
 
 int WoWBrain::computeHeuristic(){

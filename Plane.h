@@ -41,8 +41,9 @@ public:
      * Apply a movement Card `card` to this Plane.
      * 
      * \param card Pointetr to the desired movement card.
+     * \return True if the move has been applied, False otherwise
      */
-    void move(Card *card);
+    bool move(Card *card);
     
     /*!
      * Apply the reverted movement of the given Card.
@@ -88,7 +89,7 @@ public:
      * 
      * \return The type of the last move.
      */
-    int getLastMove();
+    Card::CType getLastMove();
     
     /*!
      * Sets the type of the last used move.

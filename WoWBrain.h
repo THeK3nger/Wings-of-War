@@ -55,7 +55,7 @@ private:
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, CardSet *cardset, int alpha, int beta);
+    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta);
     
     World* current_world;
     Plane* aiplane;

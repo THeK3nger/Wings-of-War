@@ -50,7 +50,7 @@ CardSet* Plane::getCardSet(){
     return this->cardset;
 }
 
-void Plane::move(Card * card)
+bool Plane::move(Card * card)
 {
     if(this->moveIsValid(card))
     {
@@ -63,7 +63,13 @@ void Plane::move(Card * card)
         this->theta = this->theta + deltas[2];
         
         this->theta = normalizeAngle(this->theta);
+        
+        this->lastmove = card->getCardType();
+        
+        return true;
     }
+    
+    return false;
 }
 
 void Plane::revertMove(Card * card){
@@ -99,7 +105,7 @@ void Plane::getPosition(float* outPosition)
     outPosition[2] = this->theta;
 }
     
-int Plane::getLastMove()
+Card::CType Plane::getLastMove()
 {
     return this->lastmove;
 }
