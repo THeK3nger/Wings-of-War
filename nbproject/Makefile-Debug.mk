@@ -47,7 +47,8 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f1 \
-	${TESTDIR}/TestFiles/f2
+	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f3
 
 # C Compiler Flags
 CFLAGS=
@@ -116,6 +117,10 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/PlaneTest.o ${TESTDIR}/tests/PlaneTest
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} -lcppunit 
 
+${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/WorldTest.o ${TESTDIR}/tests/WorldTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} -lcppunit 
+
 
 ${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -139,6 +144,18 @@ ${TESTDIR}/tests/PlaneTestRunner.o: tests/PlaneTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
+
+
+${TESTDIR}/tests/WorldTest.o: tests/WorldTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
+
+
+${TESTDIR}/tests/WorldTestRunner.o: tests/WorldTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
 
 
 ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
@@ -225,6 +242,7 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 	then  \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f3 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

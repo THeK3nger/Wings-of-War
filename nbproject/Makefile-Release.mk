@@ -47,6 +47,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
+	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war
 
 # C Compiler Flags
@@ -116,6 +117,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/PlaneT
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
 
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/WorldTest.o ${TESTDIR}/tests/WorldTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
+	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
+
 
 ${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -139,6 +144,18 @@ ${TESTDIR}/tests/PlaneTestRunner.o: tests/PlaneTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
+
+
+${TESTDIR}/tests/WorldTest.o: tests/WorldTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
+
+
+${TESTDIR}/tests/WorldTestRunner.o: tests/WorldTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
 
 
 ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
@@ -223,6 +240,7 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
+	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	else  \

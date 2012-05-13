@@ -41,6 +41,14 @@
         <itemPath>tests/PlaneTest.h</itemPath>
         <itemPath>tests/PlaneTestRunner.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="World Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/WorldTest.cpp</itemPath>
+        <itemPath>tests/WorldTest.h</itemPath>
+        <itemPath>tests/WorldTestRunner.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -102,6 +110,24 @@
         </ccTool>
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
           <linkerLibItems>
             <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
           </linkerLibItems>
