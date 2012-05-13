@@ -1,6 +1,8 @@
 #ifndef CARD_H
 #define	CARD_H
 
+#include <iostream>
+
 /*!
  * \brief Card Class. It represents a movement card of the game.
  * 
@@ -30,6 +32,8 @@ public:
         L_STEER,
     };
     
+    Card();
+    
     Card(CType type, float mov_x, float mov_y, float mov_theta);
     virtual ~Card();
     
@@ -47,12 +51,15 @@ public:
      */
     CType getCardType(); 
     
+    void setMovement(float x, float y, float theta);
+    
+    void setType(CType type);
+    
 private:
     float dx;           // Variation along x axis.
     float dy;           // Variation along y axis.
     float dtheta;       // Variation of theta value.
     CType type;         // Card type.
-
 };
 
 #endif	/* CARD_H */

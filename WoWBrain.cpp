@@ -77,8 +77,6 @@ std::vector<CardSequence> WoWBrain::returnBestCards(float maxtime) {
 }
 
 
-// TODO: This is still the "normal" implementation of the algorithm, that is good as long as we have to pick a move, but we will need three, so it must be adapted.
-// [I.E. we have to stack the moves, and put them in the "bestmoves" sequences (replacing the "less good" ones) when they reduce the difference between beta and alpha without making it negative... maybe XD]
 // TODO: this is still depth based, not time based
 int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, CardSequence *actual_sequence, std::vector<CardSequence> *best_sequences, Plane * opponent){
     if (depth == SEARCH_DEPTH)         // leaf node
