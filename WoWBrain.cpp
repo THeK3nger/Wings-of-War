@@ -78,7 +78,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
     if(depth == SEARCH_DEPTH)   // leaf node
         return this->computeHeuristic();
     
-    Card * possible_moves = new Card[3];
+    Card ** possible_moves = new Card*[3];
     int possible_moves_number = 0;
     
     Card::CType previous_move;
@@ -90,10 +90,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         int child_value = -MAX_HEURISTIC;
         
         for (int i = 0; i < possible_moves_number; i++){
-            this->aiplane->move(&possible_moves[i]);      // applies a move card
-            actual_sequence->push_back(&possible_moves[i]);     // adds this manoeuvre to the actual sequence
+            this->aiplane->move(possible_moves[i]);      // applies a move card
+            actual_sequence->push_back(possible_moves[i]);     // adds this manoeuvre to the actual sequence
             child_value = alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent);
-            this->aiplane->revertMove(&possible_moves[i], previous_move);
+            this->aiplane->revertMove(possible_moves[i], previous_move);
             
             if(child_value > alpha){
                 alpha = child_value;
@@ -112,9 +112,9 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         previous_move = this->opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->opponent,possible_moves);
         for (int i = 0; i < possible_moves_number; i++){
-            this->opponent->move(&possible_moves[i]);      // applies a move card
+            this->opponent->move(possible_moves[i]);      // applies a move card
             int child_value = alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent);
-            this->opponent->revertMove(&possible_moves[i], previous_move);
+            this->opponent->revertMove(possible_moves[i], previous_move);
             
             if(child_value < beta){
                 beta = child_value;
