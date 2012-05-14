@@ -72,7 +72,7 @@ bool Plane::move(Card * card)
     return false;
 }
 
-void Plane::revertMove(Card * card){
+void Plane::revertMove(Card * card, Card::CType prev_lastmove){
     float deltas[3];
     card->getMovement(deltas);
     
@@ -81,6 +81,8 @@ void Plane::revertMove(Card * card){
     
     this->posx = floorf((this->posx - deltas[0]*cos(this->theta) + deltas[1]*sin(this->theta)) * 100 + 0.5)/100;
     this->posy = floorf((this->posy - deltas[0]*sin(this->theta) - deltas[1]*cos(this->theta)) * 100 + 0.5)/100;
+    
+    this->lastmove = prev_lastmove;
 }
 
 int Plane::remainingHealth()

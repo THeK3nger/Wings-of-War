@@ -16,12 +16,6 @@
 #include "Card.h"
 #include <vector>
 
-// struct CardSequence needed because we must store a sequence of cards
-struct CardSequence{
-    Card** cards;
-    int length;
-};
-
 class WoWBrain {
 public:
     WoWBrain(Plane* plane);
@@ -45,7 +39,7 @@ public:
      * \param maxtime Time limit (NOW UNUSED).
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    std::vector<CardSequence> returnBestCards(float maxtime); 
+    int returnBestCards(float maxtime); 
     
     /*!
      * Return a pointer to a list of Cards representing all the possible

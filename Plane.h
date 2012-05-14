@@ -49,7 +49,7 @@ public:
      * Apply the reverted movement of the given Card.
      * \param card Pointer to the card representing the movement to revert
      */
-    void revertMove(Card *card);
+    void revertMove(Card *card, Card::CType prev_lastmove);
     
     /*!
      *  Returns the difference between the maximum health value of this Plane and the damage it has received
