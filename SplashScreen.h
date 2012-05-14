@@ -31,6 +31,12 @@ private:
     sf::Sprite _fighter;
     
     sf::Music _bgmusic;
+    sf::Sound _menuSound;
+    sf::SoundBuffer _buffer;
+    
+    enum FighterPosition { StartGame, Option};
+    FighterPosition FighterState;
+    
     bool handleEvents();
 
 };
