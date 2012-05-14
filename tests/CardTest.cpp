@@ -22,14 +22,6 @@ void CardTest::tearDown() {
     delete this->test_card;
 }
 
-void CardTest::testCard() {
-    Card::CType type;
-    float mov_x;
-    float mov_y;
-    float mov_theta;
-    Card card(type, mov_x, mov_y, mov_theta);
-}
-
 void CardTest::testGetCardType() {
     Card::CType result = this->test_card->getCardType();
     CPPUNIT_ASSERT(result == Card::STRAIGHT);

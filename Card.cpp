@@ -15,8 +15,6 @@ Card::Card(CType type, float mov_x, float mov_y, float mov_theta){
 }
 
 Card::~Card() {
-    std::cout << "Card destructor called\n";
-    std::cout.flush();
 }
 
 Card::CType Card::getCardType() {

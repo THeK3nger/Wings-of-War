@@ -9,7 +9,7 @@
 #define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
 
 struct CardSet{
-    Card ** cards;
+    Card * cards;
     int cards_number;   // the cards number will become a macro if all the planes have the same cards number
 };
 

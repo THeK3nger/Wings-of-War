@@ -19,7 +19,6 @@ public:
     void tearDown();
 
 private:
-    void testCard();
     void testGetCardType();
     void testGetMovement();
     
