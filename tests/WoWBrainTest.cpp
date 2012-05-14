@@ -26,9 +26,9 @@ void WoWBrainTest::setUp() {
     World* world = new World(300,300);
     
     // Create Cards
-    Card* straight = new Card(Card::STRAIGHT,10,0,0);
-    Card* left = new Card(Card::L_STEER,5,-5,0.78);
-    Card* right = new Card(Card::R_STEER,5,5,-0.78);
+    Card* straight = new Card(Card::STRAIGHT,5,0,0);
+    Card* left = new Card(Card::L_STEER,5,5,0.50);
+    Card* right = new Card(Card::R_STEER,5,-5,-0.50);
     CardSet* card_set = new CardSet;
     card_set->cards = new Card[3];
     card_set->cards_number = 3;
@@ -64,6 +64,9 @@ void WoWBrainTest::testReturnBestCards() {
     result = ai->returnBestCards(20);
     Plane* aiplane = ai->getAIPlane();
     aiplane->move(result[0]);
-    CPPUNIT_ASSERT(aiplane->getLastMove() == Card::STRAIGHT);
+    CPPUNIT_ASSERT(aiplane->getLastMove() == Card::L_STEER);
+    result = ai->returnBestCards(20);
+    aiplane->move(result[0]);
+    CPPUNIT_ASSERT(aiplane->getLastMove() == Card::L_STEER);
 }
 
