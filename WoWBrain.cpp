@@ -70,7 +70,7 @@ std::vector<Card *> WoWBrain::returnBestCards(float maxtime) {
     
     alphaBetaPruningStep(0, true, -MAX_HEURISTIC, MAX_HEURISTIC, &actual_sequence, &best_sequence, this->opponent);
     
-//    while(best_sequence.size() > CHOICES_PER_TURN) best_sequence.pop_back();
+    while(best_sequence.size() > CHOICES_PER_TURN) best_sequence.pop_back();
     
     return best_sequence;
 }
