@@ -58,7 +58,7 @@ int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: t
         }
     }
     
-    return count+1;
+    return count;
 }
 
 std::vector<Card *> WoWBrain::returnBestCards(float maxtime) {
