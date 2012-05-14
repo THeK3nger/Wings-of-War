@@ -23,38 +23,35 @@ Plane* WoWBrain::getAIPlane() {
     return this->aiplane;
 }
 
-CardSet* WoWBrain::nextValidMoves(Plane * plane) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
-    CardSet *validmoves = new CardSet();
-    validmoves->cards_number = 0;
-    validmoves->cards = new Card* [plane->getCardSet()->cards_number]; // prepare to contain the whole set of cards
+int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
+    
+    valid_moves = new Card [plane->getCardSet()->cards_number];
     
     int count = 0; // will count how many moves are valid
     
     if (plane->remainingHealth() <= 0) {
-        return validmoves;
+        return 0;
     }
     float* positionbuff = new float[3];
     plane->getPosition(positionbuff);
     if ((positionbuff[0] < 0) || (positionbuff[0] > current_world->getWidth())){
         delete positionbuff;
-        return validmoves;
+        return 0;
     }
     if ((positionbuff[1] < 0) || (positionbuff[1] > current_world->getHeight())){
         delete positionbuff;
-        return validmoves;
+        return 0;
     }
     delete positionbuff;
     
     for (int i = 0; i < plane->getCardSet()->cards_number ; i++){ // for every plane manoeuvre
-        if (plane->moveIsValid(plane->getCardSet()->cards[i])){  // if this move is valid
-            validmoves->cards[count] = plane->getCardSet()->cards[i];    // add it to the set to return
+        if (plane->moveIsValid(&(plane->getCardSet()->cards[i]))){  // if this move is valid
+            valid_moves[count] = plane->getCardSet()->cards[i];    // add it to the set to return
             count++;    // increase the counter
         }
     }
     
-    validmoves->cards_number = count;
-    
-    return validmoves;
+    return count+1;
 }
 
 std::vector<CardSequence> WoWBrain::returnBestCards(float maxtime) {
@@ -82,18 +79,19 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
     if (depth == SEARCH_DEPTH)         // leaf node
         return this->computeHeuristic();
     
-    CardSet * possible_moves;
+    Card * possible_moves;
+    int possible_moves_number = 0;
     
     Card::CType previous_move = this->aiplane->getLastMove();
     
     if(maximizing){     // max player ply (AI PLAYER)
-        possible_moves = this->nextValidMoves(this->aiplane);
-        for (int i = 0; i < possible_moves->cards_number; i++){
-            this->aiplane->move(possible_moves->cards[i]);      // applies a move card
-            actual_sequence->cards[depth/2] = possible_moves->cards[i];
+        possible_moves_number = this->nextValidMoves(this->aiplane, possible_moves);
+        for (int i = 0; i < possible_moves_number; i++){
+            this->aiplane->move(&possible_moves[i]);      // applies a move card
+            actual_sequence->cards[depth/2] = &possible_moves[i];
             actual_sequence->length = (depth/2) + 1;
             int child_value = this->alphaBetaPruningStep(depth+1, !maximizing, alpha, beta, actual_sequence, best_sequences, opponent);    // recursively calls the alphabeta step on this child
-            this->aiplane->revertMove(possible_moves->cards[i]);        // reverts the move
+            this->aiplane->revertMove(&possible_moves[i]);        // reverts the move
             this->aiplane->setLastMove(previous_move);      // restores the last move
             
             if(child_value >= alpha){           // we add the sequence also for values equal to alpha, because we want more than one choice
@@ -116,17 +114,17 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         }
     }
     else{ // min player ply (OPPONENT)
-        possible_moves = this->nextValidMoves(opponent);//
-            for (int i = 0; i < possible_moves->cards_number; i++){
+         possible_moves_number = this->nextValidMoves(opponent, possible_moves);//
+            for (int i = 0; i < possible_moves_number; i++){
                 int child_value = this->alphaBetaPruningStep(depth+1, !maximizing, alpha, beta, actual_sequence, best_sequences, opponent);    // recursively calls the alphabeta step on this child
-                this->aiplane->revertMove(possible_moves->cards[i]);        // reverts the move
+                this->aiplane->revertMove(&possible_moves[i]);        // reverts the move
                 this->aiplane->setLastMove(previous_move);      // restores the last move
                 if (beta > child_value) beta = child_value;
                 if (beta < alpha) break;// "strictly lesser than alpha" because the heuristic value is discrete, hence we want to return more than one optimal move
             }
         }
     
-    delete [] possible_moves->cards;
+    delete [] possible_moves;
     
     return (maximizing?alpha:beta);
 }
