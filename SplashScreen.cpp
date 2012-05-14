@@ -7,12 +7,10 @@
 
 #include "SplashScreen.h"
 
-
- 
-
     /*!
      * Constructor
      */
+
 SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     
     //Storing the address of the mainwindow to the current window
@@ -52,6 +50,7 @@ SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     _bgmusic.Play();
     
 }
+
 
 
     /*!

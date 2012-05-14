@@ -21,6 +21,8 @@
       <itemPath>Card.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
+      <itemPath>Screen.cpp</itemPath>
+      <itemPath>Screen.h</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
       <itemPath>World.cpp</itemPath>
@@ -50,6 +52,14 @@
         <itemPath>tests/WorldTest.cpp</itemPath>
         <itemPath>tests/WorldTest.h</itemPath>
         <itemPath>tests/WorldTestRunner.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f4"
+                     displayName="WoWBrainTest"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/WoWBrainTest.cpp</itemPath>
+        <itemPath>tests/WoWBrainTest.h</itemPath>
+        <itemPath>tests/WoWBrainTestRunner.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -133,6 +143,24 @@
           <output>${TESTDIR}/TestFiles/f3</output>
           <linkerLibItems>
             <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs cppunit`</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </folder>
