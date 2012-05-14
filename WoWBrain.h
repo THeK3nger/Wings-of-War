@@ -7,14 +7,16 @@
 
 #ifndef WOWBRAIN_H
 #define	WOWBRAIN_H
-#define SEARCH_DEPTH 4
-#define CHOICES_PER_TURN 1
-#define MAX_HEURISTIC 1000
 
 #include "Plane.h"
 #include "World.h"
 #include "Card.h"
+#include <limits.h>
 #include <vector>
+
+#define SEARCH_DEPTH 4 // 
+#define CHOICES_PER_TURN 1
+#define MAX_HEURISTIC INT_MAX
 
 class WoWBrain {
 public:
