@@ -16,15 +16,9 @@
 #include "Card.h"
 #include <vector>
 
-// struct CardSequence needed because we must store a sequence of cards
-struct CardSequence{
-    Card** cards;
-    int length;
-};
-
 class WoWBrain {
 public:
-    WoWBrain(Plane* plane);
+    WoWBrain(Plane* plane, World * world);
     WoWBrain(const WoWBrain& orig);
     virtual ~WoWBrain();
     
@@ -45,7 +39,7 @@ public:
      * \param maxtime Time limit (NOW UNUSED).
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    std::vector<CardSequence> returnBestCards(float maxtime); 
+    std::vector<Card *> returnBestCards(float maxtime); 
     
     /*!
      * Return a pointer to a list of Cards representing all the possible
@@ -65,11 +59,12 @@ private:
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, CardSequence *actual_sequence, std::vector<CardSequence> *sequences, Plane * opponent);
+    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent);
     
-    World* current_world;
-    Plane* aiplane;
-
+    World *current_world;
+    Plane *aiplane;
+    Plane *opponent;
+    
 };
 
 #endif	/* WOWBRAIN_H */
