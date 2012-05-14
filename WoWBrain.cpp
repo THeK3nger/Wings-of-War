@@ -9,8 +9,16 @@
 #include "Plane.h"
 #include "World.h"
 
-WoWBrain::WoWBrain(Plane* plane) {
+WoWBrain::WoWBrain(Plane* plane, World * world) {
     this->aiplane = plane;
+    this->current_world = world;
+    std::vector<Plane *> * planes = this->current_world->getPlanes();
+    for(int i=0; i<planes->size();i++){
+        if ((*planes)[i]->getId() != this->aiplane->getId()){
+            opponent = (*planes)[i];
+            break;
+        }
+    }
 }
 
 WoWBrain::WoWBrain(const WoWBrain& orig) {
@@ -54,13 +62,49 @@ int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: t
     return count+1;
 }
 
-int WoWBrain::returnBestCards(float maxtime) {
+std::vector<Card *> WoWBrain::returnBestCards(float maxtime) {
 
+    std::vector<Card *> actual_sequence;
+    std::vector<Card *> best_sequence;
+    
+    alphaBetaPruningStep(0, true, -MAX_HEURISTIC, MAX_HEURISTIC, &actual_sequence, &best_sequence, this->opponent);
+    
+    
 }
 
 // TODO: this is still depth based, not time based
-int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, Card *actual_sequence, Card * best_sequence, Plane * opponent){
-// TODO-- everything to do again
+int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent){
+    if(depth == SEARCH_DEPTH)   // leaf node
+        return this->computeHeuristic();
+    
+    Card * possible_moves;
+    int possible_moves_number = 0;
+    
+    Card::CType previous_move = this->aiplane->getLastMove();
+    
+    if(maximizing){     // AI PLAYER
+        possible_moves_number = this->nextValidMoves(this->aiplane,possible_moves);
+        for (int i = 0; i < possible_moves_number; i++){
+            this->aiplane->move(&possible_moves[i]);      // applies a move card
+            actual_sequence->push_back(&possible_moves[i]);     // adds this manoeuvre to the actual sequence
+            int child_value = alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent);
+            this->aiplane->revertMove(&possible_moves[i], previous_move);
+            
+            if(child_value > alpha){
+                alpha = child_value;
+                if (beta <= alpha) break;    // don't add this sequence
+            }
+            
+            actual_sequence->pop_back();
+        }
+    }
+    else{       // OPPONENT PLAYER
+        
+    }
+    return (maximizing?alpha:beta);
+
+    
+    // TODO-- everything to do again
 //    if (depth == SEARCH_DEPTH)         // leaf node
 //        return this->computeHeuristic();
 //    
