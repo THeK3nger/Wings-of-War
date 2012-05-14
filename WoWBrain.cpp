@@ -25,6 +25,7 @@ WoWBrain::WoWBrain(const WoWBrain& orig) {
 }
 
 WoWBrain::~WoWBrain() {
+    delete current_world;
 }
 
 Plane* WoWBrain::getAIPlane() {
@@ -130,7 +131,11 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 }
 
 int WoWBrain::computeHeuristic(){
-    // TODO
-    return 1;
+    // TODO: Just an example....
+    float* tmp_pos = new float[3];
+    this->aiplane->getPosition(tmp_pos);
+    float y = tmp_pos[1];
+    delete tmp_pos;
+    return (int) (y+0.5);
 }
 
