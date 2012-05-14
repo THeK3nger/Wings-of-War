@@ -4,6 +4,7 @@
 #include "Plane.h"
 #include "World.h"
 #include "WoWBrain.h"
+#include "SplashScreen.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
@@ -59,6 +60,8 @@ private:
     int depth;
     char name[100];
     
+    SplashScreen* splashscreen;
+    
     /*!
      * Possible states of the game
      */
@@ -84,11 +87,6 @@ private:
      * Main loop for the game
      */
     void run();
-    
-     /*!
-     * Main loop for the game
-     */
-    void showSplashScreen();
     
     
      /*!

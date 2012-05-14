@@ -20,6 +20,8 @@
       <itemPath>Card.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
+      <itemPath>SplashScreen.cpp</itemPath>
+      <itemPath>SplashScreen.h</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
       <itemPath>World.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -67,6 +69,7 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
+            <linkerOptionItem>-lsfml-audio</linkerOptionItem>
             <linkerOptionItem>-lsfml-window</linkerOptionItem>
             <linkerOptionItem>-lsfml-graphics</linkerOptionItem>
             <linkerOptionItem>-lsfml-system</linkerOptionItem>

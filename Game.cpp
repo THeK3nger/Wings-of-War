@@ -60,8 +60,15 @@ void Game::run()
                 
                  case Game::ShowingSplash:
                     {
-                        this->showSplashScreen();
-                        this->CheckForEvents();
+                        
+                        splashscreen= new SplashScreen(&_mainWindow);
+                        splashscreen->loop();
+                        _gameState = Game::Exiting;
+                        delete splashscreen;
+                       
+                         
+                        
+                        
                     }
                 
                 
@@ -88,26 +95,7 @@ void Game::CheckForEvents()
     
 }
 
-/*!
-  *ASSOLUTAMENTE DA MODIFICARE, E' SOLO UN TEST
- */
-void Game::showSplashScreen()
-{
-    sf::Image splash;
-    splash.LoadFromFile("assets/splashscreen.png");
-    sf::Sprite sprite_Splash(splash);
-    
-    sf::Image fighter;
-    fighter.LoadFromFile("assets/fighter.png");
-    sf::Sprite sprite_fighter(fighter);
-    
-    sprite_fighter.SetRotation(-90.0f);
-    sprite_fighter.SetPosition(250,380);
-    
-     _mainWindow.Draw(sprite_Splash);
-     _mainWindow.Draw(sprite_fighter);
-     _mainWindow.Display();
-}
+
 
 Game::~Game() {
 }

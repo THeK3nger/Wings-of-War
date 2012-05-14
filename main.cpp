@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Plane.h"
 #include "Card.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -16,6 +17,10 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+    
+    Game* gioco = new Game(600,800,32);
+    gioco->init();
+    /*
     Plane p1(1,15,0,0,0);
     
     float position[3];
@@ -55,4 +60,6 @@ int main(int argc, char** argv) {
 //    delete cset.cards;
     
     return 0;
+     * 
+     */
 }
