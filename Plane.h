@@ -92,11 +92,6 @@ public:
     Card::CType getLastMove();
     
     /*!
-     * Sets the type of the last used move.
-     */
-    void setLastMove(Card::CType last_move_type);
-    
-    /*!
      * Check if a move Card `card` is valid or not.
      * 
      * \param card Pointer to the Move Card to be checked.

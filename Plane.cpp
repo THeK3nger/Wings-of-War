@@ -110,10 +110,6 @@ Card::CType Plane::getLastMove()
     return this->lastmove;
 }
 
-void Plane::setLastMove(Card::CType last_move_type){
-    this->lastmove = last_move_type;
-}
-
 int Plane::getId(){
     return this->id;
 }
