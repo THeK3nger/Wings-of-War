@@ -52,7 +52,7 @@
         <itemPath>tests/WorldTestRunner.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f4"
-                     displayName="WowBrain Test"
+                     displayName="WoWBrainTest"
                      projectFiles="true"
                      kind="TEST">
         <itemPath>tests/WoWBrainTest.cpp</itemPath>
