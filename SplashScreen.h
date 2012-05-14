@@ -13,7 +13,9 @@
 #include "SFML/Audio.hpp"
 #include <stdio.h>
 
-class SplashScreen {
+
+class SplashScreen{
+    
 public:
     SplashScreen(sf::RenderWindow  *refwindow);
     
@@ -21,13 +23,11 @@ public:
     void loop();
     
 private:
+    
     /*!
-     * _window: Used to store the address of the main render window
+     * The render window
      */
-    
     sf::RenderWindow* _window;
-    
-    
     /*!
      * Image files, needed for the sprites
      */

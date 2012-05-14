@@ -21,6 +21,8 @@
       <itemPath>Card.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
+      <itemPath>Screen.cpp</itemPath>
+      <itemPath>Screen.h</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
       <itemPath>World.cpp</itemPath>
@@ -158,7 +160,7 @@
         <linkerTool>
           <output>${TESTDIR}/TestFiles/f4</output>
           <linkerLibItems>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+            <linkerOptionItem>`pkg-config --libs cppunit`</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </folder>

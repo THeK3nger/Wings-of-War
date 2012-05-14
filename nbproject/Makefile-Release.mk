@@ -34,6 +34,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Screen.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Plane.o \
 	${OBJECTDIR}/Card.o \
@@ -75,6 +76,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/Screen.o: Screen.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Screen.o Screen.cpp
 
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -180,6 +186,19 @@ ${TESTDIR}/tests/WoWBrainTestRunner.o: tests/WoWBrainTestRunner.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
 
+
+${OBJECTDIR}/Screen_nomain.o: ${OBJECTDIR}/Screen.o Screen.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Screen.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Screen_nomain.o Screen.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Screen.o ${OBJECTDIR}/Screen_nomain.o;\
+	fi
 
 ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
 	${MKDIR} -p ${OBJECTDIR}
