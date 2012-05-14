@@ -25,25 +25,20 @@ int main(int argc, char** argv) {
     
     cset.cards = new Card*[3];
     
-    Card * cards = new Card[3];
+//    Card * cards = new Card[3];
+    
+    cset.cards[0] = new Card[3];
+    cset.cards[1] = cset.cards[0];
+    cset.cards[2] = cset.cards[1];
     
     Card::CType * typebuffer = (Card::CType *)malloc(sizeof(Card::CType));
     
-    cards[0].setMovement(10,2,M_PI/6);
-    cards[0].setType(Card::L_STEER);
-    cards[1].setMovement(6,-2,-M_PI/4);
-    cards[1].setType(Card::R_STEER);
-    cards[2].setMovement(12,0,0);
-    cards[2].setType(Card::STRAIGHT);
-    
-    
-//    cset.cards[0] = &(cards[0]); // it's just cards
-//    cset.cards[1] = &(cards[1]); // it's cards++
-//    cset.cards[2] = &(cards[2]); // it's again cards++
-    
-    cset.cards[0] = cards;
-    cset.cards[1] = cards+1;
-    cset.cards[2] = cards+2;
+    cset.cards[0]->setMovement(10,2,M_PI/6);
+    cset.cards[0]->setType(Card::L_STEER);
+    cset.cards[1]->setMovement(6,-2,-M_PI/4);
+    cset.cards[1]->setType(Card::R_STEER);
+    cset.cards[2]->setMovement(12,0,0);
+    cset.cards[2]->setType(Card::STRAIGHT);
     
     for(int i=0; i<cset.cards_number; i++){
         (*cset.cards)[i].getMovement(position);
@@ -57,8 +52,6 @@ int main(int argc, char** argv) {
     
     free(typebuffer);
     
-    // one of the following two solutions is ok
-//    delete [] cards;
     delete  [] *cset.cards;
     
     delete cset.cards;

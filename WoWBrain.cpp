@@ -126,6 +126,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             }
         }
     
+    delete [] possible_moves->cards;
+    
     return (maximizing?alpha:beta);
 }
 
