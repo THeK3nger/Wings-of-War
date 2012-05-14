@@ -36,6 +36,11 @@ class World{
          */
         Plane* GetPlaneById(int id);
         
+        /*!
+         * Add a single Plane to the World
+         * 
+         * \param plane A reference to the new Plane.
+         */
         void addPlane(Plane* plane);
         
         /*! GETTER */

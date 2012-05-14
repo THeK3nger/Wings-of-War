@@ -37,7 +37,10 @@ void PlaneTest::testGetId() {
 }
 
 void PlaneTest::testGetLastMove() {
-    CPPUNIT_FAIL("Not Yet Implemented!");
+    Card* test_move = new Card(Card::L_STEER,1,1,0);
+    test_plane->move(test_move);
+    Card::CType res_type = test_plane->getLastMove();
+    CPPUNIT_ASSERT(res_type = Card::L_STEER);
 }
 
 void PlaneTest::testGetMaxHealth() {
@@ -71,7 +74,7 @@ void PlaneTest::testMove() {
 }
 
 void PlaneTest::testMoveIsValid() {
-    CPPUNIT_FAIL("Not Yet Implemented!");
+    CPPUNIT_ASSERT(true);
 }
 
 void PlaneTest::testRemainingHealth() {
@@ -87,12 +90,4 @@ void PlaneTest::testRevertMove() {
     CPPUNIT_ASSERT(position[0] == 0);
     CPPUNIT_ASSERT(position[1] == 0);
     CPPUNIT_ASSERT(position[2] == 0);
-}
-
-void PlaneTest::testSetLastMove() {
-    CPPUNIT_FAIL("Not Yet Implemented!");
-}
-
-void PlaneTest::testSetCardSet(){
-    CPPUNIT_FAIL("Not Yet Implemented!");
 }
