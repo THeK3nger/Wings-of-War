@@ -48,7 +48,7 @@ public:
      * moves available to the given plane in the current state.
      * \param plane A pointer to the Plane to analyze
      */
-    int nextValidMoves(Plane * plane, Card* valid_moves); // this needs a plane as input because we want to compute the next possible moves of either the AI plane and the opponent plane
+    int nextValidMoves(Plane * plane, Card** valid_moves); // this needs a plane as input because we want to compute the next possible moves of either the AI plane and the opponent plane
     
     /*!
      * Computes the heuristic based o the actual world state

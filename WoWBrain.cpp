@@ -32,7 +32,7 @@ Plane* WoWBrain::getAIPlane() {
     return this->aiplane;
 }
 
-int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
+int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
     
     int count = 0; // will count how many moves are valid
     
@@ -53,7 +53,7 @@ int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: t
     
     for (int i = 0; i < plane->getCardSet()->cards_number ; i++){ // for every plane manoeuvre
         if (plane->moveIsValid(&(plane->getCardSet()->cards[i]))){  // if this move is valid
-            valid_moves[count] = plane->getCardSet()->cards[i];    // add it to the set to return
+            valid_moves[count] = (plane->getCardSet()->cards)+i;    // add it to the set to return
             count++;    // increase the counter
         }
     }
