@@ -85,9 +85,11 @@ void PlaneTest::testRevertMove() {
     float* position = new float[3];
     Card test_card(Card::R_STEER, 10, -2, -M_PI/3);
     test_plane->move(&test_card);
-    test_plane->revertMove(&test_card);
+    test_plane->revertMove(&test_card, Card::STRAIGHT);
     test_plane->getPosition(position);
     CPPUNIT_ASSERT(position[0] == 0);
     CPPUNIT_ASSERT(position[1] == 0);
     CPPUNIT_ASSERT(position[2] == 0);
+    Card::CType res_type = test_plane->getLastMove();
+    CPPUNIT_ASSERT(res_type == Card::STRAIGHT);
 }
