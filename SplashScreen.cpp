@@ -26,7 +26,7 @@ SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     _menuSound.SetBuffer(_buffer);
     
     //Setting the menu sound volume
-    _menuSound.SetVolume(10.f);
+    _menuSound.SetVolume(100.0f);
     
     //Loading the splashscreen image from file
     image1.LoadFromFile("assets/splashscreen.png");
@@ -45,7 +45,7 @@ SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     //Loading the bgmusic file
     _bgmusic.OpenFromFile("assets/bgmusic.ogg");
     //Setting the bgmusic volume
-    _bgmusic.SetVolume(2.0f);
+    _bgmusic.SetVolume(60.0f);
     //PLaying the bgmusic
     _bgmusic.Play();
     
