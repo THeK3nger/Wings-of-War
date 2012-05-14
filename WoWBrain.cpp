@@ -34,8 +34,6 @@ Plane* WoWBrain::getAIPlane() {
 
 int WoWBrain::nextValidMoves(Plane * plane, Card* valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
     
-    valid_moves = new Card [plane->getCardSet()->cards_number];
-    
     int count = 0; // will count how many moves are valid
     
     if (plane->remainingHealth() <= 0) {
@@ -80,7 +78,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
     if(depth == SEARCH_DEPTH)   // leaf node
         return this->computeHeuristic();
     
-    Card * possible_moves;
+    Card * possible_moves = new Card[3];
     int possible_moves_number = 0;
     
     Card::CType previous_move;
@@ -125,8 +123,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         }
     }
     
-    delete [] possible_moves;
-    
+    delete possible_moves;
     return (maximizing?alpha:beta);
 }
 

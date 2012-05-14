@@ -130,7 +130,7 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/WorldTest.o ${TESTDIR}/tests/WorldTest
 
 ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/WoWBrainTest.o ${TESTDIR}/tests/WoWBrainTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} -lcppunit 
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} `pkg-config --libs cppunit`   
 
 
 ${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
