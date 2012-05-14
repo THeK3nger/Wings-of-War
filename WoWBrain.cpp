@@ -92,7 +92,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             actual_sequence->length = (depth/2) + 1;
             int child_value = this->alphaBetaPruningStep(depth+1, !maximizing, alpha, beta, actual_sequence, best_sequences, opponent);    // recursively calls the alphabeta step on this child
             this->aiplane->revertMove(&possible_moves[i]);        // reverts the move
-            this->aiplane->setLastMove(previous_move);      // restores the last move
+            //this->aiplane->setLastMove(previous_move);      // restores the last move
             
             if(child_value >= alpha){           // we add the sequence also for values equal to alpha, because we want more than one choice
                 if(child_value > alpha){
@@ -118,7 +118,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             for (int i = 0; i < possible_moves_number; i++){
                 int child_value = this->alphaBetaPruningStep(depth+1, !maximizing, alpha, beta, actual_sequence, best_sequences, opponent);    // recursively calls the alphabeta step on this child
                 this->aiplane->revertMove(&possible_moves[i]);        // reverts the move
-                this->aiplane->setLastMove(previous_move);      // restores the last move
+                //this->aiplane->setLastMove(previous_move);      // restores the last move
                 if (beta > child_value) beta = child_value;
                 if (beta < alpha) break;// "strictly lesser than alpha" because the heuristic value is discrete, hence we want to return more than one optimal move
             }
