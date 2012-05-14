@@ -1,8 +1,6 @@
 #ifndef CARD_H
 #define	CARD_H
 
-#include <iostream>
-
 /*!
  * \brief Card Class. It represents a movement card of the game.
  * 
