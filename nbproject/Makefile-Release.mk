@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Plane.o \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/WoWBrain.o
 
@@ -93,6 +94,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/SplashScreen.o: SplashScreen.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
 
 ${OBJECTDIR}/Game.o: Game.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -208,6 +214,19 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/SplashScreen_nomain.o: ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/SplashScreen.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen_nomain.o SplashScreen.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/SplashScreen.o ${OBJECTDIR}/SplashScreen_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp 

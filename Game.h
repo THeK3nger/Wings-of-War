@@ -60,6 +60,8 @@ private:
     int depth;
     char name[100];
     
+    SplashScreen* splashscreen;
+    
     /*!
      * Possible states of the game
      */
@@ -85,11 +87,6 @@ private:
      * Main loop for the game
      */
     void run();
-    
-     /*!
-     * Main loop for the game
-     */
-    void showSplashScreen();
     
     
      /*!
