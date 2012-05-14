@@ -4,6 +4,7 @@
 #include "Plane.h"
 #include "World.h"
 #include "WoWBrain.h"
+#include "SplashScreen.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
