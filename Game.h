@@ -8,6 +8,7 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 
+#include <stdio.h>
 
 /*!
  * \brief This class is the core class of the Game.
@@ -28,8 +29,9 @@ public:
     
     Game(int h, int w, int d);
     
-    Game(const Game& orig);
-    
+    /*!
+     * Destructor
+     */
     virtual ~Game();
     
     
@@ -38,11 +40,11 @@ public:
      */
     void init();
     
+   
     
     /*!
-     * Main loop for the game
+     * Private side
      */
-    void run();
     
     
 private:
@@ -72,6 +74,27 @@ private:
      * Render window
      */
      sf::RenderWindow _mainWindow;
+     
+      /*!
+     * Game exit routine
+     */
+    void exit();
+    
+    /*!
+     * Main loop for the game
+     */
+    void run();
+    
+     /*!
+     * Main loop for the game
+     */
+    void showSplashScreen();
+    
+    
+     /*!
+     * Events polling routine
+     */
+    void CheckForEvents();
 };
 
 #endif	/* GAME_H */
