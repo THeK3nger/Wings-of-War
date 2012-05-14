@@ -7,43 +7,91 @@
 
 #include "SplashScreen.h"
 
+
+ 
+
+    /*!
+     * Constructor
+     */
 SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
+    
+    //Storing the address of the mainwindow to the current window
     _window=refwindow;
     
+    //Setting the current state of the fighter on the "STARTGAME" state
     FighterState=SplashScreen::StartGame;
     
-    
+    //Loading the menu sound 
     _buffer.LoadFromFile("assets/menu.ogg");
+    
+    //Using the buffer
     _menuSound.SetBuffer(_buffer);
+    
+    //Setting the menu sound volume
     _menuSound.SetVolume(10.f);
     
-    
+    //Loading the splashscreen image from file
     image1.LoadFromFile("assets/splashscreen.png");
+    //Loading the fighter image from file
     image2.LoadFromFile("assets/fighter.png");
+    //Setting the background sprite
     _background.SetImage(image1);
+    //Setting the fighter sprite
     _fighter.SetImage(image2);
     
+    //Setting the fighter position
     _fighter.SetPosition(250,385);
+    //Setting the fighter rotation
     _fighter.SetRotation(-90.f);
     
+    //Loading the bgmusic file
     _bgmusic.OpenFromFile("assets/bgmusic.ogg");
+    //Setting the bgmusic volume
     _bgmusic.SetVolume(2.0f);
+    //PLaying the bgmusic
     _bgmusic.Play();
     
 }
+
+
+    /*!
+     *  Loop routine for the SplashScreenClass
+     * 
+     *  The Loop routine renders the sprites on the renderwindow 
+     *  while checking for the user activity.
+     *  
+     *  The ESCAPE key terminates the loop
+     * 
+     */
+
 
 void SplashScreen::loop()
 {
     while(this->handleEvents()==1)
     {
-       
+       //drawing the background
        _window->Draw(_background);
+       
+       //drawing the fighter
        _window->Draw(_fighter);
+       
+       //displaying on the window
        _window->Display();
        
     }
 }
 
+
+    /*!
+     *  Events handling
+     *  returns 0: pressed ESCAPE key
+     *  returns 1: pressed any other keys
+     * 
+     *  Inside the handleEvents() routine is handled the movements
+     *  of the fighter on the splashscreen.
+     *  The mechanics is handled using the states of the ENUM
+     * 
+     */
 bool SplashScreen::handleEvents()
 {
     
@@ -111,6 +159,10 @@ bool SplashScreen::handleEvents()
     
     return 1;
 }
+
+    /*!
+     *  Destructor
+     */
 
 SplashScreen::~SplashScreen() {
     
