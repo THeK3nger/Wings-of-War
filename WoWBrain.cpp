@@ -75,8 +75,17 @@ std::vector<Card *> WoWBrain::returnBestCards(float maxtime) {
 
 // TODO: this is still depth based, not time based
 int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent){
-    if(depth == SEARCH_DEPTH)   // leaf node
-        return this->computeHeuristic();
+    if(depth == SEARCH_DEPTH){   // leaf node
+        int heur = this->computeHeuristic();
+        if (heur>beta) return heur;
+        if (heur>alpha){
+            best_sequence->clear();
+            for (int i=0; i<actual_sequence->size(); i++){
+                best_sequence->push_back((*actual_sequence)[i]);
+            }
+        }
+        return heur;
+    }
     
     Card ** possible_moves = new Card*[3];
     int possible_moves_number = 0;
@@ -111,15 +120,6 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             
             actual_sequence->pop_back();
         }
-        
-        if (alpha_has_grown && (depth == SEARCH_DEPTH-2)){ // the last MAX layer
-            best_sequence->clear();
-            for (int i=0; i<actual_sequence->size(); i++){
-                best_sequence->push_back((*actual_sequence)[i]);
-            }
-            best_sequence->push_back(best_next_move);
-        }
-        
     }
     else{       // OPPONENT PLAYER
         previous_move = this->opponent->getLastMove();
@@ -153,6 +153,6 @@ int WoWBrain::computeHeuristic(){
 //    y = y-10;
 //    if (y>0) y=-y;
 //    int heur = (int) (x+0.5) - (int)(y+0.5);
-    return -(int)y;
+    return (int)y;
 }
 

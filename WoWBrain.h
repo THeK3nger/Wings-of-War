@@ -14,8 +14,8 @@
 #include <limits.h>
 #include <vector>
 
-#define SEARCH_DEPTH 8 // must be an EVEN number
-#define CHOICES_PER_TURN 4 // can be at most 1/2 * SEARCH_DEPTH
+#define SEARCH_DEPTH 20 // must be an EVEN number
+#define CHOICES_PER_TURN 10 // can be at most 1/2 * SEARCH_DEPTH
 #define MAX_HEURISTIC INT_MAX
 
 class WoWBrain {
