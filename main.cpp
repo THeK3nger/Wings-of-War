@@ -18,40 +18,48 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
-    Plane * p1 = new Plane(1,20,10,10,0);
-    Plane * p2 = new Plane(2,20,15,10,M_PI);
+    Game* gioco = new Game(600,800,32);
+    gioco->init();
+    /*
+    Plane p1(1,15,0,0,0);
     
-    World * world = new World(100, 100);
-    
-    world->addPlane(p1);
-    world->addPlane(p2);
-    
-    Card cards[3];
-    cards[0].setType(Card::R_STEER);
-    cards[0].setMovement(5,-5,-M_PI/4);
-    
-    cards[1].setType(Card::L_STEER);
-    cards[1].setMovement(5,5,M_PI/4);
-    
-    cards[2].setType(Card::STRAIGHT);
-    cards[2].setMovement(10,0,0);
-    
-    
+    float position[3];
+ 
     CardSet cset;
-    cset.cards = cards;
     cset.cards_number = 3;
     
-    p1->setCardSet(&cset);
-    p2->setCardSet(&cset);
+//    cset.cards = new Card*[3];
+//    
+//    cset.cards[0] = new Card[3];
+//    cset.cards[1] = cset.cards[0];
+//    cset.cards[2] = cset.cards[1];
+//    
+//    Card::CType * typebuffer = (Card::CType *)malloc(sizeof(Card::CType));
+//    
+//    cset.cards[0]->setMovement(10,2,M_PI/6);
+//    cset.cards[0]->setType(Card::L_STEER);
+//    cset.cards[1]->setMovement(6,-2,-M_PI/4);
+//    cset.cards[1]->setType(Card::R_STEER);
+//    cset.cards[2]->setMovement(12,0,0);
+//    cset.cards[2]->setType(Card::STRAIGHT);
+//    
+//    for(int i=0; i<cset.cards_number; i++){
+//        (*cset.cards)[i].getMovement(position);
+//        *typebuffer = (*cset.cards)[i].getCardType();
+//        cout << "\nmanoeouvre n." << i+1 << ":\n";
+//        cout << "card type: " << (*typebuffer==Card::L_STEER?"left steer":(*typebuffer==Card::R_STEER?"right steer":"straight")) << '\n';
+//        cout << "dx: " << position[0] << "; dy: " << position[1] << "; dtheta: " << position[2] << '\n';
+//    }
+//    
+//    cout << '\n';
+//    
+//    free(typebuffer);
+//    
+//    delete  [] *cset.cards;
+//    
+//    delete cset.cards;
     
-    WoWBrain * ai = new WoWBrain(p1,world);
-    
-    std::vector<Card*> moves = ai->returnBestCards(20);
-    
-    std::cout << "sequence size: " << moves.size() << '\n';
-    std::cout << "sequence: ";
-    for (int i=0; i<moves.size(); i++){
-        std::cout << (moves[i]->getCardType() == Card::R_STEER? "RIGHT ":(moves[i]->getCardType() == Card::L_STEER? "LEFT ": "STRAIGHT"));
-    }
-    std::cout << '\n';
+    return 0;
+     * 
+     */
 }
