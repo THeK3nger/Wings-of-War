@@ -63,6 +63,7 @@ bool Plane::move(Card * card)
         this->theta = this->theta + deltas[2];
         
         this->theta = normalizeAngle(this->theta);
+        this->theta = floorf(this->theta * 100 + 0.5)/100;
         
         this->lastmove = card->getCardType();
         
@@ -78,6 +79,7 @@ void Plane::revertMove(Card * card, Card::CType prev_lastmove){
     
     this->theta -= deltas[2];
     this->theta = normalizeAngle(this->theta);
+    this->theta = floorf(this->theta * 100 + 0.5)/100;
     
     this->posx = floorf((this->posx - deltas[0]*cos(this->theta) + deltas[1]*sin(this->theta)) * 100 + 0.5)/100;
     this->posy = floorf((this->posy - deltas[0]*sin(this->theta) - deltas[1]*cos(this->theta)) * 100 + 0.5)/100;

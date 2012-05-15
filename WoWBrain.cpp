@@ -147,9 +147,12 @@ int WoWBrain::computeHeuristic(){
     // TODO: Just an example....
     float* tmp_pos = new float[3];
     this->aiplane->getPosition(tmp_pos);
+    float x = tmp_pos[0];
     float y = tmp_pos[1];
     delete tmp_pos;
-    if (y>0) return -(int)(y+0.5);
-    return -(int)(y-0.5);
+//    y = y-10;
+//    if (y>0) y=-y;
+//    int heur = (int) (x+0.5) - (int)(y+0.5);
+    return -(int)y;
 }
 
