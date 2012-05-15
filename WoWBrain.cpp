@@ -88,38 +88,54 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         possible_moves_number = this->nextValidMoves(this->aiplane,possible_moves);
         
         int child_value = -MAX_HEURISTIC;
+        bool alpha_has_grown = false;
+        Card * best_next_move;
         
         for (int i = 0; i < possible_moves_number; i++){
             this->aiplane->move(possible_moves[i]);      // applies a move card
             actual_sequence->push_back(possible_moves[i]);     // adds this manoeuvre to the actual sequence
-            child_value = alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent);
+            child_value = std::max(child_value, alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));
             this->aiplane->revertMove(possible_moves[i], previous_move);
             
-            if(child_value > alpha){
+            if (beta <= child_value){
+                actual_sequence->pop_back();
+                delete possible_moves;
+                return child_value;
+            }
+            
+            if (child_value > alpha){
                 alpha = child_value;
-                if (beta <= alpha) {actual_sequence->pop_back();break;}    // don't add this sequence
-                
-                best_sequence->clear();
-                for(int i=0; i<actual_sequence->size(); i++){
-                    best_sequence->push_back((*actual_sequence)[i]);
-                }
+                alpha_has_grown=true;
+                best_next_move = possible_moves[i];
             }
             
             actual_sequence->pop_back();
         }
+        
+        if (alpha_has_grown && (depth == SEARCH_DEPTH-2)){ // the last MAX layer
+            best_sequence->clear();
+            for (int i=0; i<actual_sequence->size(); i++){
+                best_sequence->push_back((*actual_sequence)[i]);
+            }
+            best_sequence->push_back(best_next_move);
+        }
+        
     }
     else{       // OPPONENT PLAYER
         previous_move = this->opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->opponent,possible_moves);
+        int child_value = MAX_HEURISTIC;
         for (int i = 0; i < possible_moves_number; i++){
             this->opponent->move(possible_moves[i]);      // applies a move card
-            int child_value = alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent);
+            child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));
             this->opponent->revertMove(possible_moves[i], previous_move);
             
-            if(child_value < beta){
-                beta = child_value;
-                if (beta <= alpha) break;    // don't add this sequence
+            if (child_value <= alpha){
+                delete possible_moves;
+                return child_value;
             }
+            
+            beta = std::min(beta,child_value);
         }
     }
     
@@ -133,6 +149,7 @@ int WoWBrain::computeHeuristic(){
     this->aiplane->getPosition(tmp_pos);
     float y = tmp_pos[1];
     delete tmp_pos;
-    return (int) (y+0.5);
+    if (y>0) return -(int)(y+0.5);
+    return -(int)(y-0.5);
 }
 

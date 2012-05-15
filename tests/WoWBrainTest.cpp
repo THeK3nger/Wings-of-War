@@ -52,7 +52,7 @@ void WoWBrainTest::testComputeHeuristic() {
 }
 
 void WoWBrainTest::testGetAIPlane() {
-    CPPUNIT_ASSERT(false);
+    CPPUNIT_ASSERT(ai->getAIPlane()->getId() == 1);
 }
 
 void WoWBrainTest::testNextValidMoves() {
