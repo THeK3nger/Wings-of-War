@@ -12,6 +12,8 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <stdio.h>
+#include "Dialog.h"
+
 
 
 class SplashScreen{
@@ -42,6 +44,11 @@ private:
     sf::Sprite _background;
     sf::Sprite _fighter;
     
+    /*!
+     * Have I to display the fighter?
+     */
+    bool fighter_display;
+        
     /*!
      * BG Music
      */

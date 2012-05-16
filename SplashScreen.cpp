@@ -36,6 +36,7 @@ SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     _background.SetImage(image1);
     //Setting the fighter sprite
     _fighter.SetImage(image2);
+    fighter_display=true;
     
     //Setting the fighter position
     _fighter.SetPosition(250,385);
@@ -47,6 +48,7 @@ SplashScreen::SplashScreen(sf::RenderWindow  *refwindow) {
     //Setting the bgmusic volume
     _bgmusic.SetVolume(60.0f);
     //PLaying the bgmusic
+    _bgmusic.SetLoop(true);
     _bgmusic.Play();
     
 }
@@ -72,13 +74,17 @@ void SplashScreen::loop()
        _window->Draw(_background);
        
        //drawing the fighter
+       if(fighter_display)
+       {
        _window->Draw(_fighter);
-       
+       }
        //displaying on the window
        _window->Display();
        
     }
 }
+
+
 
 
     /*!
@@ -98,6 +104,7 @@ bool SplashScreen::handleEvents()
     sf::Event Event;
     if (_window->GetEvent(Event))
     {
+        //PRESSING KEY UP
         if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Up))
        {
         
@@ -116,7 +123,7 @@ bool SplashScreen::handleEvents()
              
         return 1; 
        }
-        
+        //PRESSING KEY DOWN
          if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Down))
        {
              if(FighterState==SplashScreen::StartGame) 
@@ -135,24 +142,32 @@ bool SplashScreen::handleEvents()
         return 1;
        }
         
-        
+        //PRESSING KEY ESCAPE
         if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape))
        {
           
          return 0;
        }
         
+        //PRESSING KEY ENTER
         if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Return))
        {
-            if(FighterState=SplashScreen::Option)
+            if(FighterState==SplashScreen::Option)
+            {
+                
+                Dialog myDialog(_window);
+                //TO DO:
+                //
+                //far sparire l'aereo quando si apre la dialog delle opzioni
+               
+                
+                
+            }
+            if(FighterState==SplashScreen::StartGame)
             {
                 //
             }
-            if(FighterState=SplashScreen::StartGame)
-            {
-                //
-            }
-         return 0;
+         return 1;
        }
     }
     
