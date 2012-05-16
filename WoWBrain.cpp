@@ -151,6 +151,14 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 int WoWBrain::computeHeuristic(){
     // TODO: Just an example....
+    if (this->aiplane->remainingHealth() <= 0) {
+        return -MAX_HEURISTIC;
+    }
+    
+    if (this->opponent->remainingHealth() <= 0) {
+        return MAX_HEURISTIC;
+    }
+    
     float aipos[3];
     float opponentpos[3];
     this->aiplane->getPosition(aipos);
