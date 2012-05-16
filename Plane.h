@@ -78,6 +78,13 @@ public:
     void inflictDamage(int amount);
     
     /*!
+     * Restores plane health
+     * 
+     * \param amount Amount of damage to heal
+     */
+    void heal_damage(int amount);
+    
+    /*!
      * Return the current Plane position and orientation.
      * 
      * \param outPosition Output array. Should be size 3 at least.

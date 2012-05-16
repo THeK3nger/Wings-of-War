@@ -102,6 +102,10 @@ void Plane::inflictDamage(int amount)
 {
     this->damage += amount;
 }
+
+void Plane::heal_damage(int amount){
+    this->damage -= amount;
+}
     
 void Plane::getPosition(float* outPosition)
 {

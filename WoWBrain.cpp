@@ -130,10 +130,29 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             return MAX_HEURISTIC;
         }
         int child_value = MAX_HEURISTIC;
+        bool ai_damaged = false;
+        bool opponent_damaged = false;
+        
         for (int i = 0; i < possible_moves_number; i++){
+            
             this->opponent->move(possible_moves[i]);      // applies a move card
-            child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));
-            this->opponent->revertMove(possible_moves[i], previous_move);
+            
+            if(aiplane->canShootTo(opponent)){  // if there are damages to be inflicted, inflict them
+                opponent_damaged = true;
+                opponent->inflictDamage(1);
+            }
+            if(opponent->canShootTo(aiplane)){
+                ai_damaged = true;
+                aiplane->inflictDamage(1);
+            }
+            
+            child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));    // recursive call on the child
+            
+            // now restore previous state
+            this->opponent->revertMove(possible_moves[i], previous_move);       // reverts the move
+            
+            if(opponent_damaged) opponent->heal_damage(1);     // restores the damages
+            if(ai_damaged) aiplane->heal_damage(1);
             
             if (child_value <= alpha){
                 delete possible_moves;
