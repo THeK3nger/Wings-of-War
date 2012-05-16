@@ -48,7 +48,13 @@ class World{
          * 
          * \return True if the plane is inside, False otherwise
          */
-        bool isInside(Plane * plane);
+        inline bool isInside(Plane* plane){
+            float pos[3];
+            plane->getPosition(pos);
+            if(pos[0] < 0 || pos[1] < 0) return false;
+            if(pos[0] > this->width || pos[1] > this->height) return false;
+            return true;
+        }
         
         /*! GETTER */
         float getHeight() const;
