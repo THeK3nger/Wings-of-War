@@ -2,37 +2,42 @@
  * File:   Dialog.cpp
  * Author: malcom
  * 
- * Created on May 16, 2012, 5:26 PM
+ * Created on May 16, 2012, 7:11 PM
  */
 
 #include "Dialog.h"
 
-Dialog::Dialog(sf::RenderWindow  *refwindow)
+Dialog::Dialog(sf::RenderWindow  *refwindow) 
 {
-    
-    //Storing the address of the mainwindow to the current window
     _window=refwindow;
     
-    WOW_Font.LoadFromFile("assets/pixelmix.ttf");
+    dialog_image.LoadFromFile("assets/option.png");
+    dialog_sprite.SetImage(dialog_image);
+    dialog_sprite.SetPosition(150,150);
     
-    this->Display();
-    
+    this->run();
 }
 
-Dialog::Display()
+void Dialog::run()
 {
-    while(1)
+    while(this->handleEvents()==1)
     {
-    sf::String Text = "I like donuts";
-    Text.SetStyle(sf::String::Regular);
-    Text.SetColor(sf::Color(128, 128, 0));
-    Text.Move(100.f, 200.f);
-    _window.Draw(Text);
+        _window->Draw(dialog_sprite);
+        _window->Display();
     }
 }
 
-
-
+bool Dialog::handleEvents()
+{
+    sf::Event Event;
+    _window->GetEvent(Event);
+    
+    if (Event.Type == sf::Event::KeyPressed)
+    {
+        return 0;
+    }
+    return 1;
+}
 
 Dialog::~Dialog() {
     

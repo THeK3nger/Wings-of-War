@@ -2,7 +2,7 @@
  * File:   Dialog.h
  * Author: malcom
  *
- * Created on May 16, 2012, 5:26 PM
+ * Created on May 16, 2012, 7:11 PM
  */
 
 #ifndef DIALOG_H
@@ -11,29 +11,26 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
+#include <string.h>
 #include <stdio.h>
+#include "Dialog.h"
 
 class Dialog {
+    
 public:
-    
     Dialog(sf::RenderWindow  *refwindow);
-    
     virtual ~Dialog();
     
-    sf::RenderWindow* _window;
-    
-    sf::Image image1;
-    sf::Sprite _dialog;
-    
-    int width,height;
-    
-    sf::Font WOW_Font;
+    void run();
+    bool handleEvents();
     
 private:
-
-   void Display();
-   
-   
+    
+    sf::Image dialog_image;
+    sf::Sprite dialog_sprite;
+    
+    sf::RenderWindow* _window;
+    sf::String Text;
 };
 
 #endif	/* DIALOG_H */
