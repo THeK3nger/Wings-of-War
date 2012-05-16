@@ -109,8 +109,6 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         possible_moves_number = this->nextValidMoves(this->aiplane,possible_moves);
         
         int child_value = -MAX_HEURISTIC;
-        bool alpha_has_grown = false;
-        Card * best_next_move;
         
         for (int i = 0; i < possible_moves_number; i++){
             this->aiplane->move(possible_moves[i]);      // applies a move card
@@ -124,11 +122,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
                 return child_value;
             }
             
-            if (child_value > alpha){
-                alpha = child_value;
-                alpha_has_grown=true;
-                best_next_move = possible_moves[i];
-            }
+            alpha = std::max(alpha, child_value);
             
             actual_sequence->pop_back();
         }
