@@ -46,22 +46,12 @@ void WoWBrain::setWeights(int* weights) {
 
 int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
     
-    int count = 0; // will count how many moves are valid
-    
     if (plane->remainingHealth() <= 0) {
         return 0;
     }
-    float* positionbuff = new float[3];
-    plane->getPosition(positionbuff);
-    if ((positionbuff[0] < 0) || (positionbuff[0] > current_world->getWidth())){
-        delete positionbuff;
-        return 0;
-    }
-    if ((positionbuff[1] < 0) || (positionbuff[1] > current_world->getHeight())){
-        delete positionbuff;
-        return 0;
-    }
-    delete positionbuff;
+    if(!this->current_world->isInside(plane)) return 0;
+    
+    int count = 0; // will count how many moves are valid
     
     for (int i = 0; i < plane->getCardSet()->cards_number ; i++){ // for every plane manoeuvre
         if (plane->moveIsValid(&(plane->getCardSet()->cards[i]))){  // if this move is valid
@@ -108,6 +98,11 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         previous_move = this->aiplane->getLastMove();
         possible_moves_number = this->nextValidMoves(this->aiplane,possible_moves);
         
+        if(possible_moves_number == 0){
+            delete possible_moves;
+            return -MAX_HEURISTIC;
+        }
+        
         int child_value = -MAX_HEURISTIC;
         
         for (int i = 0; i < possible_moves_number; i++){
@@ -130,6 +125,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
     else{       // OPPONENT PLAYER
         previous_move = this->opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->opponent,possible_moves);
+        if(possible_moves_number == 0){
+            delete possible_moves;
+            return MAX_HEURISTIC;
+        }
         int child_value = MAX_HEURISTIC;
         for (int i = 0; i < possible_moves_number; i++){
             this->opponent->move(possible_moves[i]);      // applies a move card
