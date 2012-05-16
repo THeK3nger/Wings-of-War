@@ -13,7 +13,7 @@
 #include "SFML/Audio.hpp"
 #include <stdio.h>
 #include "Dialog.h"
-
+#include "Field.h"
 
 
 class SplashScreen{
