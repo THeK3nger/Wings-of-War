@@ -150,7 +150,24 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 }
 
 int WoWBrain::computeHeuristic(){
-    // TODO: Just an example....
+    // How this heuristic works?
+    //
+    // Heuristic function H(s) is defined as
+    //
+    // H(s) = Score(AI,s) - Score(Opponent,s)
+    //
+    // where
+    //
+    // Score(X,s) = w1*ShotValue(X,s) + w2*RemainingLife(X,s)
+    //
+    // ShotValue is a function that can assume the following values:
+    //          * 0 if Plane X CANNOT see Y
+    //          * 1 if Plane X can see Y but CANNOT shoot it (out of range)
+    //          * 2 if Plane X can see and shoot on Y
+    //
+    // RamainingLife, instead, is just the amount of remaining life points
+    // of the Plane X.
+    //
     if (this->aiplane->remainingHealth() <= 0) {
         return -MAX_HEURISTIC;
     }
@@ -166,10 +183,10 @@ int WoWBrain::computeHeuristic(){
     
     // Compute Manhattan Distance
     // I don't use this for now. It's a tricky part...
-    int manhattan = (int) abs(aipos[0] - opponentpos[0]);
-    manhattan += (int) abs(aipos[1] - opponentpos[1]);
+    //int manhattan = (int) abs(aipos[0] - opponentpos[0]);
+    //manhattan += (int) abs(aipos[1] - opponentpos[1]);
     
-    // Compute Shot Value
+    // Compute ShotValue
     int aivalue = 0;
     int opponentvalue = 0;
     
