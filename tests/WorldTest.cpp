@@ -18,7 +18,7 @@ WorldTest::~WorldTest() {
 }
 
 void WorldTest::setUp() {
-    testworld = new World(100,100);
+    testworld = new World(100, 100);
 }
 
 void WorldTest::tearDown() {
@@ -26,8 +26,8 @@ void WorldTest::tearDown() {
 }
 
 void WorldTest::testGetPlaneById() {
-    Plane* plane1 = new Plane(100,10,1,1,0);
-    Plane* plane2 = new Plane(200,10,10,10,0);
+    Plane* plane1 = new Plane(100, 10, 1, 1, 0);
+    Plane* plane2 = new Plane(200, 10, 10, 10, 0);
     testworld->addPlane(plane1);
     testworld->addPlane(plane2);
     Plane* result = testworld->GetPlaneById(100);

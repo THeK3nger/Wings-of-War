@@ -37,7 +37,7 @@ void PlaneTest::testGetId() {
 }
 
 void PlaneTest::testGetLastMove() {
-    Card* test_move = new Card(Card::L_STEER,1,1,0);
+    Card* test_move = new Card(Card::L_STEER, 1, 1, 0);
     test_plane->move(test_move);
     Card::CType res_type = test_plane->getLastMove();
     CPPUNIT_ASSERT(res_type = Card::L_STEER);
@@ -63,14 +63,14 @@ void PlaneTest::testInflictDamage() {
 
 void PlaneTest::testMove() {
     float* position = new float[3];
-    
-    float rotation = -M_PI/4;
+
+    float rotation = -M_PI / 4;
     Card test_card(Card::R_STEER, 10, -2, rotation);
     test_plane->move(&test_card);
     test_plane->getPosition(position);
     CPPUNIT_ASSERT(position[0] == 10);
     CPPUNIT_ASSERT(position[1] == -2);
-    CPPUNIT_ASSERT(floorf(position[2] * 100 + 0.5)/100 == floorf(rotation * 100 + 0.5)/100);
+    CPPUNIT_ASSERT(floorf(position[2] * 100 + 0.5) / 100 == floorf(rotation * 100 + 0.5) / 100);
 }
 
 void PlaneTest::testMoveIsValid() {
@@ -83,7 +83,7 @@ void PlaneTest::testRemainingHealth() {
 
 void PlaneTest::testRevertMove() {
     float* position = new float[3];
-    Card test_card(Card::R_STEER, 10, -2, -M_PI/3);
+    Card test_card(Card::R_STEER, 10, -2, -M_PI / 3);
     test_plane->move(&test_card);
     test_plane->revertMove(&test_card, Card::STRAIGHT);
     test_plane->getPosition(position);

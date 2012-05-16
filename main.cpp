@@ -17,8 +17,8 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    
-    Game* gioco = new Game(600,800,32);
+
+    Game* gioco = new Game(600, 800, 32);
     gioco->init();
     /*
     Plane p1(1,15,0,0,0);
