@@ -65,10 +65,9 @@ void Game::run()
                         splashscreen->loop();
                         _gameState = Game::Exiting;
                         delete splashscreen;
+                        
                        
-                         
-                        
-                        
+                       
                     }
                 
                 

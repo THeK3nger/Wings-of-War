@@ -5,6 +5,7 @@
 #include "World.h"
 #include "WoWBrain.h"
 #include "SplashScreen.h"
+#include "Dialog.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
@@ -61,6 +62,7 @@ private:
     char name[100];
     
     SplashScreen* splashscreen;
+    Dialog* dialog;
     
     /*!
      * Possible states of the game
