@@ -7,7 +7,6 @@
       <itemPath>Card.h</itemPath>
       <itemPath>Game.h</itemPath>
       <itemPath>Plane.h</itemPath>
-      <itemPath>Screen.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
       <itemPath>WoWBrain.h</itemPath>
       <itemPath>World.h</itemPath>
@@ -20,9 +19,12 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Card.cpp</itemPath>
+      <itemPath>Console.cpp</itemPath>
+      <itemPath>Console.h</itemPath>
+      <itemPath>Dialog.cpp</itemPath>
+      <itemPath>Dialog.h</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
-      <itemPath>Screen.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
       <itemPath>World.cpp</itemPath>
@@ -77,6 +79,9 @@
         <compilerSet>default</compilerSet>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <warningLevel>0</warningLevel>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerOptionItem>-lsfml-audio</linkerOptionItem>

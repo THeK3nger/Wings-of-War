@@ -34,11 +34,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Screen.o \
+	${OBJECTDIR}/Dialog.o \
 	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Plane.o \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/WoWBrain.o
@@ -77,45 +78,50 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/Screen.o: Screen.cpp 
+${OBJECTDIR}/Dialog.o: Dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Screen.o Screen.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog.o Dialog.cpp
 
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
 
 ${OBJECTDIR}/Plane.o: Plane.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane.o Plane.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane.o Plane.cpp
 
 ${OBJECTDIR}/Card.o: Card.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card.o Card.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card.o Card.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/Console.o: Console.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
 
 ${OBJECTDIR}/SplashScreen.o: SplashScreen.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
 
 ${OBJECTDIR}/Game.o: Game.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
 
 ${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
+	$(COMPILE.cc) -g -w -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 
 # Subprojects
 .build-subprojects:
@@ -142,62 +148,62 @@ ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/WoWBrainTest.o ${TESTDIR}/tests/WoWBra
 ${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTest.o tests/CardTest.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTest.o tests/CardTest.cpp
 
 
 ${TESTDIR}/tests/CardTestRunner.o: tests/CardTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
 
 
 ${TESTDIR}/tests/PlaneTest.o: tests/PlaneTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTest.o tests/PlaneTest.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTest.o tests/PlaneTest.cpp
 
 
 ${TESTDIR}/tests/PlaneTestRunner.o: tests/PlaneTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
 
 
 ${TESTDIR}/tests/WorldTest.o: tests/WorldTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
 
 
 ${TESTDIR}/tests/WorldTestRunner.o: tests/WorldTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
 
 
 ${TESTDIR}/tests/WoWBrainTest.o: tests/WoWBrainTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTest.o tests/WoWBrainTest.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTest.o tests/WoWBrainTest.cpp
 
 
 ${TESTDIR}/tests/WoWBrainTestRunner.o: tests/WoWBrainTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
 
 
-${OBJECTDIR}/Screen_nomain.o: ${OBJECTDIR}/Screen.o Screen.cpp 
+${OBJECTDIR}/Dialog_nomain.o: ${OBJECTDIR}/Dialog.o Dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/Screen.o`; \
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Dialog.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Screen_nomain.o Screen.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog_nomain.o Dialog.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/Screen.o ${OBJECTDIR}/Screen_nomain.o;\
+	    ${CP} ${OBJECTDIR}/Dialog.o ${OBJECTDIR}/Dialog_nomain.o;\
 	fi
 
 ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
@@ -208,7 +214,7 @@ ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/World.o ${OBJECTDIR}/World_nomain.o;\
 	fi
@@ -221,7 +227,7 @@ ${OBJECTDIR}/Plane_nomain.o: ${OBJECTDIR}/Plane.o Plane.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane_nomain.o Plane.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane_nomain.o Plane.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Plane.o ${OBJECTDIR}/Plane_nomain.o;\
 	fi
@@ -234,7 +240,7 @@ ${OBJECTDIR}/Card_nomain.o: ${OBJECTDIR}/Card.o Card.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card_nomain.o Card.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card_nomain.o Card.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Card.o ${OBJECTDIR}/Card_nomain.o;\
 	fi
@@ -247,9 +253,22 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/Console_nomain.o: ${OBJECTDIR}/Console.o Console.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Console.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console_nomain.o Console.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Console.o ${OBJECTDIR}/Console_nomain.o;\
 	fi
 
 ${OBJECTDIR}/SplashScreen_nomain.o: ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp 
@@ -260,7 +279,7 @@ ${OBJECTDIR}/SplashScreen_nomain.o: ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen_nomain.o SplashScreen.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen_nomain.o SplashScreen.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SplashScreen.o ${OBJECTDIR}/SplashScreen_nomain.o;\
 	fi
@@ -273,7 +292,7 @@ ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
 	fi
@@ -286,7 +305,7 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain_nomain.o WoWBrain.cpp;\
+	    $(COMPILE.cc) -g -w -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain_nomain.o WoWBrain.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/WoWBrain.o ${OBJECTDIR}/WoWBrain_nomain.o;\
 	fi
