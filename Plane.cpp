@@ -1,5 +1,9 @@
 #include "Plane.h"
 
+
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+
 /*!
  * Projects the input angle in the [-π, π] interval
  */
@@ -32,6 +36,10 @@ Plane::Plane(int id, int health, float x, float y, float theta) {
     this->damage = 0;
     this->lastmove = Card::STRAIGHT;
 
+    plane_image.LoadFromFile("assets/fighter.png");
+    plane_sprite.SetImage(plane_image);
+    
+    
     //    for (int i=0; i<cards.size(); i++){
     //        this->cards.push_back(cards[i]);
     //    }
