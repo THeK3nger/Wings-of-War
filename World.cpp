@@ -36,13 +36,3 @@ float World::getWidth() const {
 std::vector<Plane*> * World::getPlanes(){
     return &this->planes;
 }
-
-bool World::isInside(Plane* plane){
-    float pos[3];
-    plane->getPosition(pos);
-    if(pos[0] < 0) return false;
-    if(pos[1] < 0) return false;
-    if(pos[0] > this->width) return false;
-    if(pos[1] > this->height) return false;
-    return true;
-}
