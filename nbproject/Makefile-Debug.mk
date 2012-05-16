@@ -52,6 +52,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f1 \
+	${TESTDIR}/TestFiles/f5 \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f4
@@ -144,6 +145,10 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/CardTest.o ${TESTDIR}/tests/CardTestRu
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} -lcppunit -lcppunit -lcppunit 
 
+${TESTDIR}/TestFiles/f5: ${TESTDIR}/_ext/1206081719/GameLoggerTest.o ${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f5 $^ ${LDLIBSOPTIONS} 
+
 ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/PlaneTest.o ${TESTDIR}/tests/PlaneTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} -lcppunit 
@@ -167,6 +172,18 @@ ${TESTDIR}/tests/CardTestRunner.o: tests/CardTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -g -w -I. -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
+
+
+${TESTDIR}/_ext/1206081719/GameLoggerTest.o: ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTest.cpp 
+	${MKDIR} -p ${TESTDIR}/_ext/1206081719
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/_ext/1206081719/GameLoggerTest.o ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTest.cpp
+
+
+${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o: ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTestRuner.cpp 
+	${MKDIR} -p ${TESTDIR}/_ext/1206081719
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTestRuner.cpp
 
 
 ${TESTDIR}/tests/PlaneTest.o: tests/PlaneTest.cpp 
@@ -353,6 +370,7 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 	@if [ "${TEST}" = "" ]; \
 	then  \
 	    ${TESTDIR}/TestFiles/f1 || true; \
+	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \

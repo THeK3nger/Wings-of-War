@@ -2,6 +2,7 @@
 #define	GAMELOGGER_H
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 /*!
@@ -13,8 +14,14 @@ public:
     GameLogger(std::string filename);
     GameLogger(const GameLogger& orig);
     virtual ~GameLogger();
+    
+    void toLog(std::string message);
+    
 private:
-    FILE* _pFile;
+    bool _onfile;
+    std::ofstream _file;
+    
+    static std::string currentTime();
     
 
 };
