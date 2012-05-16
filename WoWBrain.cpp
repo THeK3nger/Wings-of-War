@@ -139,11 +139,11 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             
             if(aiplane->canShootTo(opponent)){  // if there are damages to be inflicted, inflict them
                 opponent_damaged = true;
-                opponent->inflictDamage(1);
+                opponent->inflictDamage(this->expectedDamage());
             }
             if(opponent->canShootTo(aiplane)){
                 ai_damaged = true;
-                aiplane->inflictDamage(1);
+                aiplane->inflictDamage(this->expectedDamage());
             }
             
             child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));    // recursive call on the child
@@ -151,8 +151,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             // now restore previous state
             this->opponent->revertMove(possible_moves[i], previous_move);       // reverts the move
             
-            if(opponent_damaged) opponent->heal_damage(1);     // restores the damages
-            if(ai_damaged) aiplane->heal_damage(1);
+            if(opponent_damaged) opponent->heal_damage(this->expectedDamage());     // restores the damages
+            if(ai_damaged) aiplane->heal_damage(this->expectedDamage());
             
             if (child_value <= alpha){
                 delete possible_moves;
@@ -227,3 +227,6 @@ int WoWBrain::computeHeuristic(){
     return aiscore - opponentscore;
 }
 
+int WoWBrain::expectedDamage(){
+    return 1;
+}
