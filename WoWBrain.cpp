@@ -46,22 +46,12 @@ void WoWBrain::setWeights(int* weights) {
 
 int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
     
-    int count = 0; // will count how many moves are valid
-    
     if (plane->remainingHealth() <= 0) {
         return 0;
     }
-    float* positionbuff = new float[3];
-    plane->getPosition(positionbuff);
-    if ((positionbuff[0] < 0) || (positionbuff[0] > current_world->getWidth())){
-        delete positionbuff;
-        return 0;
-    }
-    if ((positionbuff[1] < 0) || (positionbuff[1] > current_world->getHeight())){
-        delete positionbuff;
-        return 0;
-    }
-    delete positionbuff;
+    if(!this->current_world->isInside(plane)) return 0;
+    
+    int count = 0; // will count how many moves are valid
     
     for (int i = 0; i < plane->getCardSet()->cards_number ; i++){ // for every plane manoeuvre
         if (plane->moveIsValid(&(plane->getCardSet()->cards[i]))){  // if this move is valid
@@ -108,6 +98,11 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         previous_move = this->aiplane->getLastMove();
         possible_moves_number = this->nextValidMoves(this->aiplane,possible_moves);
         
+        if(possible_moves_number == 0){
+            delete possible_moves;
+            return -MAX_HEURISTIC;
+        }
+        
         int child_value = -MAX_HEURISTIC;
         
         for (int i = 0; i < possible_moves_number; i++){
@@ -130,11 +125,34 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
     else{       // OPPONENT PLAYER
         previous_move = this->opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->opponent,possible_moves);
+        if(possible_moves_number == 0){
+            delete possible_moves;
+            return MAX_HEURISTIC;
+        }
         int child_value = MAX_HEURISTIC;
+        bool ai_damaged = false;
+        bool opponent_damaged = false;
+        
         for (int i = 0; i < possible_moves_number; i++){
+            
             this->opponent->move(possible_moves[i]);      // applies a move card
-            child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));
-            this->opponent->revertMove(possible_moves[i], previous_move);
+            
+            if(aiplane->canShootTo(opponent)){  // if there are damages to be inflicted, inflict them
+                opponent_damaged = true;
+                opponent->inflictDamage(this->expectedDamage());
+            }
+            if(opponent->canShootTo(aiplane)){
+                ai_damaged = true;
+                aiplane->inflictDamage(this->expectedDamage());
+            }
+            
+            child_value = std::min(child_value,alphaBetaPruningStep(depth+1,!maximizing,alpha,beta,actual_sequence,best_sequence,opponent));    // recursive call on the child
+            
+            // now restore previous state
+            this->opponent->revertMove(possible_moves[i], previous_move);       // reverts the move
+            
+            if(opponent_damaged) opponent->heal_damage(this->expectedDamage());     // restores the damages
+            if(ai_damaged) aiplane->heal_damage(this->expectedDamage());
             
             if (child_value <= alpha){
                 delete possible_moves;
@@ -150,7 +168,32 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 }
 
 int WoWBrain::computeHeuristic(){
-    // TODO: Just an example....
+    // How this heuristic works?
+    //
+    // Heuristic function H(s) is defined as
+    //
+    // H(s) = Score(AI,s) - Score(Opponent,s)
+    //
+    // where
+    //
+    // Score(X,s) = w1*ShotValue(X,s) + w2*RemainingLife(X,s)
+    //
+    // ShotValue is a function that can assume the following values:
+    //          * 0 if Plane X CANNOT see Y
+    //          * 1 if Plane X can see Y but CANNOT shoot it (out of range)
+    //          * 2 if Plane X can see and shoot on Y
+    //
+    // RamainingLife, instead, is just the amount of remaining life points
+    // of the Plane X.
+    //
+    if (this->aiplane->remainingHealth() <= 0) {
+        return -MAX_HEURISTIC;
+    }
+    
+    if (this->opponent->remainingHealth() <= 0) {
+        return MAX_HEURISTIC;
+    }
+    
     float aipos[3];
     float opponentpos[3];
     this->aiplane->getPosition(aipos);
@@ -158,10 +201,10 @@ int WoWBrain::computeHeuristic(){
     
     // Compute Manhattan Distance
     // I don't use this for now. It's a tricky part...
-    int manhattan = (int) abs(aipos[0] - opponentpos[0]);
-    manhattan += (int) abs(aipos[1] - opponentpos[1]);
+    //int manhattan = (int) abs(aipos[0] - opponentpos[0]);
+    //manhattan += (int) abs(aipos[1] - opponentpos[1]);
     
-    // Compute Shot Value
+    // Compute ShotValue
     int aivalue = 0;
     int opponentvalue = 0;
     
@@ -184,3 +227,6 @@ int WoWBrain::computeHeuristic(){
     return aiscore - opponentscore;
 }
 
+int WoWBrain::expectedDamage(){
+    return 1;
+}
