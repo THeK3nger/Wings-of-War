@@ -4,6 +4,9 @@
 #include "Card.h"
 #include <math.h>
 #include <vector>
+#include "SFML/Window.hpp"
+#include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 
 #define SHOOTING_RADIUS 10
 #define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
@@ -24,6 +27,9 @@ public:
     Plane(int id, int health, float x, float y, float theta);
     virtual ~Plane();
 
+    sf::Image plane_image;
+    sf::Sprite plane_sprite;
+    
     // I added the following method to avoid having a huge Plane constructor
     /*!
      * Assigns the given cards set to this Plane
@@ -91,6 +97,7 @@ public:
      */
     void getPosition(float* outPosition);
 
+    
     /*!
      * Return type of the last used move.
      * 
@@ -141,6 +148,9 @@ private:
     //         characterization. The alternative is to put it in the
     //         "WoWBrain" Class
     CardSet* cardset;
+    
+ 
+    
 };
 
 #endif	/* PLANE_H */
