@@ -55,6 +55,8 @@ public:
      */
     int computeHeuristic();
     
+    void setWeights(int* weights);
+    
 private:
     
     /*!
@@ -66,6 +68,7 @@ private:
     World *current_world;
     Plane *aiplane;
     Plane *opponent;
+    int* weights;
     
 };
 

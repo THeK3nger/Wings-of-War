@@ -19,8 +19,8 @@ WoWBrainTest::~WoWBrainTest() {
 
 void WoWBrainTest::setUp() {
     // Create Plane
-    Plane* aiplane = new Plane(1,10,0,0,0);
-    Plane* enemy   = new Plane(2,10,0,0,0);
+    Plane* aiplane = new Plane(1,15,0,20,0);
+    Plane* enemy   = new Plane(2,15,0,0,0);
     
     // Create world
     World* world = new World(300,300);
@@ -48,7 +48,8 @@ void WoWBrainTest::tearDown() {
 }
 
 void WoWBrainTest::testComputeHeuristic() {
-    CPPUNIT_ASSERT(false);
+    int score = ai->computeHeuristic();
+    std::cout << std::endl << "Score is: " << score << std::endl;
 }
 
 void WoWBrainTest::testGetAIPlane() {
@@ -69,4 +70,6 @@ void WoWBrainTest::testReturnBestCards() {
     aiplane->move(result[0]);
     CPPUNIT_ASSERT(aiplane->getLastMove() == Card::L_STEER);
 }
+
+
 

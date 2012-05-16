@@ -4,6 +4,7 @@
  * 
  * Created on May 7, 2012, 6:46 PM
  */
+#include <stdlib.h>
 
 #include "WoWBrain.h"
 #include "Plane.h"
@@ -19,6 +20,10 @@ WoWBrain::WoWBrain(Plane* plane, World * world) {
             break;
         }
     }
+    this->weights = new int[3];
+    this->weights[0] = 1;       // Distance
+    this->weights[1] = 10;      // CanShoot? CanSee?
+    this->weights[2] = 5;       // HitPoint
 }
 
 WoWBrain::WoWBrain(const WoWBrain& orig) {
@@ -26,10 +31,17 @@ WoWBrain::WoWBrain(const WoWBrain& orig) {
 
 WoWBrain::~WoWBrain() {
     delete current_world;
+    delete weights;
 }
 
 Plane* WoWBrain::getAIPlane() {
     return this->aiplane;
+}
+
+void WoWBrain::setWeights(int* weights) {
+    this->weights[0] = weights[0];        // Distance
+    this->weights[1] = weights[1];        // CanShoot? CanSee?
+    this->weights[2] = weights[2];        // HitPoint
 }
 
 int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) {   // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
@@ -145,14 +157,36 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 int WoWBrain::computeHeuristic(){
     // TODO: Just an example....
-    float* tmp_pos = new float[3];
-    this->aiplane->getPosition(tmp_pos);
-    float x = tmp_pos[0];
-    float y = tmp_pos[1];
-    delete tmp_pos;
-//    y = y-10;
-//    if (y>0) y=-y;
-//    int heur = (int) (x+0.5) - (int)(y+0.5);
-    return (int)y;
+    float aipos[3];
+    float opponentpos[3];
+    this->aiplane->getPosition(aipos);
+    this->opponent->getPosition(opponentpos);
+    
+    // Compute Manhattan Distance
+    // I don't use this for now. It's a tricky part...
+    int manhattan = (int) abs(aipos[0] - opponentpos[0]);
+    manhattan += (int) abs(aipos[1] - opponentpos[1]);
+    
+    // Compute Shot Value
+    int aivalue = 0;
+    int opponentvalue = 0;
+    
+    if (aiplane->canSee(opponent)) {
+        aivalue++;
+    }
+    if (opponent->canSee(aiplane)) {
+        opponentvalue++;
+    }
+    if (aiplane->canShootTo(opponent)) {
+        aivalue++;
+    }
+    if (opponent->canShootTo(aiplane)) {
+        opponentvalue++;
+    }
+    
+    int aiscore = weights[1]*aivalue + weights[2]*(aiplane->remainingHealth());
+    int opponentscore = weights[1]*opponentvalue + weights[2]*(opponent->remainingHealth());
+
+    return aiscore - opponentscore;
 }
 
