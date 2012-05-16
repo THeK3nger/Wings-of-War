@@ -54,7 +54,6 @@ TESTFILES= \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
-	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war \
 	${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war
 
 # C Compiler Flags
@@ -145,10 +144,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/CardTe
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/_ext/1206081719/GameLoggerTest.o ${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o ${OBJECTFILES:%.o=%_nomain.o}
-	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
-
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war: ${TESTDIR}/tests/PlaneTest.o ${TESTDIR}/tests/PlaneTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc}   -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war $^ ${LDLIBSOPTIONS} 
@@ -172,18 +167,6 @@ ${TESTDIR}/tests/CardTestRunner.o: tests/CardTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
-
-
-${TESTDIR}/_ext/1206081719/GameLoggerTest.o: ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTest.cpp 
-	${MKDIR} -p ${TESTDIR}/_ext/1206081719
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/_ext/1206081719/GameLoggerTest.o ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTest.cpp
-
-
-${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o: ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTestRuner.cpp 
-	${MKDIR} -p ${TESTDIR}/_ext/1206081719
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${TESTDIR}/_ext/1206081719/GameLoggerTestRuner.o ../../../../Dropbox/Documents/Code/Giochi/wings-of-war/tests/GameLoggerTestRuner.cpp
 
 
 ${TESTDIR}/tests/PlaneTest.o: tests/PlaneTest.cpp 
@@ -369,7 +352,6 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
 	then  \
-	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
 	    ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war || true; \
