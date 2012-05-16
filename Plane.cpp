@@ -31,6 +31,7 @@ Plane::Plane(int id, int health, float x, float y, float theta){
     this->posy = y;
     this->theta = theta;
     this->damage = 0;
+    this->lastmove = Card::STRAIGHT;
     
 //    for (int i=0; i<cards.size(); i++){
 //        this->cards.push_back(cards[i]);
@@ -101,6 +102,10 @@ void Plane::inflictDamage(int amount)
 {
     this->damage += amount;
 }
+
+void Plane::heal_damage(int amount){
+    this->damage -= amount;
+}
     
 void Plane::getPosition(float* outPosition)
 {
@@ -120,6 +125,15 @@ int Plane::getId(){
 
 bool Plane::moveIsValid(Card * card)
 {
+    // A little experiment: we have 3 cards. They are STRAIGHT, LEFT and RIGHT
+    // I'm now forcing a STRAIGHT after each LEFT or RIGHT
+    if(card->getCardType() == Card::STRAIGHT) return true;
+    if((card->getCardType() == Card::L_STEER) || (card->getCardType() == Card::R_STEER)){
+        if(this->lastmove == Card::STRAIGHT) return true;
+    }
+    return false;
+            
+    
     // TODO -- will have to adequate the output to the last movement
     // namely:  "normal" manoveurs are always available, except if the last one was an "himmelmann"
     //          "himmelmann" is possible only if last manoveur was "straight"

@@ -43,6 +43,13 @@ class World{
          */
         void addPlane(Plane* plane);
         
+        /*!
+         * Tells whether the given plane is inside the boundaries or not
+         * 
+         * \return True if the plane is inside, False otherwise
+         */
+        bool isInside(Plane * plane);
+        
         /*! GETTER */
         float getHeight() const;
         float getWidth() const; 
