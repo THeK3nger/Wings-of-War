@@ -15,6 +15,14 @@ Dialog::Dialog(sf::RenderWindow  *refwindow)
     dialog_sprite.SetImage(dialog_image);
     dialog_sprite.SetPosition(150,150);
     
+    Font.LoadFromFile("assets/pixelmix.ttf");
+    Text.SetText("Hello, Maverick");
+    Text.SetFont(Font);
+    Text.SetSize(30);
+    Text.SetColor(sf::Color(255, 255, 255));
+    Text.SetRotation(0.f);
+    Text.Move(250.f, 200.f);
+    
     this->run();
 }
 
@@ -23,6 +31,7 @@ void Dialog::run()
     while(this->handleEvents()==1)
     {
         _window->Draw(dialog_sprite);
+        _window->Draw(Text);
         _window->Display();
     }
 }

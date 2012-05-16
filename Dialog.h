@@ -30,6 +30,7 @@ private:
     sf::Sprite dialog_sprite;
     
     sf::RenderWindow* _window;
+    sf::Font Font;
     sf::String Text;
 };
 
