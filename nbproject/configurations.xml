@@ -5,7 +5,11 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Card.h</itemPath>
+      <itemPath>Console.h</itemPath>
+      <itemPath>Dialog.h</itemPath>
+      <itemPath>Field.h</itemPath>
       <itemPath>Game.h</itemPath>
+      <itemPath>GameLogger.h</itemPath>
       <itemPath>Plane.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
       <itemPath>WoWBrain.h</itemPath>
@@ -20,12 +24,10 @@
                    projectFiles="true">
       <itemPath>Card.cpp</itemPath>
       <itemPath>Console.cpp</itemPath>
-      <itemPath>Console.h</itemPath>
       <itemPath>Dialog.cpp</itemPath>
-      <itemPath>Dialog.h</itemPath>
       <itemPath>Field.cpp</itemPath>
-      <itemPath>Field.h</itemPath>
       <itemPath>Game.cpp</itemPath>
+      <itemPath>GameLogger.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
