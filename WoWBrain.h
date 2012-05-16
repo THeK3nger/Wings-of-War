@@ -65,6 +65,12 @@ private:
      */
     int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent);
     
+    /*!
+     * Returns the expected value for the damage due to a shot
+     * TODO: maybe this will take as input a "DamageSet", or better a Plane. IDEA: store the expected value for each in the constructor, so that it is ready when needed
+     */
+    int expectedDamage();
+    
     World *current_world;
     Plane *aiplane;
     Plane *opponent;
