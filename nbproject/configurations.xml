@@ -23,6 +23,8 @@
       <itemPath>Console.h</itemPath>
       <itemPath>Dialog.cpp</itemPath>
       <itemPath>Dialog.h</itemPath>
+      <itemPath>Field.cpp</itemPath>
+      <itemPath>Field.h</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Plane.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>

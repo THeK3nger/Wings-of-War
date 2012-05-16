@@ -42,6 +42,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Console.o \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Field.o \
 	${OBJECTDIR}/WoWBrain.o
 
 # Test Directory
@@ -117,6 +118,11 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/Field.o: Field.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field.o Field.cpp
 
 ${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -295,6 +301,19 @@ ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
+	fi
+
+${OBJECTDIR}/Field_nomain.o: ${OBJECTDIR}/Field.o Field.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Field.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field_nomain.o Field.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Field.o ${OBJECTDIR}/Field_nomain.o;\
 	fi
 
 ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp 
