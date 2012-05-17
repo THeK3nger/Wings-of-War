@@ -135,15 +135,6 @@ int Plane::getId() {
 }
 
 bool Plane::moveIsValid(Card * card) {
-    // A little experiment: we have 3 cards. They are STRAIGHT, LEFT and RIGHT
-    // I'm now forcing a STRAIGHT after each LEFT or RIGHT
-    if (card->getCardType() == Card::STRAIGHT) return true;
-    if ((card->getCardType() == Card::L_STEER) || (card->getCardType() == Card::R_STEER)) {
-        if (this->lastmove == Card::STRAIGHT) return true;
-    }
-    return false;
-
-
     // TODO -- will have to adequate the output to the last movement
     // namely:  "normal" manoveurs are always available, except if the last one was an "himmelmann"
     //          "himmelmann" is possible only if last manoveur was "straight"
