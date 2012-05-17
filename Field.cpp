@@ -46,12 +46,12 @@ void Field::loop() {
 
         printf("X: %f Y: %f THETA: %f \n", pos[0], pos[1], pos[2]);
 
-        plane1->plane_sprite.SetPosition(pos[0] + _xdisplacement, pos[1] + _ydisplacement);
-        plane1->plane_sprite.SetRotation(-pos[2]*180 / M_PI - 90);
+        plane1->plane_sprite.SetPosition(pos[0] + _xdisplacement, this->_window->GetHeight() - pos[1] + _ydisplacement);
+        plane1->plane_sprite.SetRotation(pos[2]*180 / M_PI - 90);
 
         plane2->getPosition(pos);
-        plane2->plane_sprite.SetPosition(pos[0], pos[1]);
-        plane2->plane_sprite.SetRotation(pos[2]);
+        plane2->plane_sprite.SetPosition(pos[0] + _xdisplacement, this->_window->GetHeight() - pos[1] + _ydisplacement);
+        plane2->plane_sprite.SetRotation(pos[2]*180 / M_PI - 90);
 
 
         _window->Draw(field_sprite);
