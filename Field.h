@@ -36,6 +36,13 @@ private:
     States CurrentState;
     
     sf::RenderWindow* _window;
+    
+    bool _mouse_down;
+    
+    int _xstart;
+    int _ystart;
+    int _xdisplacement;
+    int _ydisplacement;
 };
 
 #endif	/* FIELD_H */
