@@ -19,7 +19,7 @@
  */
 class Game {
 public:
-    
+
     /*!
      * Costructor for the class Game.
      * Basically here we define all the parameters to instantiate a window 
@@ -28,31 +28,31 @@ public:
      * \param int   d=depth
      * \param char* n=name
      */
-    
+
     Game(int h, int w, int d);
-    
+
     /*!
      * Destructor
      */
     virtual ~Game();
-    
-    
+
+
     /*!
      * Game initialization routine != from the alloc/init of the constructor
      */
     void init();
-    
-   
-    
+
+
+
     /*!
      * Private side
      */
-    
-    
+
+
 private:
     World* world;
     WoWBrain* ai;
-    
+
     /*!
      * Window height*width*color_depth + name
      */
@@ -60,38 +60,40 @@ private:
     int width;
     int depth;
     char name[100];
-    
+
     SplashScreen* splashscreen;
     Dialog* dialog;
-    
+
     /*!
      * Possible states of the game
      */
-    enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
-    
+    enum GameState {
+        Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting
+    };
+
     /*!
      * Actual state of the game
      */
- 
-     GameState _gameState;
-    
+
+    GameState _gameState;
+
     /*!
      * Render window
      */
-     sf::RenderWindow _mainWindow;
-     
-      /*!
+    sf::RenderWindow _mainWindow;
+
+    /*!
      * Game exit routine
      */
     void exit();
-    
+
     /*!
      * Main loop for the game
      */
     void run();
-    
-    
-     /*!
+
+
+    /*!
      * Events polling routine
      */
     void CheckForEvents();
