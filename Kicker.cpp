@@ -35,17 +35,14 @@ int Kicker::run()
     message.SetSize(20);
     detail.SetSize(20);
     
-    sf::Shape Polygon;
-    Polygon.AddPoint(0, 540,  sf::Color(0, 0, 0,200),     sf::Color(255, 255, 255,100));
-    Polygon.AddPoint(800, 540,   sf::Color(0, 0, 0,200),   sf::Color(255, 0, 0,10));
-    Polygon.AddPoint(800, 600,  sf::Color(0, 0, 0,200), sf::Color(255, 0, 0,10));
-    Polygon.AddPoint(0, 600,  sf::Color(0, 0, 0,200), sf::Color(255, 0, 0,10));
-    Polygon.EnableFill(true);
-    _window->Draw(Polygon);
+    sf::Shape Rect   = sf::Shape::Rectangle(0, 540, 800, 600, sf::Color(255,0,0,10));
+    
+    _window->Draw(Rect);
     _window->Draw(message);
     _window->Draw(detail);
     
     _window->Display();
+    
     }
     
     return Event.Key.Code;
