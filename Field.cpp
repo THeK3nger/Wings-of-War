@@ -74,11 +74,13 @@ void Field::loop()
             title.SetPosition(200.0f,200.0f);
             message.SetPosition(200.0f,250.0f);
             
-            Dialog* CardDialog = new Dialog(_window,title,message);
+            //Dialog* CardDialog = new Dialog(_window,title,message);
+            Kicker* kicker= new Kicker(_window);
             int tastoPremuto;
-            tastoPremuto=CardDialog->run();
+            tastoPremuto=kicker->run();
       
            printf("Tasto premuto %d \n",tastoPremuto); //49 = 1, 50 = 2, 51=3
+           
            if(tastoPremuto==49)
            plane1->move(&(plane1->getCardSet()->cards[0]));
            

@@ -13,6 +13,7 @@
 #include "WoWBrain.h"
 #include "World.h"
 #include "math.h"
+#include "Kicker.h"
 
 class Field {
 public:

@@ -13,7 +13,7 @@
 #include "SFML/Audio.hpp"
 #include <string.h>
 #include <stdio.h>
-#include "Dialog.h"
+
 
 class Dialog {
     

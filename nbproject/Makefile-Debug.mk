@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/GameLogger.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Kicker.o \
 	${OBJECTDIR}/Field.o \
 	${OBJECTDIR}/WoWBrain.o
 
@@ -74,7 +75,7 @@ LDLIBSOPTIONS=-lsfml-audio -lsfml-window -lsfml-graphics -lsfml-system
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/wings-of-war
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f5
 
 ${TESTDIR}/TestFiles/f5: ${OBJECTFILES}
 	${MKDIR} -p ${TESTDIR}/TestFiles
@@ -125,10 +126,15 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
 
+${OBJECTDIR}/Kicker.o: Kicker.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker.o Kicker.cpp
+
 ${OBJECTDIR}/Field.o: Field.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.	cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field.o Field.cpp
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field.o Field.cpp
 
 ${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -320,6 +326,19 @@ ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp
 	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
+	fi
+
+${OBJECTDIR}/Kicker_nomain.o: ${OBJECTDIR}/Kicker.o Kicker.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Kicker.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker_nomain.o Kicker.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Kicker.o ${OBJECTDIR}/Kicker_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Field_nomain.o: ${OBJECTDIR}/Field.o Field.cpp 

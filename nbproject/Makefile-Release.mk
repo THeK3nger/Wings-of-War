@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/GameLogger.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Kicker.o \
 	${OBJECTDIR}/Field.o \
 	${OBJECTDIR}/WoWBrain.o
 
@@ -124,6 +125,11 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/Kicker.o: Kicker.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker.o Kicker.cpp
 
 ${OBJECTDIR}/Field.o: Field.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -320,6 +326,19 @@ ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
+	fi
+
+${OBJECTDIR}/Kicker_nomain.o: ${OBJECTDIR}/Kicker.o Kicker.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/Kicker.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker_nomain.o Kicker.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/Kicker.o ${OBJECTDIR}/Kicker_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Field_nomain.o: ${OBJECTDIR}/Field.o Field.cpp 
