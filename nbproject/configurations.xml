@@ -10,17 +10,21 @@
         <itemPath>WoWBrain.h</itemPath>
         <itemPath>World.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f2" displayName="Utility" projectFiles="true">
+        <itemPath>CardSetLoader.h</itemPath>
+        <itemPath>GameLogger.h</itemPath>
+      </logicalFolder>
       <itemPath>Console.h</itemPath>
       <itemPath>Dialog.h</itemPath>
       <itemPath>Field.h</itemPath>
       <itemPath>Game.h</itemPath>
-      <itemPath>GameLogger.h</itemPath>
       <itemPath>Kicker.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>../../../../Dropbox/Documents/Code/Giochi/wings-of-war/assets/cardset/3card.xml</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -31,11 +35,14 @@
         <itemPath>WoWBrain.cpp</itemPath>
         <itemPath>World.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f2" displayName="Utility" projectFiles="true">
+        <itemPath>CardSetLoader.cpp</itemPath>
+        <itemPath>GameLogger.cpp</itemPath>
+      </logicalFolder>
       <itemPath>Console.cpp</itemPath>
       <itemPath>Dialog.cpp</itemPath>
       <itemPath>Field.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
-      <itemPath>GameLogger.cpp</itemPath>
       <itemPath>Kicker.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>main.cpp</itemPath>

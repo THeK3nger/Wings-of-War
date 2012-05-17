@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Console.o \
+	${OBJECTDIR}/CardSetLoader.o \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/GameLogger.o \
 	${OBJECTDIR}/Game.o \
@@ -110,6 +111,11 @@ ${OBJECTDIR}/Console.o: Console.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
+
+${OBJECTDIR}/CardSetLoader.o: CardSetLoader.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp
 
 ${OBJECTDIR}/SplashScreen.o: SplashScreen.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -287,6 +293,19 @@ ${OBJECTDIR}/Console_nomain.o: ${OBJECTDIR}/Console.o Console.cpp
 	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console_nomain.o Console.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Console.o ${OBJECTDIR}/Console_nomain.o;\
+	fi
+
+${OBJECTDIR}/CardSetLoader_nomain.o: ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/CardSetLoader.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader_nomain.o CardSetLoader.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/CardSetLoader.o ${OBJECTDIR}/CardSetLoader_nomain.o;\
 	fi
 
 ${OBJECTDIR}/SplashScreen_nomain.o: ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp 
