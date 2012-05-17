@@ -28,6 +28,8 @@
       <itemPath>Field.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>GameLogger.cpp</itemPath>
+      <itemPath>Kicker.cpp</itemPath>
+      <itemPath>Kicker.h</itemPath>
       <itemPath>Plane.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
