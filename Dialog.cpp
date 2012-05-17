@@ -7,7 +7,7 @@
 
 #include "Dialog.h"
 
-Dialog::Dialog(sf::RenderWindow  *refwindow) 
+Dialog::Dialog(sf::RenderWindow  *refwindow,sf::String rTitle,sf::String rMessage) 
 {
     _window=refwindow;
     
@@ -15,38 +15,37 @@ Dialog::Dialog(sf::RenderWindow  *refwindow)
     dialog_sprite.SetImage(dialog_image);
     dialog_sprite.SetPosition(150,150);
     
+    
     Font.LoadFromFile("assets/pixelmix.ttf");
-    Text.SetText("Hello, Maverick");
-    Text.SetFont(Font);
-    Text.SetSize(30);
-    Text.SetColor(sf::Color(255, 255, 255));
-    Text.SetRotation(0.f);
-    Text.Move(250.f, 200.f);
+    
+    Title=rTitle;
+    Message=rMessage;
+    
+    Title.SetFont(Font);
+    
+    Message.SetFont(Font);    
     
     this->run();
 }
 
-void Dialog::run()
-{
-    while(this->handleEvents()==1)
-    {
-        _window->Draw(dialog_sprite);
-        _window->Draw(Text);
-        _window->Display();
-    }
-}
-
-bool Dialog::handleEvents()
+int Dialog::run()
 {
     sf::Event Event;
     _window->GetEvent(Event);
     
-    if (Event.Type == sf::Event::KeyPressed)
+    while(Event.Type!=sf::Event::KeyPressed)
     {
-        return 0;
+        _window->Draw(dialog_sprite);
+        _window->Draw(Title);
+         _window->Draw(Message);
+        _window->Display();
+        _window->GetEvent(Event);
     }
-    return 1;
+    
+    return Event.Key.Code;
+    
 }
+
 
 Dialog::~Dialog() {
     

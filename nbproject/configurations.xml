@@ -83,10 +83,19 @@
         <compilerSet>default</compilerSet>
       </toolsSet>
       <compileType>
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
         <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
           <warningLevel>0</warningLevel>
         </ccTool>
         <linkerTool>
+          <output>${TESTDIR}/TestFiles/f5</output>
           <linkerLibItems>
             <linkerOptionItem>-lsfml-audio</linkerOptionItem>
             <linkerOptionItem>-lsfml-window</linkerOptionItem>
@@ -171,21 +180,6 @@
           <linkerLibItems>
             <linkerOptionItem>`pkg-config --libs cppunit`</linkerOptionItem>
           </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f5">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f5</output>
         </linkerTool>
       </folder>
     </conf>

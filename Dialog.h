@@ -18,11 +18,12 @@
 class Dialog {
     
 public:
-    Dialog(sf::RenderWindow  *refwindow);
+    Dialog(sf::RenderWindow  *refwindow,sf::String rTitle,sf::String rMessage);
     virtual ~Dialog();
     
-    void run();
-    bool handleEvents();
+    int run();
+
+
     
 private:
     
@@ -31,7 +32,8 @@ private:
     
     sf::RenderWindow* _window;
     sf::Font Font;
-    sf::String Text;
+    sf::String Title;
+    sf::String Message;
 };
 
 #endif	/* DIALOG_H */

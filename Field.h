@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include "Dialog.h"
 #include "Plane.h"
+#include "WoWBrain.h"
+#include "World.h"
+#include "math.h"
 
 class Field {
 public:
@@ -22,9 +25,15 @@ private:
     Plane* plane1;
     Plane* plane2;
     
+    WoWBrain* theBrain;
+    World* theWorld;
+    
     sf::Image field_image;
     sf::Sprite field_sprite;
     
+    enum States{playerSelect,brainSelect,move,init};
+    
+    States CurrentState;
     
     sf::RenderWindow* _window;
 };

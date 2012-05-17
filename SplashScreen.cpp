@@ -154,8 +154,10 @@ bool SplashScreen::handleEvents()
        {
             if(FighterState==SplashScreen::Option)
             {
-                
-                Dialog myDialog(_window);
+                sf::String Titolo; Titolo.SetText("Bello le opzioni vero?");
+                sf::String sottoTitolo; sottoTitolo.SetText("");
+                Dialog myDialog(_window,Titolo,sottoTitolo);
+                myDialog.run();
                 //TO DO:
                 //
                 //far sparire l'aereo quando si apre la dialog delle opzioni
