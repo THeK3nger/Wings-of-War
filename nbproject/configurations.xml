@@ -18,9 +18,6 @@
       <itemPath>Dialog.h</itemPath>
       <itemPath>Field.h</itemPath>
       <itemPath>Game.h</itemPath>
-      <itemPath>GameLogger.h</itemPath>
-      <itemPath>Kicker.h</itemPath>
-      <itemPath>Plane.h</itemPath>
       <itemPath>Kicker.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
     </logicalFolder>
@@ -47,7 +44,6 @@
       <itemPath>Field.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
       <itemPath>Kicker.cpp</itemPath>
-      <itemPath>Plane.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -118,6 +114,7 @@
             <linkerOptionItem>-lsfml-window</linkerOptionItem>
             <linkerOptionItem>-lsfml-graphics</linkerOptionItem>
             <linkerOptionItem>-lsfml-system</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs xerces-c`</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
