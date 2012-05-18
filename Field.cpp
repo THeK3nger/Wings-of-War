@@ -45,7 +45,8 @@ void Field::loop() {
         plane1->getPosition(pos);
 
         printf("X: %f Y: %f THETA: %f \n", pos[0], pos[1], pos[2]);
-
+        
+        // TODO: not "this->_window->GetHeight()", but world->height
         plane1->plane_sprite.SetPosition(pos[0] + _xdisplacement, this->_window->GetHeight() - pos[1] + _ydisplacement);
         plane1->plane_sprite.SetRotation(pos[2]*180 / M_PI - 90);
 
