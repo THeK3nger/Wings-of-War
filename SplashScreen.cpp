@@ -81,6 +81,10 @@ void SplashScreen::loop()
        //displaying on the window
        _window->Display();
        
+       
+      
+                
+                
     }
 }
 
@@ -155,14 +159,24 @@ bool SplashScreen::handleEvents()
             if(FighterState==SplashScreen::Option)
             {
                 sf::String Titolo; Titolo.SetText("Bello le opzioni vero?");
+                Titolo.SetPosition(180,180);
                 sf::String sottoTitolo; sottoTitolo.SetText("");
                 Dialog myDialog(_window,Titolo,sottoTitolo);
-                myDialog.run();
-                //TO DO:
-                //
-                //far sparire l'aereo quando si apre la dialog delle opzioni
-               
                 
+                
+                sf::PostFX Effect;
+                Effect.LoadFromFile("shaders/blur.sfx");
+                Effect.SetTexture("framebuffer", NULL);
+                Effect.SetParameter("offset", 0.008f);
+                
+                _window->Clear();
+                _window->Draw(_background);
+                _window->Draw(Effect);
+                _window->Display();
+
+                
+                
+                myDialog.run();
                 
             }
             if(FighterState==SplashScreen::StartGame)
