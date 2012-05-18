@@ -34,8 +34,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Dialog.o \
+	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/Plane.o \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
@@ -82,15 +82,15 @@ ${TESTDIR}/TestFiles/f5: ${OBJECTFILES}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f5 ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/World.o: World.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
-
 ${OBJECTDIR}/Dialog.o: Dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog.o Dialog.cpp
+
+${OBJECTDIR}/World.o: World.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
 
 ${OBJECTDIR}/Plane.o: Plane.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -217,19 +217,6 @@ ${TESTDIR}/tests/WoWBrainTestRunner.o: tests/WoWBrainTestRunner.cpp
 	$(COMPILE.cc) -g -w -I. -I. -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
 
 
-${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/World.o`; \
-	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
-	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
-	then  \
-	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
-	else  \
-	    ${CP} ${OBJECTDIR}/World.o ${OBJECTDIR}/World_nomain.o;\
-	fi
-
 ${OBJECTDIR}/Dialog_nomain.o: ${OBJECTDIR}/Dialog.o Dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/Dialog.o`; \
@@ -241,6 +228,19 @@ ${OBJECTDIR}/Dialog_nomain.o: ${OBJECTDIR}/Dialog.o Dialog.cpp
 	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog_nomain.o Dialog.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Dialog.o ${OBJECTDIR}/Dialog_nomain.o;\
+	fi
+
+${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/World.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -w -I. -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/World.o ${OBJECTDIR}/World_nomain.o;\
 	fi
 
 ${OBJECTDIR}/Plane_nomain.o: ${OBJECTDIR}/Plane.o Plane.cpp 

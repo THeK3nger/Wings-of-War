@@ -15,7 +15,7 @@ Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessa
 
     Title.SetFont(Font);
     Message.SetFont(Font);
-    this->run();
+    
 }
 
 int Dialog::run() {
