@@ -10,6 +10,7 @@
       <itemPath>Field.h</itemPath>
       <itemPath>Game.h</itemPath>
       <itemPath>GameLogger.h</itemPath>
+      <itemPath>Kicker.h</itemPath>
       <itemPath>Plane.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
       <itemPath>WoWBrain.h</itemPath>
@@ -29,7 +30,6 @@
       <itemPath>Game.cpp</itemPath>
       <itemPath>GameLogger.cpp</itemPath>
       <itemPath>Kicker.cpp</itemPath>
-      <itemPath>Kicker.h</itemPath>
       <itemPath>Plane.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
       <itemPath>WoWBrain.cpp</itemPath>
