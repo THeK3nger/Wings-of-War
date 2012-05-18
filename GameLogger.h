@@ -14,15 +14,15 @@ public:
     GameLogger(std::string filename);
     GameLogger(const GameLogger& orig);
     virtual ~GameLogger();
-    
+
     void toLog(std::string message);
-    
+
 private:
     bool _onfile;
     std::ofstream _file;
-    
+
     static std::string currentTime();
-    
+
 
 };
 

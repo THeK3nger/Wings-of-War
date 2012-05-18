@@ -1,10 +1,3 @@
-/* 
- * File:   Kicker.h
- * Author: malcom
- *
- * Created on May 17, 2012, 5:26 PM
- */
-
 #ifndef KICKER_H
 #define	KICKER_H
 
@@ -14,14 +7,13 @@
 #include <string.h>
 #include <stdio.h>
 
-
 class Kicker {
 public:
-    Kicker(sf::RenderWindow  *refwindow);
+    Kicker(sf::RenderWindow *refwindow);
     virtual ~Kicker();
     int run();
 private:
-    
+
     sf::RenderWindow* _window;
 
 };

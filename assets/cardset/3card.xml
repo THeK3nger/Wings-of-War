@@ -1,0 +1,15 @@
+<!-- Just an example of Card-Set file! -->
+<cardset name="Test Set" size="3">
+    <card>
+        <type>L_STEER</type>
+        <movement x="0" y="0" theta="0.785398163"/>
+    </card>
+    <card>
+        <type>R_STEER</type>
+        <movement x="0" y="0" theta="-0.785398163"/>
+    </card>
+    <card>
+        <type>L_STEER</type>
+        <movement x="10" y="0" theta="0"/>
+    </card>
+</cardset>

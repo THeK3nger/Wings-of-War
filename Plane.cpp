@@ -38,20 +38,20 @@ Plane::Plane(int id, int health, float x, float y, float theta) {
 
     plane_image.LoadFromFile("assets/fighter.png");
     plane_sprite.SetImage(plane_image);
-    
-    this->cardset=new CardSet;
-    this->cardset->cards_number=3;
-    this->cardset->cards= new Card[3];
-    
+
+    this->cardset = new CardSet;
+    this->cardset->cards_number = 3;
+    this->cardset->cards = new Card[3];
+
     this->cardset->cards[0].setType(Card::L_STEER);
-    this->cardset->cards[0].setMovement(0,0,M_PI/4);
-    
+    this->cardset->cards[0].setMovement(0, 0, M_PI / 4);
+
     this->cardset->cards[1].setType(Card::STRAIGHT);
-    this->cardset->cards[1].setMovement(15,0,0);
-    
+    this->cardset->cards[1].setMovement(15, 0, 0);
+
     this->cardset->cards[2].setType(Card::R_STEER);
-    this->cardset->cards[2].setMovement(0,0,-M_PI/4);
-    
+    this->cardset->cards[2].setMovement(0, 0, -M_PI / 4);
+
     //    for (int i=0; i<cards.size(); i++){
     //        this->cards.push_back(cards[i]);
     //    }

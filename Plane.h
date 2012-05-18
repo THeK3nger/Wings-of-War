@@ -29,7 +29,7 @@ public:
 
     sf::Image plane_image;
     sf::Sprite plane_sprite;
-    
+
     // I added the following method to avoid having a huge Plane constructor
     /*!
      * Assigns the given cards set to this Plane
@@ -97,7 +97,7 @@ public:
      */
     void getPosition(float* outPosition);
 
-    
+
     /*!
      * Return type of the last used move.
      * 
@@ -148,9 +148,9 @@ private:
     //         characterization. The alternative is to put it in the
     //         "WoWBrain" Class
     CardSet* cardset;
-    
- 
-    
+
+
+
 };
 
 #endif	/* PLANE_H */
