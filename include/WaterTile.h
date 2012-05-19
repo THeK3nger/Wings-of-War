@@ -35,8 +35,9 @@ private:
     
     sf::IntRect frame1;
     sf::IntRect frame2;
+    sf::IntRect frame3;
     
-    enum FrameState{one,two};
+    enum FrameState{one,two,three};
     FrameState currentFrame;
     
     sf::Clock Clock;

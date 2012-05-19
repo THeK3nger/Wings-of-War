@@ -82,7 +82,7 @@ void Field::loop() {
 //            }
         //END INPUT HANDLING
         
-        if (acc>=0.03) //MAX FRAMERATE
+        if (acc>=0.01) //MAX FRAMERATE
         {
             
             //Dimensione della sprite del field
@@ -125,10 +125,11 @@ void Field::loop() {
             _window->Clear(sf::Color(255,255,255));
 
 
-            //_window->Draw(field_sprite);
+            
 
 
             water->update(0);
+            sf::Vector2f waterSize = water->getSprite().GetSize();
             
             //DIRTY TEST
             for(int i=0;i<30;i++)
@@ -136,11 +137,12 @@ void Field::loop() {
                 for(int j=0;j<25;j++)
                 {
                     
-                    water->setPos(i*15*2,j*15*2);
+                    water->setPos(i*waterSize.x,j*waterSize.y);
                     _window->Draw(water->getSprite());
                 }
             }
             
+             //OMBRE
              sf::Sprite planeshadow=plane1->plane_sprite;
              planeshadow.SetColor(sf::Color(0,0,0,128));
                      
@@ -157,7 +159,7 @@ void Field::loop() {
              planeshadow.SetPosition(shadowpos);
              planeshadow.SetRotation(pos2[2]*180 / M_PI - 90);
              _window->Draw(planeshadow);
-             
+             //FINE OMBRE
               
               
             _window->Draw(plane1->plane_sprite);

@@ -17,11 +17,12 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) {
     timer=10;
     acc=0;
     
-    _spritesheet.LoadFromFile("assets/watertile.png");
+    _spritesheet.LoadFromFile("assets/watertile2.png");
     _sprite.SetImage(_spritesheet);
     
-    frame1=sf::IntRect(16,16,31,31);
-    frame2=sf::IntRect(48,16,63,31);
+    frame1=sf::IntRect(16,144,48,176);
+    frame2=sf::IntRect(74,144,106,176);
+    frame3=sf::IntRect(122,144,164,176);
     
     currentFrame=WaterTile::one;
            
@@ -42,14 +43,21 @@ void WaterTile::update(int instant)
             {
                 currentFrame=WaterTile::two;
                 _sprite.SetSubRect(frame2);
-                //printf("FRAME 2!\n");
+                printf("frame 1\n");
             }
 
             else if(currentFrame==WaterTile::two)
             {
+                currentFrame=WaterTile::three;
+                _sprite.SetSubRect(frame3);
+                 printf("frame 2\n");
+            }
+            
+            else if(currentFrame==WaterTile::three)
+            {
                 currentFrame=WaterTile::one;
                 _sprite.SetSubRect(frame1);
-                //printf("FRAME 1!\n");
+                 printf("frame 3\n");
             }
 
             _sprite.SetScale(1.0f,1.0f);

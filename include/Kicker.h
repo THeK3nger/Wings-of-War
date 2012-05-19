@@ -11,11 +11,15 @@ class Kicker {
 public:
     Kicker(sf::RenderWindow *refwindow);
     virtual ~Kicker();
+    //experimental
     int run(); //bloccante
     void display(); //non bloccante
 private:
 
     sf::RenderWindow* _window;
+    
+    sf::Image iCats;
+    sf::Sprite sCats;
 
 };
 
