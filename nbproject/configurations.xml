@@ -28,8 +28,6 @@
           </df>
         </df>
         <df name="shaders">
-          <in>blur.sfx</in>
-          <in>colorize.sfx</in>
         </df>
       </df>
       <df name="cmake_modules">
@@ -72,6 +70,8 @@
       <in>Plane.h</in>
       <in>SplashScreen.cpp</in>
       <in>SplashScreen.h</in>
+      <in>WaterTile.cpp</in>
+      <in>WaterTile.h</in>
       <in>WoWBrain.cpp</in>
       <in>WoWBrain.h</in>
       <in>World.cpp</in>
