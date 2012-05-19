@@ -11,7 +11,8 @@ class Kicker {
 public:
     Kicker(sf::RenderWindow *refwindow);
     virtual ~Kicker();
-    int run();
+    int run(); //bloccante
+    void display(); //non bloccante
 private:
 
     sf::RenderWindow* _window;
