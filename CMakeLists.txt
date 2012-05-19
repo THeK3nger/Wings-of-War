@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(wingsofwar)
 
-file(GLOB WOWSOURCES *.cpp)
-
+file(GLOB WOWSOURCES src/*.cpp)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 1.6 COMPONENTS system window graphics network audio REQUIRED)
@@ -11,6 +10,7 @@ find_package(TinyXML REQUIRED)
 
 include_directories(${SFML_INCLUDE_DIR})
 include_directories(${TINYXML_INCLUDE_DIR})
+include_directories("${CMAKE_SOURCE_DIR}/include")
 
 set(CMAKE_CXX_FLAG "-g -Wall")
 
