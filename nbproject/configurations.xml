@@ -7,61 +7,48 @@
         </df>
       </df>
       <df name="build">
-        <df name="Debug">
-          <df name="GNU-Linux-x86">
-            <df name="tests">
-              <df name="TestFiles">
+        <df name="_CPack_Packages">
+          <df name="Linux">
+            <df name="STGZ">
+              <df name="wingsofwar-0.5.1-Linux">
+              </df>
+            </df>
+            <df name="TGZ">
+              <df name="wingsofwar-0.5.1-Linux">
+              </df>
+            </df>
+            <df name="TZ">
+              <df name="wingsofwar-0.5.1-Linux">
               </df>
             </df>
           </df>
         </df>
-      </df>
-      <df name="cmake_modules">
-      </df>
-      <df name="CMakeFiles">
-        <df name="CMakeTmp">
-          <df name="CMakeFiles">
-            <df name="cmTryCompileExec.dir">
+        <df name="assets">
+          <df name="cardset">
+          </df>
+        </df>
+        <df name="CMakeFiles">
+          <df name="CMakeTmp">
+            <df name="CMakeFiles">
+              <df name="cmTryCompileExec.dir">
+              </df>
+            </df>
+          </df>
+          <df name="CompilerIdC">
+            <in>CMakeCCompilerId.c</in>
+          </df>
+          <df name="CompilerIdCXX">
+            <in>CMakeCXXCompilerId.cpp</in>
+          </df>
+          <df name="wingsofwar.dir">
+            <df name="src">
             </df>
           </df>
         </df>
-        <df name="CompilerIdC">
-          <in>CMakeCCompilerId.c</in>
-          <in>a.out</in>
+        <df name="shaders">
         </df>
-        <df name="CompilerIdCXX">
-          <in>CMakeCXXCompilerId.cpp</in>
-          <in>a.out</in>
-        </df>
-        <df name="wingsofwar.dir">
-          <df name="src">
-          </df>
-          <in>DependInfo.cmake</in>
-          <in>build.make</in>
-          <in>cmake_clean.cmake</in>
-          <in>depend.make</in>
-          <in>flags.make</in>
-          <in>link.txt</in>
-          <in>progress.make</in>
-        </df>
-        <in>CMakeCCompiler.cmake</in>
-        <in>CMakeCXXCompiler.cmake</in>
-        <in>CMakeDetermineCompilerABI_C.bin</in>
-        <in>CMakeDetermineCompilerABI_CXX.bin</in>
-        <in>CMakeDirectoryInformation.cmake</in>
-        <in>CMakeOutput.log</in>
-        <in>CMakeSystem.cmake</in>
-        <in>Makefile.cmake</in>
-        <in>Makefile2</in>
-        <in>TargetDirectories.txt</in>
-        <in>cmake.check_cache</in>
-        <in>progress.marks</in>
       </df>
-      <df name="dist">
-        <df name="Debug">
-          <df name="GNU-Linux-x86">
-          </df>
-        </df>
+      <df name="cmake_modules">
       </df>
       <df name="include">
         <in>BattleField.h</in>
@@ -146,6 +133,46 @@
           </ccTool>
         </makeTool>
       </makefileType>
+      <item path="build/_CPack_Packages/Linux/STGZ/wingsofwar-0.5.1-Linux.sh"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="src/Field.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>../../../../../Documents/Code/Giochi/wings-of-war/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/Game.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>../../../../../Documents/Code/Giochi/wings-of-war/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/SplashScreen.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>../../../../../Documents/Code/Giochi/wings-of-war/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/WaterTile.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="src/main.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>../../../../../Documents/Code/Giochi/wings-of-war/include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
       <item path="tests/CardTest.cpp" ex="true" tool="1" flavor="0">
       </item>
       <item path="tests/CardTest.h" ex="true" tool="3" flavor="0">
