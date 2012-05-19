@@ -20,6 +20,7 @@
       <itemPath>Game.h</itemPath>
       <itemPath>Kicker.h</itemPath>
       <itemPath>SplashScreen.h</itemPath>
+      <itemPath>WaterTile.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -45,6 +46,7 @@
       <itemPath>Game.cpp</itemPath>
       <itemPath>Kicker.cpp</itemPath>
       <itemPath>SplashScreen.cpp</itemPath>
+      <itemPath>WaterTile.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -104,6 +106,7 @@
         <ccTool>
           <incDir>
             <pElem>.</pElem>
+            <pElem>/usr/include</pElem>
           </incDir>
           <warningLevel>0</warningLevel>
         </ccTool>
@@ -115,6 +118,7 @@
             <linkerOptionItem>-lsfml-graphics</linkerOptionItem>
             <linkerOptionItem>-lsfml-system</linkerOptionItem>
             <linkerOptionItem>`pkg-config --libs xerces-c`</linkerOptionItem>
+            <linkerLibFileItem>/usr/lib/libtinyxml.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

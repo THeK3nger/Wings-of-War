@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Console.o \
+	${OBJECTDIR}/WaterTile.o \
 	${OBJECTDIR}/CardSetLoader.o \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/GameLogger.o \
@@ -111,6 +112,11 @@ ${OBJECTDIR}/Console.o: Console.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
+
+${OBJECTDIR}/WaterTile.o: WaterTile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/WaterTile.o WaterTile.cpp
 
 ${OBJECTDIR}/CardSetLoader.o: CardSetLoader.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -293,6 +299,19 @@ ${OBJECTDIR}/Console_nomain.o: ${OBJECTDIR}/Console.o Console.cpp
 	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console_nomain.o Console.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Console.o ${OBJECTDIR}/Console_nomain.o;\
+	fi
+
+${OBJECTDIR}/WaterTile_nomain.o: ${OBJECTDIR}/WaterTile.o WaterTile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/WaterTile.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -O2 -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WaterTile_nomain.o WaterTile.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/WaterTile.o ${OBJECTDIR}/WaterTile_nomain.o;\
 	fi
 
 ${OBJECTDIR}/CardSetLoader_nomain.o: ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp 

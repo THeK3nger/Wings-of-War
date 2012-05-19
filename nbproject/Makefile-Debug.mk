@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Card.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Console.o \
+	${OBJECTDIR}/WaterTile.o \
 	${OBJECTDIR}/CardSetLoader.o \
 	${OBJECTDIR}/SplashScreen.o \
 	${OBJECTDIR}/GameLogger.o \
@@ -72,11 +73,13 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lsfml-audio -lsfml-window -lsfml-graphics -lsfml-system `pkg-config --libs xerces-c`  
+LDLIBSOPTIONS=-lsfml-audio -lsfml-window -lsfml-graphics -lsfml-system `pkg-config --libs xerces-c` /usr/lib/libtinyxml.a  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${TESTDIR}/TestFiles/f5
+
+${TESTDIR}/TestFiles/f5: /usr/lib/libtinyxml.a
 
 ${TESTDIR}/TestFiles/f5: ${OBJECTFILES}
 	${MKDIR} -p ${TESTDIR}/TestFiles
@@ -85,67 +88,72 @@ ${TESTDIR}/TestFiles/f5: ${OBJECTFILES}
 ${OBJECTDIR}/Dialog.o: Dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog.o Dialog.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog.o Dialog.cpp
 
 ${OBJECTDIR}/World.o: World.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/World.o World.cpp
 
 ${OBJECTDIR}/Plane.o: Plane.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane.o Plane.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane.o Plane.cpp
 
 ${OBJECTDIR}/Card.o: Card.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card.o Card.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card.o Card.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/Console.o: Console.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console.o Console.cpp
+
+${OBJECTDIR}/WaterTile.o: WaterTile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/WaterTile.o WaterTile.cpp
 
 ${OBJECTDIR}/CardSetLoader.o: CardSetLoader.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp
 
 ${OBJECTDIR}/SplashScreen.o: SplashScreen.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
 
 ${OBJECTDIR}/GameLogger.o: GameLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/GameLogger.o GameLogger.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/GameLogger.o GameLogger.cpp
 
 ${OBJECTDIR}/Game.o: Game.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game.o Game.cpp
 
 ${OBJECTDIR}/Kicker.o: Kicker.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker.o Kicker.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker.o Kicker.cpp
 
 ${OBJECTDIR}/Field.o: Field.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field.o Field.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field.o Field.cpp
 
 ${OBJECTDIR}/WoWBrain.o: WoWBrain.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
+	$(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 
 # Subprojects
 .build-subprojects:
@@ -172,49 +180,49 @@ ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/WoWBrainTest.o ${TESTDIR}/tests/WoWBra
 ${TESTDIR}/tests/CardTest.o: tests/CardTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTest.o tests/CardTest.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTest.o tests/CardTest.cpp
 
 
 ${TESTDIR}/tests/CardTestRunner.o: tests/CardTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/CardTestRunner.o tests/CardTestRunner.cpp
 
 
 ${TESTDIR}/tests/PlaneTest.o: tests/PlaneTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTest.o tests/PlaneTest.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTest.o tests/PlaneTest.cpp
 
 
 ${TESTDIR}/tests/PlaneTestRunner.o: tests/PlaneTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/PlaneTestRunner.o tests/PlaneTestRunner.cpp
 
 
 ${TESTDIR}/tests/WorldTest.o: tests/WorldTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTest.o tests/WorldTest.cpp
 
 
 ${TESTDIR}/tests/WorldTestRunner.o: tests/WorldTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WorldTestRunner.o tests/WorldTestRunner.cpp
 
 
 ${TESTDIR}/tests/WoWBrainTest.o: tests/WoWBrainTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTest.o tests/WoWBrainTest.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTest.o tests/WoWBrainTest.cpp
 
 
 ${TESTDIR}/tests/WoWBrainTestRunner.o: tests/WoWBrainTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} $@.d
-	$(COMPILE.cc) -g -w -I. -I. `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
+	$(COMPILE.cc) -g -w -I. -I. -I/usr/include `pkg-config --cflags xerces-c`    -MMD -MP -MF $@.d -o ${TESTDIR}/tests/WoWBrainTestRunner.o tests/WoWBrainTestRunner.cpp
 
 
 ${OBJECTDIR}/Dialog_nomain.o: ${OBJECTDIR}/Dialog.o Dialog.cpp 
@@ -225,7 +233,7 @@ ${OBJECTDIR}/Dialog_nomain.o: ${OBJECTDIR}/Dialog.o Dialog.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog_nomain.o Dialog.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Dialog_nomain.o Dialog.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Dialog.o ${OBJECTDIR}/Dialog_nomain.o;\
 	fi
@@ -238,7 +246,7 @@ ${OBJECTDIR}/World_nomain.o: ${OBJECTDIR}/World.o World.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/World_nomain.o World.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/World.o ${OBJECTDIR}/World_nomain.o;\
 	fi
@@ -251,7 +259,7 @@ ${OBJECTDIR}/Plane_nomain.o: ${OBJECTDIR}/Plane.o Plane.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane_nomain.o Plane.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Plane_nomain.o Plane.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Plane.o ${OBJECTDIR}/Plane_nomain.o;\
 	fi
@@ -264,7 +272,7 @@ ${OBJECTDIR}/Card_nomain.o: ${OBJECTDIR}/Card.o Card.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card_nomain.o Card.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Card_nomain.o Card.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Card.o ${OBJECTDIR}/Card_nomain.o;\
 	fi
@@ -277,7 +285,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
 	fi
@@ -290,9 +298,22 @@ ${OBJECTDIR}/Console_nomain.o: ${OBJECTDIR}/Console.o Console.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console_nomain.o Console.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Console_nomain.o Console.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Console.o ${OBJECTDIR}/Console_nomain.o;\
+	fi
+
+${OBJECTDIR}/WaterTile_nomain.o: ${OBJECTDIR}/WaterTile.o WaterTile.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/WaterTile.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} $@.d;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WaterTile_nomain.o WaterTile.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/WaterTile.o ${OBJECTDIR}/WaterTile_nomain.o;\
 	fi
 
 ${OBJECTDIR}/CardSetLoader_nomain.o: ${OBJECTDIR}/CardSetLoader.o CardSetLoader.cpp 
@@ -303,7 +324,7 @@ ${OBJECTDIR}/CardSetLoader_nomain.o: ${OBJECTDIR}/CardSetLoader.o CardSetLoader.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader_nomain.o CardSetLoader.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/CardSetLoader_nomain.o CardSetLoader.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/CardSetLoader.o ${OBJECTDIR}/CardSetLoader_nomain.o;\
 	fi
@@ -316,7 +337,7 @@ ${OBJECTDIR}/SplashScreen_nomain.o: ${OBJECTDIR}/SplashScreen.o SplashScreen.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen_nomain.o SplashScreen.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/SplashScreen_nomain.o SplashScreen.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SplashScreen.o ${OBJECTDIR}/SplashScreen_nomain.o;\
 	fi
@@ -329,7 +350,7 @@ ${OBJECTDIR}/GameLogger_nomain.o: ${OBJECTDIR}/GameLogger.o GameLogger.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/GameLogger_nomain.o GameLogger.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/GameLogger_nomain.o GameLogger.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/GameLogger.o ${OBJECTDIR}/GameLogger_nomain.o;\
 	fi
@@ -342,7 +363,7 @@ ${OBJECTDIR}/Game_nomain.o: ${OBJECTDIR}/Game.o Game.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Game_nomain.o Game.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Game.o ${OBJECTDIR}/Game_nomain.o;\
 	fi
@@ -355,7 +376,7 @@ ${OBJECTDIR}/Kicker_nomain.o: ${OBJECTDIR}/Kicker.o Kicker.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker_nomain.o Kicker.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Kicker_nomain.o Kicker.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Kicker.o ${OBJECTDIR}/Kicker_nomain.o;\
 	fi
@@ -368,7 +389,7 @@ ${OBJECTDIR}/Field_nomain.o: ${OBJECTDIR}/Field.o Field.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field_nomain.o Field.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/Field_nomain.o Field.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Field.o ${OBJECTDIR}/Field_nomain.o;\
 	fi
@@ -381,7 +402,7 @@ ${OBJECTDIR}/WoWBrain_nomain.o: ${OBJECTDIR}/WoWBrain.o WoWBrain.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} $@.d;\
-	    $(COMPILE.cc) -g -w -I. `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain_nomain.o WoWBrain.cpp;\
+	    $(COMPILE.cc) -g -w -I. -I/usr/include `pkg-config --cflags xerces-c`    -Dmain=__nomain -MMD -MP -MF $@.d -o ${OBJECTDIR}/WoWBrain_nomain.o WoWBrain.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/WoWBrain.o ${OBJECTDIR}/WoWBrain_nomain.o;\
 	fi
