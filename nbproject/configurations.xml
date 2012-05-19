@@ -12,6 +12,12 @@
           </df>
         </df>
         <df name="CMakeFiles">
+          <df name="CMakeTmp">
+            <df name="CMakeFiles">
+              <df name="cmTryCompileExec.dir">
+              </df>
+            </df>
+          </df>
           <df name="CompilerIdC">
             <in>CMakeCCompilerId.c</in>
           </df>
@@ -20,6 +26,10 @@
           </df>
           <df name="wingsofwar.dir">
           </df>
+        </df>
+        <df name="shaders">
+          <in>blur.sfx</in>
+          <in>colorize.sfx</in>
         </df>
       </df>
       <df name="cmake_modules">
