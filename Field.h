@@ -12,13 +12,15 @@
 #include "World.h"
 #include "math.h"
 #include "Kicker.h"
+#include <stdlib.h>
+#include "WaterTile.h"
 
 class Field {
 public:
     Field(sf::RenderWindow *refwindow);
     ~Field();
     void loop();
-    bool handleEvents();
+    int handleEvents();
 private:
 
     Plane* plane1;
@@ -39,11 +41,19 @@ private:
     sf::RenderWindow* _window;
 
     bool _mouse_down;
-
+    
+    //conto quante righe/colonne di sprite di field mi servono
+    //per "riempire" il world
+    int field_rows;
+    int field_cols;
+    
+    float _globalscale;
     int _xstart;
     int _ystart;
     int _xdisplacement;
     int _ydisplacement;
+    
+    WaterTile* water;
 };
 
 #endif	/* FIELD_H */
