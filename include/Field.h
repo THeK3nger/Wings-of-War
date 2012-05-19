@@ -32,7 +32,7 @@ private:
     sf::Image field_image;
     sf::Sprite field_sprite;
     sf::Clock theClock;
-    
+    sf::Music _bgmusic;
     enum States {
         playerSelect, brainSelect, move, init
     };

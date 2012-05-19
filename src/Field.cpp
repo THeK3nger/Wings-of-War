@@ -3,7 +3,15 @@
 Field::Field(sf::RenderWindow *refwindow) {
 
     _window = refwindow;
-
+    
+    //Loading the bgmusic file
+    _bgmusic.OpenFromFile("assets/field.ogg");
+    //Setting the bgmusic volume
+    _bgmusic.SetVolume(100.0f);
+    //PLaying the bgmusic
+    _bgmusic.SetLoop(true);
+    _bgmusic.Play();
+            
     CurrentState = Field::init;
 
     plane1 = new Plane(0, 10, 200, 500, 0);

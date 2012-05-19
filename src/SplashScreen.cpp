@@ -152,7 +152,7 @@ bool SplashScreen::handleEvents() {
 
             }
             if (FighterState == SplashScreen::StartGame) {
-               
+                _bgmusic.Stop();
                 Field field(_window);
             }
             return 1;
