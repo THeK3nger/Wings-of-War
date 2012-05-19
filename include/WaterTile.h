@@ -19,7 +19,7 @@ class WaterTile {
 public:
     WaterTile(sf::RenderWindow *refWindow);
 
-    void update();
+    void update(int instant);
     virtual ~WaterTile();
     void setPos(float x, float y);
     

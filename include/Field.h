@@ -31,7 +31,8 @@ private:
 
     sf::Image field_image;
     sf::Sprite field_sprite;
-
+    sf::Clock theClock;
+    
     enum States {
         playerSelect, brainSelect, move, init
     };

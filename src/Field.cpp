@@ -42,106 +42,140 @@ void Field::loop() {
     CurrentState = Field::playerSelect;
     Kicker* kicker = new Kicker(_window);
     
-    while (1) {
+    float acc=0;
+    while(1)
+    {  
+        this->handleEvents();
+        //INPUT HANDLING
+                
+//        if (CurrentState == Field::playerSelect) 
+//            {
+//                
+//
+//                //Dialog* CardDialog = new Dialog(_window,title,message);
+//
+//                int tastoPremuto;
+//
+//                if(this->handleEvents())
+//                {
+//                    //printf("Tasto premuto %d \n", tastoPremuto); //49 = 1, 50 = 2, 51=3
+//
+//                    if (tastoPremuto == 49)
+//                        plane1->move(&(plane1->getCardSet()->cards[0]));
+//
+//                    if (tastoPremuto == 50)
+//                        plane1->move(&(plane1->getCardSet()->cards[1]));
+//
+//                    if (tastoPremuto == 51)
+//                        plane1->move(&(plane1->getCardSet()->cards[2]));
+//
+//                    CurrentState = Field::brainSelect;
+//                }
+//            }
+        //END INPUT HANDLING
         
-        //Dimensione della sprite del field
-        sf::Vector2f field_size=field_sprite.GetSize();
-        //Configuro il centro della sprite del field al centro della sprite e non all'angolo in alto a sx
-        field_sprite.SetCenter(field_size.x/2,field_size.y/2);
-        field_sprite.SetPosition(field_size.x/2,field_size.y/2);
-        //Tutto sto casino mi serve per avere un comportamente coerente quando effettuo lo scaling
-        field_sprite.SetScale(_globalscale,_globalscale);
-        
-        CurrentState = Field::playerSelect;
-        float pos[3];
-
-        plane1->getPosition(pos);
-
-        //printf("X: %f Y: %f THETA: %f \n", pos[0], pos[1], pos[2]);
-        
-        // TODO: not "this->_window->GetHeight()", but world->height
-        
-        //stesso discorso del field
-        sf::Vector2f plane1_size = plane1->plane_sprite.GetSize();
-        plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
-        
-        plane1->plane_sprite.SetPosition(pos[0] + _xdisplacement, this->_window->GetHeight() - pos[1] + _ydisplacement);
-        plane1->plane_sprite.SetRotation(pos[2]*180 / M_PI - 90);
-        plane1->plane_sprite.SetScale(_globalscale,_globalscale);
-        //fine aereo 1
-        
-        
-        //stesso discorso del field
-        sf::Vector2f plane2_size = plane2->plane_sprite.GetSize();
-        plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
-        
-        plane2->getPosition(pos);
-        plane2->plane_sprite.SetPosition(pos[0] + _xdisplacement, this->_window->GetHeight() - pos[1] + _ydisplacement);
-        plane2->plane_sprite.SetRotation(pos[2]*180 / M_PI - 90);
-        plane2->plane_sprite.SetScale(_globalscale,_globalscale);
-        //fine aereo 2
-
-       _window->Clear(sf::Color(255,255,255));
-        
-        
-        //_window->Draw(field_sprite);
-        
-        
-        water->update();
-        
-        //DIRTY TEST
-        for(int i=0;i<10;i++)
+        if (acc>=0.03) //MAX FRAMERATE
         {
-            for(int j=0;j<50;j++)
+            
+            //Dimensione della sprite del field
+            sf::Vector2f field_size=field_sprite.GetSize();
+            //Configuro il centro della sprite del field al centro della sprite e non all'angolo in alto a sx
+            field_sprite.SetCenter(field_size.x/2,field_size.y/2);
+            field_sprite.SetPosition(field_size.x/2,field_size.y/2);
+            //Tutto sto casino mi serve per avere un comportamente coerente quando effettuo lo scaling
+            field_sprite.SetScale(_globalscale,_globalscale);
+
+            CurrentState = Field::playerSelect;
+            float pos1[3];
+            float pos2[3];
+            plane1->getPosition(pos1);
+
+            //printf("X: %f Y: %f THETA: %f \n", pos[0], pos[1], pos[2]);
+
+            // TODO: not "this->_window->GetHeight()", but world->height
+
+            //stesso discorso del field
+            sf::Vector2f plane1_size = plane1->plane_sprite.GetSize();
+            plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
+
+            plane1->plane_sprite.SetPosition(pos1[0] + _xdisplacement, this->_window->GetHeight() - pos1[1] + _ydisplacement);
+            plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
+            plane1->plane_sprite.SetScale(_globalscale,_globalscale);
+            //fine aereo 1
+
+
+            //stesso discorso del field
+            sf::Vector2f plane2_size = plane2->plane_sprite.GetSize();
+            plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
+
+            plane2->getPosition(pos2);
+            plane2->plane_sprite.SetPosition(pos2[0] + _xdisplacement, this->_window->GetHeight() - pos2[1] + _ydisplacement);
+            plane2->plane_sprite.SetRotation(pos2[2]*180 / M_PI - 90);
+            plane2->plane_sprite.SetScale(_globalscale,_globalscale);
+            //fine aereo 2
+
+            _window->Clear(sf::Color(255,255,255));
+
+
+            //_window->Draw(field_sprite);
+
+
+            water->update(0);
+            
+            //DIRTY TEST
+            for(int i=0;i<30;i++)
             {
-                water->setPos(i*15,j*15);
-                _window->Draw(water->getSprite());
+                for(int j=0;j<25;j++)
+                {
+                    
+                    water->setPos(i*15*2,j*15*2);
+                    _window->Draw(water->getSprite());
+                }
             }
+            
+             sf::Sprite planeshadow=plane1->plane_sprite;
+             planeshadow.SetColor(sf::Color(0,0,0,128));
+                     
+             sf::Vector2f shadowpos = plane1->plane_sprite.GetPosition();
+             shadowpos.x+=10;
+             shadowpos.y+=15;
+             planeshadow.SetPosition(shadowpos);
+             planeshadow.SetRotation(pos1[2]*180 / M_PI - 90);
+             _window->Draw(planeshadow);
+             
+             shadowpos = plane2->plane_sprite.GetPosition();
+             shadowpos.x+=10;
+             shadowpos.y+=10;
+             planeshadow.SetPosition(shadowpos);
+             planeshadow.SetRotation(pos2[2]*180 / M_PI - 90);
+             _window->Draw(planeshadow);
+             
+              
+              
+            _window->Draw(plane1->plane_sprite);
+            _window->Draw(plane2->plane_sprite);
+            
+            //SHADOWS
+            
+           
+            
+            
+            
+            kicker->display();
+            _window->Display();
+
+           //accumulator reset
+            acc=0;
+            
         }
         
-        _window->Draw(plane1->plane_sprite);
-        _window->Draw(plane2->plane_sprite);
-        kicker->display();
-        _window->Display();
+        //adding elapsed time to the accumulator
+        acc+=theClock.GetElapsedTime();
+        //resetting the clock
+        theClock.Reset();
         
         
-        //TEST
         
-        
-        while (CurrentState == Field::playerSelect) {
-            sf::String title;
-            title.SetText("Choose your destiny");
-            sf::String message;
-            message.SetText("[1] Left [2] Forward [3] Right");
-            title.SetSize(30.0f);
-            message.SetSize(20.0f);
-            title.SetPosition(200.0f, 200.0f);
-            message.SetPosition(200.0f, 250.0f);
-
-            //Dialog* CardDialog = new Dialog(_window,title,message);
-            
-            
-            
-            
-            int tastoPremuto;
-            
-            if(this->handleEvents())
-            {
-                //printf("Tasto premuto %d \n", tastoPremuto); //49 = 1, 50 = 2, 51=3
-
-                if (tastoPremuto == 49)
-                    plane1->move(&(plane1->getCardSet()->cards[0]));
-
-                if (tastoPremuto == 50)
-                    plane1->move(&(plane1->getCardSet()->cards[1]));
-
-                if (tastoPremuto == 51)
-                    plane1->move(&(plane1->getCardSet()->cards[2]));
-
-                CurrentState = Field::brainSelect;
-            }
-        }
-
     }
 }
 

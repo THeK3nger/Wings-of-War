@@ -148,10 +148,11 @@ bool SplashScreen::handleEvents() {
                 
                 
                 myDialog.run();
-                
+             
 
             }
             if (FighterState == SplashScreen::StartGame) {
+               
                 Field field(_window);
             }
             return 1;

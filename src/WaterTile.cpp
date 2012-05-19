@@ -14,14 +14,14 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) {
     xpos=100;
     ypos=100;
     
-    timer=50;
+    timer=10;
     acc=0;
     
     _spritesheet.LoadFromFile("assets/watertile.png");
     _sprite.SetImage(_spritesheet);
     
-    frame1=sf::IntRect(17,17,32,32);
-    frame2=sf::IntRect(49,17,64,32);
+    frame1=sf::IntRect(16,16,31,31);
+    frame2=sf::IntRect(48,16,63,31);
     
     currentFrame=WaterTile::one;
            
@@ -29,33 +29,53 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) {
 }
 
 
-void WaterTile::update()
+void WaterTile::update(int instant)
 {
-    acc+=Clock.GetElapsedTime();
-    //printf("%f \n",acc);
-    if(acc>=timer)
-    {
-               
-        if(currentFrame==WaterTile::one)
+    if(instant==0)
         {
-            currentFrame=WaterTile::two;
-            _sprite.SetSubRect(frame2);
-            //printf("FRAME 2!\n");
-        }
-        
-        else if(currentFrame==WaterTile::two)
+        acc+=Clock.GetElapsedTime();
+        //printf("%f \n",acc);
+        if(acc>=timer)
         {
-            currentFrame=WaterTile::one;
-            _sprite.SetSubRect(frame1);
-            //printf("FRAME 1!\n");
+
+            if(currentFrame==WaterTile::one)
+            {
+                currentFrame=WaterTile::two;
+                _sprite.SetSubRect(frame2);
+                //printf("FRAME 2!\n");
+            }
+
+            else if(currentFrame==WaterTile::two)
+            {
+                currentFrame=WaterTile::one;
+                _sprite.SetSubRect(frame1);
+                //printf("FRAME 1!\n");
+            }
+
+            _sprite.SetScale(1.0f,1.0f);
+            Clock.Reset();
+            acc=0;
         }
-        
-        _sprite.SetScale(1.0f,1.0f);
-        Clock.Reset();
-        acc=0;
     }
     
-       
+    else
+    {
+        if(currentFrame==WaterTile::one)
+            {
+                currentFrame=WaterTile::two;
+                _sprite.SetSubRect(frame2);
+                
+            }
+
+            else if(currentFrame==WaterTile::two)
+            {
+                currentFrame=WaterTile::one;
+                _sprite.SetSubRect(frame1);
+                
+            }
+    }
+    
+       _sprite.SetScale(2,2);
 }
 
 WaterTile::~WaterTile() {

@@ -7,32 +7,96 @@
         </df>
       </df>
       <df name="build">
-        <df name="assets">
-          <df name="cardset">
-          </df>
-        </df>
-        <df name="CMakeFiles">
-          <df name="CMakeTmp">
-            <df name="CMakeFiles">
-              <df name="cmTryCompileExec.dir">
+        <df name="Debug">
+          <df name="GNU-Linux-x86">
+            <df name="tests">
+              <df name="TestFiles">
               </df>
             </df>
           </df>
-          <df name="CompilerIdC">
-            <in>CMakeCCompilerId.c</in>
-          </df>
-          <df name="CompilerIdCXX">
-            <in>CMakeCXXCompilerId.cpp</in>
-          </df>
-          <df name="wingsofwar.dir">
-          </df>
-        </df>
-        <df name="shaders">
         </df>
       </df>
       <df name="cmake_modules">
       </df>
+      <df name="CMakeFiles">
+        <df name="CMakeTmp">
+          <df name="CMakeFiles">
+            <df name="cmTryCompileExec.dir">
+            </df>
+          </df>
+        </df>
+        <df name="CompilerIdC">
+          <in>CMakeCCompilerId.c</in>
+          <in>a.out</in>
+        </df>
+        <df name="CompilerIdCXX">
+          <in>CMakeCXXCompilerId.cpp</in>
+          <in>a.out</in>
+        </df>
+        <df name="wingsofwar.dir">
+          <df name="src">
+          </df>
+          <in>DependInfo.cmake</in>
+          <in>build.make</in>
+          <in>cmake_clean.cmake</in>
+          <in>depend.make</in>
+          <in>flags.make</in>
+          <in>link.txt</in>
+          <in>progress.make</in>
+        </df>
+        <in>CMakeCCompiler.cmake</in>
+        <in>CMakeCXXCompiler.cmake</in>
+        <in>CMakeDetermineCompilerABI_C.bin</in>
+        <in>CMakeDetermineCompilerABI_CXX.bin</in>
+        <in>CMakeDirectoryInformation.cmake</in>
+        <in>CMakeOutput.log</in>
+        <in>CMakeSystem.cmake</in>
+        <in>Makefile.cmake</in>
+        <in>Makefile2</in>
+        <in>TargetDirectories.txt</in>
+        <in>cmake.check_cache</in>
+        <in>progress.marks</in>
+      </df>
+      <df name="dist">
+        <df name="Debug">
+          <df name="GNU-Linux-x86">
+          </df>
+        </df>
+      </df>
+      <df name="include">
+        <in>BattleField.h</in>
+        <in>Card.h</in>
+        <in>CardSetLoader.h</in>
+        <in>Console.h</in>
+        <in>Dialog.h</in>
+        <in>Field.h</in>
+        <in>Game.h</in>
+        <in>GameLogger.h</in>
+        <in>Kicker.h</in>
+        <in>Plane.h</in>
+        <in>SplashScreen.h</in>
+        <in>WaterTile.h</in>
+        <in>WoWBrain.h</in>
+        <in>World.h</in>
+      </df>
       <df name="shaders">
+      </df>
+      <df name="src">
+        <in>BattleField.cpp</in>
+        <in>Card.cpp</in>
+        <in>CardSetLoader.cpp</in>
+        <in>Console.cpp</in>
+        <in>Dialog.cpp</in>
+        <in>Field.cpp</in>
+        <in>Game.cpp</in>
+        <in>GameLogger.cpp</in>
+        <in>Kicker.cpp</in>
+        <in>Plane.cpp</in>
+        <in>SplashScreen.cpp</in>
+        <in>WaterTile.cpp</in>
+        <in>WoWBrain.cpp</in>
+        <in>World.cpp</in>
+        <in>main.cpp</in>
       </df>
       <df name="tests">
         <in>CardTest.cpp</in>
@@ -48,35 +112,6 @@
         <in>WorldTest.h</in>
         <in>WorldTestRunner.cpp</in>
       </df>
-      <in>BattleField.cpp</in>
-      <in>BattleField.h</in>
-      <in>Card.cpp</in>
-      <in>Card.h</in>
-      <in>CardSetLoader.cpp</in>
-      <in>CardSetLoader.h</in>
-      <in>Console.cpp</in>
-      <in>Console.h</in>
-      <in>Dialog.cpp</in>
-      <in>Dialog.h</in>
-      <in>Field.cpp</in>
-      <in>Field.h</in>
-      <in>Game.cpp</in>
-      <in>Game.h</in>
-      <in>GameLogger.cpp</in>
-      <in>GameLogger.h</in>
-      <in>Kicker.cpp</in>
-      <in>Kicker.h</in>
-      <in>Plane.cpp</in>
-      <in>Plane.h</in>
-      <in>SplashScreen.cpp</in>
-      <in>SplashScreen.h</in>
-      <in>WaterTile.cpp</in>
-      <in>WaterTile.h</in>
-      <in>WoWBrain.cpp</in>
-      <in>WoWBrain.h</in>
-      <in>World.cpp</in>
-      <in>World.h</in>
-      <in>main.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -111,16 +146,6 @@
           </ccTool>
         </makeTool>
       </makefileType>
-      <item path="build/CMakeFiles/CompilerIdC/CMakeCCompilerId.c"
-            ex="true"
-            tool="0"
-            flavor="0">
-      </item>
-      <item path="build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp"
-            ex="true"
-            tool="1"
-            flavor="0">
-      </item>
       <item path="tests/CardTest.cpp" ex="true" tool="1" flavor="0">
       </item>
       <item path="tests/CardTest.h" ex="true" tool="3" flavor="0">
