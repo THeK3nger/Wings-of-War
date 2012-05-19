@@ -7,13 +7,13 @@
 # Macros
 TOP=`pwd`
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Debug
+CND_CONF=Default
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${TESTDIR}/TestFiles/f5
-OUTPUT_BASENAME=f5
+OUTPUT_PATH=build/wingsofwar
+OUTPUT_BASENAME=wingsofwar
 PACKAGE_TOP_DIR=wings-of-war/
 
 # Functions

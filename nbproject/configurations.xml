@@ -1,221 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="HeaderFiles"
-                   displayName="Header Files"
-                   projectFiles="true">
-      <logicalFolder name="f1" displayName="GameCore" projectFiles="true">
-        <itemPath>Card.h</itemPath>
-        <itemPath>Plane.h</itemPath>
-        <itemPath>WoWBrain.h</itemPath>
-        <itemPath>World.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f2" displayName="Utility" projectFiles="true">
-        <itemPath>CardSetLoader.h</itemPath>
-        <itemPath>GameLogger.h</itemPath>
-      </logicalFolder>
-      <itemPath>Console.h</itemPath>
-      <itemPath>Dialog.h</itemPath>
-      <itemPath>Field.h</itemPath>
-      <itemPath>Game.h</itemPath>
-      <itemPath>Kicker.h</itemPath>
-      <itemPath>SplashScreen.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="ResourceFiles"
-                   displayName="Resource Files"
-                   projectFiles="true">
-      <itemPath>../../../../Dropbox/Documents/Code/Giochi/wings-of-war/assets/cardset/3card.xml</itemPath>
-    </logicalFolder>
-    <logicalFolder name="SourceFiles"
-                   displayName="Source Files"
-                   projectFiles="true">
-      <logicalFolder name="f1" displayName="GameCore" projectFiles="true">
-        <itemPath>Card.cpp</itemPath>
-        <itemPath>Plane.cpp</itemPath>
-        <itemPath>WoWBrain.cpp</itemPath>
-        <itemPath>World.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f2" displayName="Utility" projectFiles="true">
-        <itemPath>CardSetLoader.cpp</itemPath>
-        <itemPath>GameLogger.cpp</itemPath>
-      </logicalFolder>
-      <itemPath>Console.cpp</itemPath>
-      <itemPath>Dialog.cpp</itemPath>
-      <itemPath>Field.cpp</itemPath>
-      <itemPath>Game.cpp</itemPath>
-      <itemPath>Kicker.cpp</itemPath>
-      <itemPath>SplashScreen.cpp</itemPath>
-      <itemPath>main.cpp</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Test Files"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-      <logicalFolder name="f1" displayName="CardTest" projectFiles="true" kind="TEST">
-        <itemPath>tests/CardTest.cpp</itemPath>
-        <itemPath>tests/CardTest.h</itemPath>
-        <itemPath>tests/CardTestRunner.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f2"
-                     displayName="PlaneTest"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/PlaneTest.cpp</itemPath>
-        <itemPath>tests/PlaneTest.h</itemPath>
-        <itemPath>tests/PlaneTestRunner.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f3"
-                     displayName="World Test"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/WorldTest.cpp</itemPath>
-        <itemPath>tests/WorldTest.h</itemPath>
-        <itemPath>tests/WorldTestRunner.cpp</itemPath>
-      </logicalFolder>
-      <logicalFolder name="f4"
-                     displayName="WoWBrainTest"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/WoWBrainTest.cpp</itemPath>
-        <itemPath>tests/WoWBrainTest.h</itemPath>
-        <itemPath>tests/WoWBrainTestRunner.cpp</itemPath>
-      </logicalFolder>
-    </logicalFolder>
+    <df name="wings-of-war" root=".">
+      <df name="assets">
+        <df name="cardset">
+        </df>
+      </df>
+      <df name="build">
+        <df name="assets">
+          <df name="cardset">
+          </df>
+        </df>
+        <df name="CMakeFiles">
+          <df name="CompilerIdC">
+            <in>CMakeCCompilerId.c</in>
+          </df>
+          <df name="CompilerIdCXX">
+            <in>CMakeCXXCompilerId.cpp</in>
+          </df>
+          <df name="wingsofwar.dir">
+          </df>
+        </df>
+      </df>
+      <df name="cmake_modules">
+      </df>
+      <df name="shaders">
+      </df>
+      <df name="tests">
+        <in>CardTest.cpp</in>
+        <in>CardTest.h</in>
+        <in>CardTestRunner.cpp</in>
+        <in>PlaneTest.cpp</in>
+        <in>PlaneTest.h</in>
+        <in>PlaneTestRunner.cpp</in>
+        <in>WoWBrainTest.cpp</in>
+        <in>WoWBrainTest.h</in>
+        <in>WoWBrainTestRunner.cpp</in>
+        <in>WorldTest.cpp</in>
+        <in>WorldTest.h</in>
+        <in>WorldTestRunner.cpp</in>
+      </df>
+      <in>BattleField.cpp</in>
+      <in>BattleField.h</in>
+      <in>Card.cpp</in>
+      <in>Card.h</in>
+      <in>CardSetLoader.cpp</in>
+      <in>CardSetLoader.h</in>
+      <in>Console.cpp</in>
+      <in>Console.h</in>
+      <in>Dialog.cpp</in>
+      <in>Dialog.h</in>
+      <in>Field.cpp</in>
+      <in>Field.h</in>
+      <in>Game.cpp</in>
+      <in>Game.h</in>
+      <in>GameLogger.cpp</in>
+      <in>GameLogger.h</in>
+      <in>Kicker.cpp</in>
+      <in>Kicker.h</in>
+      <in>Plane.cpp</in>
+      <in>Plane.h</in>
+      <in>SplashScreen.cpp</in>
+      <in>SplashScreen.h</in>
+      <in>WoWBrain.cpp</in>
+      <in>WoWBrain.h</in>
+      <in>World.cpp</in>
+      <in>World.h</in>
+      <in>main.cpp</in>
+    </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
+      <itemPath>CMakeLists.txt</itemPath>
+      <itemPath>build/Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <projectmakefile>Makefile</projectmakefile>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>build/Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="1">
+    <conf name="Default" type="0">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
       </toolsSet>
-      <compileType>
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-          <warningLevel>0</warningLevel>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f5</output>
-          <linkerLibItems>
-            <linkerOptionItem>-lsfml-audio</linkerOptionItem>
-            <linkerOptionItem>-lsfml-window</linkerOptionItem>
-            <linkerOptionItem>-lsfml-graphics</linkerOptionItem>
-            <linkerOptionItem>-lsfml-system</linkerOptionItem>
-            <linkerOptionItem>`pkg-config --libs xerces-c`</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
-      </compileType>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-            <pElem>.</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-            <pElem>.</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-          <linkerLibItems>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f2">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
-          <linkerLibItems>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f3">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f3</output>
-          <linkerLibItems>
-            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f4">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f4</output>
-          <linkerLibItems>
-            <linkerOptionItem>`pkg-config --libs cppunit`</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
-    </conf>
-    <conf name="Release" type="1">
-      <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>default</compilerSet>
-      </toolsSet>
-      <compileType>
-        <cTool>
-          <developmentMode>5</developmentMode>
-        </cTool>
-        <ccTool>
-          <developmentMode>5</developmentMode>
-        </ccTool>
-        <fortranCompilerTool>
-          <developmentMode>5</developmentMode>
-        </fortranCompilerTool>
-        <asmTool>
-          <developmentMode>5</developmentMode>
-        </asmTool>
-      </compileType>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>build</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>build/wingsofwar</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>build</pElem>
+              <pElem>/usr/local/include</pElem>
+            </incDir>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="build/CMakeFiles/CompilerIdC/CMakeCCompilerId.c"
+            ex="true"
+            tool="0"
+            flavor="0">
+      </item>
+      <item path="build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+            ex="true"
+            tool="1"
+            flavor="0">
+      </item>
+      <item path="tests/CardTest.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/CardTest.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="tests/CardTestRunner.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/PlaneTest.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/PlaneTest.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="tests/PlaneTestRunner.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/WoWBrainTest.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/WoWBrainTest.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="tests/WoWBrainTestRunner.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/WorldTest.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="tests/WorldTest.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="tests/WorldTestRunner.cpp" ex="true" tool="1" flavor="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
