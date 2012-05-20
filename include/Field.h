@@ -40,7 +40,8 @@ private:
     States CurrentState;
 
     sf::RenderWindow* _window;
-
+    sf::View camera;
+    
     bool _mouse_down;
     
     //conto quante righe/colonne di sprite di field mi servono
@@ -48,7 +49,7 @@ private:
     int field_rows;
     int field_cols;
     
-    float _globalscale;
+   
     int _xstart;
     int _ystart;
     int _xdisplacement;

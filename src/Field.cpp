@@ -36,9 +36,11 @@ Field::Field(sf::RenderWindow *refwindow) {
 
     _mouse_down = false;
     
-    _globalscale=1.0f;
 
     water = new WaterTile(_window);
+    sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
+    camera.SetFromRect(frect);
+    
     
     this->loop();
 }
@@ -91,7 +93,7 @@ void Field::loop() {
             field_sprite.SetCenter(field_size.x/2,field_size.y/2);
             field_sprite.SetPosition(field_size.x/2,field_size.y/2);
             //Tutto sto casino mi serve per avere un comportamente coerente quando effettuo lo scaling
-            field_sprite.SetScale(_globalscale,_globalscale);
+            //field_sprite.SetScale(_globalscale,_globalscale);
 
             CurrentState = Field::playerSelect;
             float pos1[3];
@@ -108,7 +110,7 @@ void Field::loop() {
 
             plane1->plane_sprite.SetPosition(pos1[0] + _xdisplacement, this->_window->GetHeight() - pos1[1] + _ydisplacement);
             plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
-            plane1->plane_sprite.SetScale(_globalscale,_globalscale);
+            //plane1->plane_sprite.SetScale(_globalscale,_globalscale);
             //fine aereo 1
 
 
@@ -119,7 +121,7 @@ void Field::loop() {
             plane2->getPosition(pos2);
             plane2->plane_sprite.SetPosition(pos2[0] + _xdisplacement, this->_window->GetHeight() - pos2[1] + _ydisplacement);
             plane2->plane_sprite.SetRotation(pos2[2]*180 / M_PI - 90);
-            plane2->plane_sprite.SetScale(_globalscale,_globalscale);
+            //plane2->plane_sprite.SetScale(_globalscale,_globalscale);
             //fine aereo 2
 
             _window->Clear(sf::Color(255,255,255));
@@ -127,14 +129,14 @@ void Field::loop() {
 
             
 
-
+            _window->SetView(camera);
             water->update(0);
             sf::Vector2f waterSize = water->getSprite().GetSize();
             
             //DIRTY TEST
             for(int i=0;i<30;i++)
             {
-                for(int j=0;j<25;j++)
+                for(int j=0;j<30;j++)
                 {
                     
                     water->setPos(i*waterSize.x,j*waterSize.y);
@@ -142,6 +144,8 @@ void Field::loop() {
                 }
             }
             
+            
+             
              //OMBRE
              sf::Sprite planeshadow=plane1->plane_sprite;
              planeshadow.SetColor(sf::Color(0,0,0,128));
@@ -170,7 +174,7 @@ void Field::loop() {
            
             
             
-            
+            _window->SetView(_window->GetDefaultView());
             kicker->display();
             _window->Display();
 
@@ -198,12 +202,14 @@ int Field::handleEvents() {
         
        if(Event.Key.Code == sf::Key::Add)
        {
-           _globalscale+=0.1f;
+           
+           camera.Zoom(1.5f);
        }
        
-       if(Event.Key.Code == sf::Key::Subtract)
+        if(Event.Key.Code == sf::Key::Subtract)
        {
-          _globalscale-=0.1f;
+          
+          camera.Zoom(0.5f);
        }
         
         if (Event.Key.Code == sf::Key::Escape) {
@@ -212,6 +218,15 @@ int Field::handleEvents() {
         
         printf(" generic keyb event \n");
     }
+    
+    
+    if (Event.Type == sf::Event::MouseWheelMoved)
+        {
+             printf("Wheeeeeeeeeeel \n");
+            if(Event.MouseWheel.Delta<0) camera.Zoom(1.1f);
+            if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
+        }
+    
     
     if(Event.Type == sf::Event::MouseButtonPressed || Event.Type == sf::Event::MouseButtonReleased || Event.Type == sf::Event::MouseMoved)
     {
@@ -227,13 +242,17 @@ int Field::handleEvents() {
             _ystart = 0;
             printf("Button released \n");
         }
-        if ((Event.Type == sf::Event::MouseMoved) && _mouse_down) {
+        if ((Event.Type == sf::Event::MouseMoved) && _mouse_down) 
+        {
             _xdisplacement += Event.MouseMove.X - _xstart;
             _ydisplacement += Event.MouseMove.Y - _ystart;
             _xstart = Event.MouseMove.X;
             _ystart = Event.MouseMove.Y;
             printf("X: %i,              Y: %i\n", _xdisplacement, _ydisplacement);
         }
+        
+        
+        
         printf("generic mouse event\n");
     }
   
