@@ -181,3 +181,19 @@ bool Plane::canShootTo(Plane *target) {
     // if the check arrives here, the plane is within both shooting range and shooting angle
     return true;
 }
+
+void Plane::setX(float x)
+{
+    this->posx=x;
+}
+
+void Plane::setY(float y)
+{
+    this->posy=y;
+}
+
+
+void Plane::setT(float t)
+{
+    this->theta=t;
+}

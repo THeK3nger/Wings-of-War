@@ -52,6 +52,8 @@ void Field::loop() {
     CurrentState = Field::playerSelect;
     Kicker* kicker = new Kicker(_window);
     
+    float angle=0;
+    
     float acc=0;
     while(1)
     {  
@@ -83,6 +85,8 @@ void Field::loop() {
 //                }
 //            }
         //END INPUT HANDLING
+        
+        
         
         if (acc>=0.01) //MAX FRAMERATE
         {
@@ -165,7 +169,25 @@ void Field::loop() {
              _window->Draw(planeshadow);
              //FINE OMBRE
               
-              
+             
+             //TEST rotazione
+             
+             float tx;
+             float ty;
+             tx=pos1[0];
+             ty=pos1[1];
+             
+             tx=cos(angle)+tx;
+             ty=sin(angle)+ty;
+             
+             angle+=0.01f;
+             
+             printf("A:%f %f %f \n",angle,tx,ty);
+             
+             plane1->setX(tx);
+             plane1->setY(ty);
+             plane1->setT(angle);
+             
             _window->Draw(plane1->plane_sprite);
             _window->Draw(plane2->plane_sprite);
             

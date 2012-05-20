@@ -129,6 +129,9 @@ public:
      */
     bool canSee(Plane *target); // I added this because sometimes (heuristic) we want to know something about the angle, even if it is not possible to shoot
 
+    void setX(float x);
+    void setY(float y);
+    void setT(float t);
 private:
 
     float posx; // Current Position on the X axis.
