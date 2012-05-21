@@ -182,8 +182,6 @@ void Field::loop() {
              
              angle+=0.01f;
              
-             printf("A:%f %f %f \n",angle,tx,ty);
-             
              plane1->setX(tx);
              plane1->setY(ty);
              plane1->setT(angle);
@@ -218,7 +216,7 @@ void Field::loop() {
 int Field::handleEvents() {
     sf::Event Event;
     _window->GetEvent(Event);
-
+    
     if(Event.Type == sf::Event::KeyPressed)
     {
         
@@ -227,26 +225,25 @@ int Field::handleEvents() {
            
            camera.Zoom(1.5f);
        }
-       
+       else
         if(Event.Key.Code == sf::Key::Subtract)
        {
           
           camera.Zoom(0.5f);
        }
-        
+        else
         if (Event.Key.Code == sf::Key::Escape) {
             
         }
-        
-        printf(" generic keyb event \n");
+       
     }
     
     
     if (Event.Type == sf::Event::MouseWheelMoved)
         {
-             printf("Wheeeeeeeeeeel \n");
+             
             if(Event.MouseWheel.Delta<0) camera.Zoom(1.1f);
-            if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
+            else if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
         }
     
     
@@ -256,13 +253,13 @@ int Field::handleEvents() {
             _mouse_down = true;
             _xstart = Event.MouseButton.X;
             _ystart = Event.MouseButton.Y;
-            printf("Button pressed \n");
+            
         }
         if ((Event.Type == sf::Event::MouseButtonReleased) && (Event.MouseButton.Button == sf::Mouse::Left)) {
             _mouse_down = false;
             _xstart = 0;
             _ystart = 0;
-            printf("Button released \n");
+            
         }
         if ((Event.Type == sf::Event::MouseMoved) && _mouse_down) 
         {
@@ -270,12 +267,12 @@ int Field::handleEvents() {
             _ydisplacement += Event.MouseMove.Y - _ystart;
             _xstart = Event.MouseMove.X;
             _ystart = Event.MouseMove.Y;
-            printf("X: %i,              Y: %i\n", _xdisplacement, _ydisplacement);
+            //printf("X: %i,              Y: %i\n", _xdisplacement, _ydisplacement);
         }
         
         
         
-        printf("generic mouse event\n");
+       // printf("generic mouse event\n");
     }
   
     return 1;

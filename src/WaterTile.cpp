@@ -43,21 +43,21 @@ void WaterTile::update(int instant)
             {
                 currentFrame=WaterTile::two;
                 _sprite.SetSubRect(frame2);
-                printf("frame 1\n");
+                
             }
 
             else if(currentFrame==WaterTile::two)
             {
                 currentFrame=WaterTile::three;
                 _sprite.SetSubRect(frame3);
-                 printf("frame 2\n");
+                 
             }
             
             else if(currentFrame==WaterTile::three)
             {
                 currentFrame=WaterTile::one;
                 _sprite.SetSubRect(frame1);
-                 printf("frame 3\n");
+                 
             }
 
             _sprite.SetScale(1.0f,1.0f);
