@@ -28,7 +28,7 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 set(CMAKE_CXX_FLAG "-g -pg -Wall")
 
 # TODO: Added for allowing profiling
-set(CMAKE_EXE_LINKER_FLAGS "-pg")
+set(CMAKE_EXE_LINKER_FLAGS "-g -pg")
 
 # Build Executable
 add_executable(wingsofwar ${WOWSOURCES})
