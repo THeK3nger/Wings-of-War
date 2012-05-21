@@ -1,4 +1,5 @@
 #include "Field.h"
+#include <vector>
 
 Field::Field(sf::RenderWindow *refwindow) {
 
@@ -26,6 +27,8 @@ Field::Field(sf::RenderWindow *refwindow) {
 
 
     theWorld = new World(2000, 2000);
+    theWorld->addPlane(plane1);
+    theWorld->addPlane(plane2);
     theBrain = new WoWBrain(plane2, theWorld);
 
 
@@ -86,6 +89,12 @@ void Field::loop() {
 //            }
         //END INPUT HANDLING
         
+                // AI CHOOSES ITS MOVE
+        if (CurrentState == Field::brainSelect){
+            std::vector<Card*> best_moves = this->theBrain->returnBestCards(20);
+            this->theBrain->getAIPlane()->move(best_moves[0]);
+        }
+        // AI HAS CHOSEN IT'S MOVE
         
         
         if (acc>=0.01) //MAX FRAMERATE
