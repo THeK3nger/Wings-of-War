@@ -14,7 +14,7 @@ Field::Field(sf::RenderWindow *refwindow) {
             
     CurrentState = Field::init;
 
-    plane1 = new Plane(0, 10, 200, 500, 0);
+    plane1 = new Plane(0, 10, 400, 300, 0);
     plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));
 
 
@@ -113,7 +113,13 @@ void Field::loop() {
             plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
 
             plane1->plane_sprite.SetPosition(pos1[0] + _xdisplacement, this->_window->GetHeight() - pos1[1] + _ydisplacement);
-            plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
+
+           
+
+
+            //plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
+            
+            plane1->plane_sprite.SetRotation(ppos[2]*180/M_PI);
             //plane1->plane_sprite.SetScale(_globalscale,_globalscale);
             //fine aereo 1
 
