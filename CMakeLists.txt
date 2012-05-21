@@ -27,6 +27,9 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 # TODO: Build in Debug-Mode. Should be improved in the final release.
 set(CMAKE_CXX_FLAG "-g -pg -Wall")
 
+# TODO: Added for allowing profiling
+set(CMAKE_EXE_LINKER_FLAGS "-pg")
+
 # Build Executable
 add_executable(wingsofwar ${WOWSOURCES})
 
