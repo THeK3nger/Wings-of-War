@@ -55,9 +55,9 @@ void Field::loop() {
     float angle=0;
     
     float acc=0;
-    while(1)
+    while(this->handleEvents())
     {  
-        this->handleEvents();
+        
         //INPUT HANDLING
                 
 //        if (CurrentState == Field::playerSelect) 
@@ -220,20 +220,20 @@ int Field::handleEvents() {
     if(Event.Type == sf::Event::KeyPressed)
     {
         
-       if(Event.Key.Code == sf::Key::Add)
+       if(Event.Key.Code == sf::Key::Num1)
        {
            
-           camera.Zoom(1.5f);
+           camera.Zoom(1.1f);
        }
-       else
-        if(Event.Key.Code == sf::Key::Subtract)
+       
+        if(Event.Key.Code == sf::Key::Num2)
        {
           
-          camera.Zoom(0.5f);
+          camera.Zoom(0.9f);
        }
-        else
+        
         if (Event.Key.Code == sf::Key::Escape) {
-            
+            return 0;
         }
        
     }
@@ -243,7 +243,7 @@ int Field::handleEvents() {
         {
              
             if(Event.MouseWheel.Delta<0) camera.Zoom(1.1f);
-            else if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
+            if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
         }
     
     
