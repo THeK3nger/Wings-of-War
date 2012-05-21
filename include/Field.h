@@ -14,7 +14,7 @@
 #include "Kicker.h"
 #include <stdlib.h>
 #include "WaterTile.h"
-#include "Animation.h"
+//#include "Animation.h"
 
 class Field {
 public:

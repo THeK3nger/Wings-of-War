@@ -1,6 +1,24 @@
 #include "Field.h"
 #include <vector>
 
+void computeTrajectory(float init_x, float init_y, float init_theta, float final_x, float final_y, float final_theta, float s, float* put_values_here){
+    float k = 500;
+    
+    final_theta = -final_theta;
+    init_theta = -init_theta;
+    
+    float cx1 = (cos(init_theta) + cos(final_theta)) * k + 2*init_x - 2*final_x;
+    float cx2 = (-2 * cos(init_theta) - cos(final_theta)) * k - 3*init_x + 3*final_x;
+    float cx3 = cos(init_theta) * k;
+    
+    float cy1 = (sin(init_theta) + sin(final_theta)) * k + 2*init_y - 2*final_y;
+    float cy2 = (-2 * sin(init_theta) - sin(final_theta)) * k - 3*init_y + 3*final_y;
+    float cy3 = sin(init_theta) * k;
+    
+    put_values_here[0] = pow(s, 3) * cx1 + pow(s, 2) * cx2 + s * cx3 + init_x;
+    put_values_here[1] = pow(s, 3) * cy1 + pow(s, 2) * cy2 + s * cy3 + init_y;
+}
+
 Field::Field(sf::RenderWindow *refwindow) {
 
     _window = refwindow;
@@ -19,7 +37,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));
 
 
-    plane2 = new Plane(1, 10, 100, 100, 45);
+    plane2 = new Plane(1, 10, 50, 50, 0);
     plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));
 
     field_image.LoadFromFile("assets/field.png");
@@ -58,8 +76,20 @@ void Field::loop() {
     float angle=0;
     
     float acc=0;
+    
+    float s = 0;
+    float prev_x;
+    float prev_y;
+    float actual_pos[2];
+    float initial_pos[3];
+    
+    plane2->getPosition(initial_pos);
+    
+    prev_x = initial_pos[0];
+    prev_y = initial_pos[1];
+    
     while(this->handleEvents())
-    {  
+    {
         
         //INPUT HANDLING
                 
@@ -89,12 +119,28 @@ void Field::loop() {
 //            }
         //END INPUT HANDLING
         
-                // AI CHOOSES ITS MOVE
+        // AI CHOOSES ITS MOVE
         if (CurrentState == Field::brainSelect){
             std::vector<Card*> best_moves = this->theBrain->returnBestCards(20);
             this->theBrain->getAIPlane()->move(best_moves[0]);
         }
         // AI HAS CHOSEN IT'S MOVE
+        
+        
+        if(s<1){
+            s += 0.01;
+            
+            computeTrajectory(initial_pos[0],initial_pos[1],initial_pos[2],250,250,-M_PI/2,s,actual_pos);
+
+            plane2->setX(actual_pos[0]);
+            plane2->setY(actual_pos[1]);
+            
+            float theta = -atan2(actual_pos[1]-prev_y,actual_pos[0]-prev_x);
+            plane2->setT(theta);
+            prev_x = actual_pos[0];
+            prev_y = actual_pos[1];
+        }
+        
         
         
         if (acc>=0.01) //MAX FRAMERATE
@@ -128,7 +174,7 @@ void Field::loop() {
 
             //plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
             
-            plane1->plane_sprite.SetRotation(ppos[2]*180/M_PI);
+            plane1->plane_sprite.SetRotation(pos1[2]*180/M_PI);
             //plane1->plane_sprite.SetScale(_globalscale,_globalscale);
             //fine aereo 1
 
@@ -138,7 +184,7 @@ void Field::loop() {
             plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
 
             plane2->getPosition(pos2);
-            plane2->plane_sprite.SetPosition(pos2[0] + _xdisplacement, this->_window->GetHeight() - pos2[1] + _ydisplacement);
+            plane2->plane_sprite.SetPosition(pos2[0] + _xdisplacement, pos2[1] + _ydisplacement);
             plane2->plane_sprite.SetRotation(pos2[2]*180 / M_PI - 90);
             //plane2->plane_sprite.SetScale(_globalscale,_globalscale);
             //fine aereo 2
