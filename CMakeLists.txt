@@ -25,7 +25,7 @@ include_directories(${TINYXML_INCLUDE_DIR})
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
 # TODO: Build in Debug-Mode. Should be improved in the final release.
-set(CMAKE_CXX_FLAG "-g -Wall")
+set(CMAKE_CXX_FLAG "-g -pg -Wall")
 
 # Build Executable
 add_executable(wingsofwar ${WOWSOURCES})
