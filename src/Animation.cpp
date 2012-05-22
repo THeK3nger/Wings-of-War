@@ -1,0 +1,62 @@
+#include <math.h>
+
+#include "Animation.h"
+
+Animation::Animation(float xi, float yi, float thetai, float xf, float yf, float thetaf){
+    // store the input values
+    this->init_x = xi;
+    this->init_y = yi;
+    this->init_theta = thetai;
+    this->final_x = xf;
+    this->final_y = yf;
+    this->final_theta = thetaf;
+    
+    // TODO: compute k according to the given values
+    this->k = 500;
+    
+    // compute coefficients
+    this->cx1 = (cos(this->init_theta) + cos(this->final_theta)) * this->k + 2*this->init_x - 2*this->final_x;
+    this->cx2 = (-2 * cos(this->init_theta) - cos(this->final_theta)) * this->k - 3*this->init_x + 3*this->final_x;
+    this->cx3 = cos(this->init_theta) * this->k;
+    
+    this->cy1 = (sin(this->init_theta) + sin(this->final_theta)) * this->k + 2*this->init_y - 2*this->final_y;
+    this->cy2 = (-2 * sin(this->init_theta) - sin(this->final_theta)) * this->k - 3*this->init_y + 3*this->final_y;
+    this->cy3 = sin(this->init_theta) * this->k;
+    
+    // initialize s
+    this->s = 0;
+    
+    // set step
+    this->step = 0.01;
+    
+    // initialize prev_pos
+    this->prev_pos[0] = init_x;
+    this->prev_pos[1] = init_y;
+}
+
+//Animation::Animation(float* init_pos, Card* card){
+//    
+//    
+//    Animation(init_pos[0],init_pos[1],init_pos[2]);
+//}
+
+bool Animation::nextStep(float* pos){
+    // has s reached 1? (I.E. is the movement finished?)
+    if (s>=1) return false;
+    
+    // increase s
+    this->s += this->step;
+    
+    // compute new x,y coordinates
+    pos[0] = pow(this->s, 3) * this->cx1 + pow(this->s, 2) * this->cx2 + this->s * this->cx3 + this->init_x;
+    pos[1] = pow(this->s, 3) * this->cy1 + pow(this->s, 2) * this->cy2 + this->s * this->cy3 + this->init_y;
+    
+    // compute new angle
+    pos[2] = -atan2(pos[1]-this->prev_pos[1], pos[0]-this->prev_pos[0]);
+    
+    // update prev_pos
+    this->prev_pos[0] = pos[0];
+    this->prev_pos[1] = pos[1];
+    
+    return true;
+}
