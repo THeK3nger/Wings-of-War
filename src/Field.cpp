@@ -1,5 +1,7 @@
-#include "Field.h"
 #include <vector>
+
+#include "wowcommon.h"
+#include "Field.h"
 
 Field::Field(sf::RenderWindow *refwindow) {
 
@@ -14,6 +16,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     _bgmusic.Play();
             
     CurrentState = Field::init;
+
 
     plane1 = new Plane(0, 10, 400, 300, 0);
     plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));

@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "wowcommon.h"
 
 /*!
  * Constructor:
@@ -24,14 +25,18 @@ Game::Game(int h, int w, int d) {
  * and calls the "run" method.
  */
 void Game::init() {
+    LOGMESSAGE_NO_ENDL("Initializing Game...");
     if (_gameState != Game::Uninitialized) return;
 
     _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
     _gameState = Game::Playing;
     _gameState = Game::ShowingSplash;
+    OK;
+    LOGMESSAGE("Starting Game Loop");
     while (_gameState != Game::Exiting) {
         this->run();
     }
+    LOGMESSAGE("Game Exit Correctly!");
 }
 
 /*!
