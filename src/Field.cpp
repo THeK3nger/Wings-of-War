@@ -106,15 +106,13 @@ void Field::loop() {
         // AI HAS CHOSEN IT'S MOVE
         
         
-        if (animation->nextStep(p2pos)){
-            plane2->setX(p2pos[0]);
-            plane2->setY(p2pos[1]);
-            plane2->setT(p2pos[2]);
-        }
-        
-        
         if (acc>=0.01) //MAX FRAMERATE
         {
+            if (animation->nextStep(p2pos)){
+                plane2->setX(p2pos[0]);
+                plane2->setY(p2pos[1]);
+                plane2->setT(p2pos[2]);
+            }
             
             //Dimensione della sprite del field
             sf::Vector2f field_size=field_sprite.GetSize();
