@@ -4,7 +4,7 @@
 #include "Field.h"
 
 Field::Field(sf::RenderWindow *refwindow) {
-
+    LOGMESSAGE("Loading Field...");
     _window = refwindow;
     
     //Loading the bgmusic file
@@ -17,18 +17,18 @@ Field::Field(sf::RenderWindow *refwindow) {
             
     CurrentState = Field::init;
 
-
+    LOGMESSAGE("Initialize Plane 1");
     plane1 = new Plane(0, 10, 400, 300, 0);
     plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));
 
-
+    LOGMESSAGE("Initialize Plane 2");
     plane2 = new Plane(1, 10, 50, 50, 0);
     plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));
 
     field_image.LoadFromFile("assets/field.png");
     field_sprite.SetImage(field_image);
 
-
+    LOGMESSAGE("Create Game World");
     theWorld = new World(2000, 2000);
     theWorld->addPlane(plane1);
     theWorld->addPlane(plane2);
@@ -47,7 +47,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
     camera.SetFromRect(frect);
     
-    
+    LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->loop();
 }
 
