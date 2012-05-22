@@ -1,4 +1,5 @@
 #include <math.h>
+#include <SFML/System/Clock.hpp>
 
 #include "Animation.h"
 
@@ -42,17 +43,23 @@ Animation::Animation(float xi, float yi, float thetai, float xf, float yf, float
 
 bool Animation::nextStep(float* pos){
     // has s reached 1? (I.E. is the movement finished?)
-    if (s>=1) return false;
+    if (s>=1) return false; // s can never be greater than 1, but this adds robustness in case of future changes
+    
+    if (s == 0){ // this is the first step
+        // reset the clock
+        this->clock.Reset();
+    }
     
     // increase s
-    this->s += this->step;
+    this->s = clock.GetElapsedTime()/ANIMATION_LENGTH;
+    if (this->s > 1) s = 1; // must not go over the final point;
     
     // compute new x,y coordinates
     pos[0] = pow(this->s, 3) * this->cx1 + pow(this->s, 2) * this->cx2 + this->s * this->cx3 + this->init_x;
     pos[1] = pow(this->s, 3) * this->cy1 + pow(this->s, 2) * this->cy2 + this->s * this->cy3 + this->init_y;
     
     // compute new angle
-    pos[2] = -atan2(pos[1]-this->prev_pos[1], pos[0]-this->prev_pos[0]);
+    pos[2] = -atan2(pos[1]-this->prev_pos[1], pos[0]-this->prev_pos[0]);        // this is MINUS because angles must be considered positive when in the half plane of positive Y
     
     // update prev_pos
     this->prev_pos[0] = pos[0];

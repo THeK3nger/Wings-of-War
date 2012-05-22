@@ -8,6 +8,8 @@
 #ifndef ANIMATION_H
 #define	ANIMATION_H
 
+#define ANIMATION_LENGTH 3 // determines the time needed for performing the animation
+
 /*!
  * \brief Animation Class. This manages the interpolation of the movements in the game
  * 
@@ -24,10 +26,11 @@ class Animation{
             float final_theta;      // final value of theta
             float cx1, cx2, cx3;    // coefficients for the x component
             float cy1, cy2, cy3;    // coefficients for the y component
-            float k;          // "gain" coefficient TODO: adapt it to the movement
+            float k;                // "gain" coefficient TODO: adapt it to the movement
             float s;                // will keep track of the amount of animation elapsed
-            float step;      // this affects the number of iterations needed for completing the animation
+            float step;             // this affects the number of iterations needed for completing the animation
             float prev_pos[2];      // this the previous position, used for computing the angle
+            sf::Clock clock;        // used to get the time
             
         public:
             /*!
