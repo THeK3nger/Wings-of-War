@@ -52,7 +52,8 @@ bool Animation::nextStep(float* pos){
     
     // increase s
     this->s = clock.GetElapsedTime()/ANIMATION_LENGTH;
-    if (this->s > 1) s = 1; // must not go over the final point;
+    if (this->s == 0) this->s = 0.001; // this is to avoid silly orientation of the planes
+    if (this->s > 1) this->s = 1; // must not go over the final point;
     
     // compute new x,y coordinates
     pos[0] = pow(this->s, 3) * this->cx1 + pow(this->s, 2) * this->cx2 + this->s * this->cx3 + this->init_x;

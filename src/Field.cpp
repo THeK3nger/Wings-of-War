@@ -66,13 +66,14 @@ void Field::loop() {
     // Definition of useful stuff
     Kicker* kicker = new Kicker(_window);
     float angle=0;
-    //float acc=0; // NO NEED OF THIS
     
     float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
     float p2pos [3];
     
     std::vector<Card*> player_choices; // used to store player's choices
     std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
+    
+    bool something_moved; // used to signal animations are over
     
     Animation * animation1;     // used for animating the first plane
     Animation * animation2;     // used for animating the second plane
@@ -159,7 +160,14 @@ void Field::loop() {
                 break;
                 
             case Field::ANIM_MOVES:
-                if( !(animation1->nextStep(p1pos)) && !(animation2->nextStep(p2pos))){
+                something_moved = false;
+                
+                if (animation1->nextStep(p1pos))
+                    something_moved = true;
+                if (animation2->nextStep(p2pos))
+                    something_moved = true;
+                
+                if(!something_moved){
                     delete animation1;
                     delete animation2;
                     this->CurrentState = Field::COMPUTE_DAMAGES;
