@@ -155,8 +155,11 @@ void Field::loop() {
                 break;
                 
             case Field::ANIM_MOVES:
-                if( !(animation1->nextStep(p1pos)) && !(animation2->nextStep(p2pos)))
-                        this->CurrentState = Field::COMPUTE_DAMAGES;
+                if( !(animation1->nextStep(p1pos)) && !(animation2->nextStep(p2pos))){
+                    delete animation1;
+                    delete animation2;
+                    this->CurrentState = Field::COMPUTE_DAMAGES;
+                }
                 
                 break;
                 
