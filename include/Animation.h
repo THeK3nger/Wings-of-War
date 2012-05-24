@@ -8,7 +8,7 @@
 #ifndef ANIMATION_H
 #define	ANIMATION_H
 
-#define ANIMATION_LENGTH 3 // determines the time needed for performing the animation
+#define ANIMATION_LENGTH 1 // determines the time (in seconds) needed for performing the animation
 
 /*!
  * \brief Animation Class. This manages the interpolation of the movements in the game

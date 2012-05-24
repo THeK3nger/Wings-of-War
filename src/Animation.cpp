@@ -13,7 +13,7 @@ Animation::Animation(float xi, float yi, float thetai, float xf, float yf, float
     this->final_theta = thetaf;
     
     // TODO: compute k according to the given values
-    this->k = 500;
+    this->k = 50;
     
     // compute coefficients
     this->cx1 = (cos(this->init_theta) + cos(this->final_theta)) * this->k + 2*this->init_x - 2*this->final_x;

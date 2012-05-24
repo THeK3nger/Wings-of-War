@@ -35,7 +35,7 @@ private:
     sf::Clock theClock;
     sf::Music _bgmusic;
     enum States {
-        playerSelect, brainSelect, move, init
+        INIT, PLAYER_SELECT, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH
     };
 
     States CurrentState;

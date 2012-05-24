@@ -46,7 +46,7 @@ public:
     /*!
      * Apply a movement Card `card` to this Plane.
      * 
-     * \param card Pointetr to the desired movement card.
+     * \param card Pointer to the desired movement card.
      * \return True if the move has been applied, False otherwise
      */
     bool move(Card *card);

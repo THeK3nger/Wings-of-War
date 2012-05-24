@@ -10,6 +10,7 @@
 #define SEARCH_DEPTH 6 // must be an EVEN number
 #define CHOICES_PER_TURN 2 // can be at most 1/2 * SEARCH_DEPTH
 #define MAX_HEURISTIC INT_MAX
+#define MAX_THINK_TIME 10 // seconds limit for the AI to choose a move
 
 class WoWBrain {
 public:
@@ -32,9 +33,11 @@ public:
      * Implemented with Iterative-Deepening-Search with Alpha-Beta Pruning.
      * 
      * \param maxtime Time limit (NOW UNUSED).
+     * \param howmany number of cards that must be returned
+     * 
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    std::vector<Card *> returnBestCards(float maxtime);
+    std::vector<Card *> returnBestCards(int howmany, float maxtime);
 
     /*!
      * Return a pointer to a list of Cards representing all the possible
