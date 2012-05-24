@@ -63,4 +63,8 @@
 
 #define INDENT(AMOUNT) for(int i=0;i<(AMOUNT);++i) { printf("\t"); }
 
+/* TRIGGER MACRO */
+
+#define DEBUG 1
+
 #endif

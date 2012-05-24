@@ -37,7 +37,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     field_sprite.SetImage(field_image);
 
     LOGMESSAGE("Create Game World");
-    theWorld = new World(2000, 2000);
+    theWorld = new World(800, 800);
     theWorld->addPlane(plane1);
     theWorld->addPlane(plane2);
     theBrain = new WoWBrain(plane2, theWorld);
@@ -124,13 +124,17 @@ void Field::loop() {
                 // TODO: HERE THE PLAYER SHOULD CHOOSE HIS/HER MOVE, for now it chooses a predetermined card
                 player_choices.clear();
                 player_choices.push_back(this->plane1->getCardSet()->cards);
-                std::cout << "player has chosen\n";
+#if DEBUG
+                LOGMESSAGE("Player has chosen!");
+#endif
                 this->CurrentState = Field::BRAIN_SELECT;
                 break;
                 
             case Field::BRAIN_SELECT:
                 ai_choices = theBrain->returnBestCards(1,MAX_THINK_TIME);     // for the moment, this chooses 1 card
-                std::cout << "AI has chosen\n";
+#if DEBUG
+                LOGMESSAGE("AI has chosen!");
+#endif
                 this->CurrentState = Field::APPLY_MOVES;
                 break;
                 
@@ -450,14 +454,13 @@ int Field::handleEvents() {
         {
             _xdisplacement += Event.MouseMove.X - _xstart;
             _ydisplacement += Event.MouseMove.Y - _ystart;
+            if (_xdisplacement < 0) _xdisplacement = 0;
+            if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
+            if (_ydisplacement < 0) _ydisplacement = 0;
+            if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
             _xstart = Event.MouseMove.X;
             _ystart = Event.MouseMove.Y;
-            //printf("X: %i,              Y: %i\n", _xdisplacement, _ydisplacement);
         }
-        
-        
-        
-       // printf("generic mouse event\n");
     }
   
     return 1;
