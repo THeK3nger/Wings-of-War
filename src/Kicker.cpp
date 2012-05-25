@@ -54,8 +54,8 @@ void Kicker::display() {
 
     sf::String message;
     sf::String detail;
-    message.SetText("Scegli la mossa:");
-    detail.SetText("[1] LEFT - [2] FORWARD - [3] RIGHT");
+    message.SetText("Scegli la mossa USANDO LE FRECCE:");
+    detail.SetText("[left]LEFT - [up] FORWARD - [right] RIGHT");
 
     sf::Font Font;
     Font.LoadFromFile("assets/pixelmix.ttf");
