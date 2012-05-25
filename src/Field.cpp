@@ -156,6 +156,9 @@ void Field::loop() {
                 break;
                 
             case Field::APPLY_MOVES:
+                // TODO: add support for moves sequences
+                // for the moment, this only takes the first of the chosen cards
+                
                 // store positions before moving
                 this->plane1->getPosition(plane1_prev_pos);
                 this->plane2->getPosition(plane2_prev_pos);
