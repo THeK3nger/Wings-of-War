@@ -55,6 +55,8 @@ Field::Field(sf::RenderWindow *refwindow) {
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
     camera.SetFromRect(frect);
     
+    kicker = new Kicker(_window);
+    
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->loop();
 }
@@ -64,7 +66,6 @@ Field::~Field() {
 
 void Field::loop() {
     // Definition of useful stuff
-    Kicker* kicker = new Kicker(_window);
     float angle=0;
     
     float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
@@ -114,6 +115,10 @@ void Field::loop() {
         switch(this->CurrentState){
             case Field::INIT:
                 // HERE WE INITIALIZE THINGS
+                // set kicker message
+                this->kicker->setMessage("Initializing stuff");
+                this->kicker->setDetails("enhancing funnyness...");
+                
                 // planes positions
                 this->plane1->getPosition(p1pos);
                 this->plane2->getPosition(p2pos);
@@ -122,6 +127,10 @@ void Field::loop() {
                 break;
                 
             case Field::PLAYER_SELECT:
+                // set kicker message
+                this->kicker->setMessage("Choose your move (use ARROWS):");
+                this->kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
+                
                 if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
                     if(this->lastEvent.Type == sf::Event::KeyPressed){
                         switch(this->lastEvent.Key.Code){
@@ -148,6 +157,10 @@ void Field::loop() {
                 break;
                 
             case Field::BRAIN_SELECT:
+                // set kicker message
+                this->kicker->setMessage("AI is choosing...");
+                this->kicker->setDetails("it's so clever!");
+                
                 ai_choices = theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 #if DEBUG
                 LOGMESSAGE("AI has chosen!");
@@ -158,6 +171,10 @@ void Field::loop() {
             case Field::APPLY_MOVES:
                 // TODO: add support for moves sequences
                 // for the moment, this only takes the first of the chosen cards
+                
+                // set kicker message
+                this->kicker->setMessage("WOOSH!");
+                this->kicker->setDetails("");
                 
                 // store positions before moving
                 this->plane1->getPosition(plane1_prev_pos);
@@ -192,6 +209,10 @@ void Field::loop() {
                 break;
                 
             case Field::COMPUTE_DAMAGES:
+                // set kicker message
+                this->kicker->setMessage("BUM BUM BUM!");
+                this->kicker->setDetails("");
+                
                 this->CurrentState = Field::ANIM_DAMAGES;
                 break;
                 

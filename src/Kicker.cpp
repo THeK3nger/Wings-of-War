@@ -15,7 +15,7 @@ Kicker::Kicker(sf::RenderWindow *refwindow) {
     message.SetPosition(170, 510);
     detail.SetPosition(170, 560);
     message.SetSize(20);
-    detail.SetSize(20);
+    detail.SetSize(14);
     
     rect = sf::Shape::Rectangle(0, 500, 800, 600, sf::Color(0, 0, 0, 120));
     
@@ -65,11 +65,7 @@ int Kicker::run() {
 
 void Kicker::display() {
     
-    message.SetText("Scegli la mossa USANDO LE FRECCE:");
-    detail.SetText("[left] LEFT - [up] FORWARD - [right] RIGHT");
-
     _window->Draw(rect);
-    
     _window->Draw(sCatsShadow);
     _window->Draw(sCats);
     _window->Draw(message);
@@ -83,3 +79,10 @@ void Kicker::display() {
 Kicker::~Kicker() {
 }
 
+void Kicker::setMessage(std::string testo){
+    this->message.SetText(testo);
+}
+
+void Kicker::setDetails(std::string testo){
+    this->detail.SetText(testo);
+}

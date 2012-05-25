@@ -14,6 +14,8 @@ public:
     //experimental
     int run(); //bloccante
     void display(); //non bloccante
+    void setMessage(std::string);
+    void setDetails(std::string);
 private:
     
     sf::String message;

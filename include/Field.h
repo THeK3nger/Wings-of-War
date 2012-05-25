@@ -32,6 +32,8 @@ private:
     
     sf::Event lastEvent;        // used to store the last event
     
+    Kicker * kicker;
+    
     sf::Image field_image;
     sf::Sprite field_sprite;
     sf::Clock theClock;
