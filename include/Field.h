@@ -23,13 +23,15 @@ public:
     void loop();
     int handleEvents();
 private:
-
+    
     Plane* plane1;
     Plane* plane2;
 
     WoWBrain* theBrain;
     World* theWorld;
-
+    
+    sf::Event lastEvent;        // used to store the last event
+    
     sf::Image field_image;
     sf::Sprite field_sprite;
     sf::Clock theClock;

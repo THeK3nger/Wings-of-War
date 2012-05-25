@@ -122,17 +122,33 @@ void Field::loop() {
                 break;
                 
             case Field::PLAYER_SELECT:
-                // TODO: HERE THE PLAYER SHOULD CHOOSE HIS/HER MOVE, for now it chooses a predetermined card
-                player_choices.clear();
-                player_choices.push_back(this->plane1->getCardSet()->cards);
+                if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
+                    if(this->lastEvent.Type == sf::Event::KeyPressed){
+                        switch(this->lastEvent.Key.Code){
+                            case sf::Key::Right: // TODO: watch out! because of y inversion, "left" becomes "right"
+                                player_choices.push_back(this->plane1->getCardSet()->cards);
+                                break;
+                            case sf::Key::Left:
+                                player_choices.push_back(this->plane1->getCardSet()->cards+1);
+                                break;
+                            case sf::Key::Up:
+                                player_choices.push_back(this->plane1->getCardSet()->cards+2);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else{
+                    this->CurrentState = Field::BRAIN_SELECT;
 #if DEBUG
                 LOGMESSAGE("Player has chosen!");
 #endif
-                this->CurrentState = Field::BRAIN_SELECT;
+                }
                 break;
                 
             case Field::BRAIN_SELECT:
-                ai_choices = theBrain->returnBestCards(1,MAX_THINK_TIME);     // for the moment, this chooses 1 card
+                ai_choices = theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 #if DEBUG
                 LOGMESSAGE("AI has chosen!");
 #endif
@@ -167,11 +183,8 @@ void Field::loop() {
                 if (animation2->nextStep(p2pos))
                     something_moved = true;
                 
-                if(!something_moved){
-                    delete animation1;
-                    delete animation2;
+                if(!something_moved)
                     this->CurrentState = Field::COMPUTE_DAMAGES;
-                }
                 
                 break;
                 
@@ -183,7 +196,12 @@ void Field::loop() {
                 this->CurrentState = Field::CHECK_FINISH;
                 break;
                 
-            case Field::CHECK_FINISH:
+            case Field::CHECK_FINISH: // this will also destroy things and clear stuff
+                delete animation1;
+                delete animation2;
+                player_choices.clear();
+                
+                // CHECK WIN/LOSE CONDITIONS
                 this->CurrentState = Field::PLAYER_SELECT;
                 break;
             default:
@@ -237,240 +255,67 @@ void Field::loop() {
         _window->Display();
         
         theClock.Reset();
-        
-        //INPUT HANDLING
-                
-//        if (CurrentState == Field::playerSelect) 
-//            {
-//                
-//
-//                //Dialog* CardDialog = new Dialog(_window,title,message);
-//
-//                int tastoPremuto;
-//
-//                if(this->handleEvents())
-//                {
-//                    //printf("Tasto premuto %d \n", tastoPremuto); //49 = 1, 50 = 2, 51=3
-//
-//                    if (tastoPremuto == 49)
-//                        plane1->move(&(plane1->getCardSet()->cards[0]));
-//
-//                    if (tastoPremuto == 50)
-//                        plane1->move(&(plane1->getCardSet()->cards[1]));
-//
-//                    if (tastoPremuto == 51)
-//                        plane1->move(&(plane1->getCardSet()->cards[2]));
-//
-//                    CurrentState = Field::brainSelect;
-//                }
-//            }
-        //END INPUT HANDLING
-        
-//        // AI CHOOSES ITS MOVE
-//        if (CurrentState == Field::brainSelect){
-//            std::vector<Card*> best_moves = this->theBrain->returnBestCards(20);
-//            this->theBrain->getAIPlane()->move(best_moves[0]);
-//        }
-//        // AI HAS CHOSEN IT'S MOVE
-//        
-//        
-//        if (acc>=0.01) //MAX FRAMERATE
-//        {
-//            if (animation->nextStep(p2pos)){
-//                plane2->setX(p2pos[0]);
-//                plane2->setY(p2pos[1]);
-//                plane2->setT(p2pos[2]);
-//            }
-//            
-//            //Dimensione della sprite del field
-//            sf::Vector2f field_size=field_sprite.GetSize();
-//            //Configuro il centro della sprite del field al centro della sprite e non all'angolo in alto a sx
-//            field_sprite.SetCenter(field_size.x/2,field_size.y/2);
-//            field_sprite.SetPosition(field_size.x/2,field_size.y/2);
-//            //Tutto sto casino mi serve per avere un comportamente coerente quando effettuo lo scaling
-//            //field_sprite.SetScale(_globalscale,_globalscale);
-//
-//            CurrentState = Field::playerSelect;
-//            float pos1[3];
-//            float pos2[3];
-//            plane1->getPosition(pos1);
-//
-//            //printf("X: %f Y: %f THETA: %f \n", pos[0], pos[1], pos[2]);
-//
-//            // TODO: not "this->_window->GetHeight()", but world->height
-//
-//            //stesso discorso del field
-//            sf::Vector2f plane1_size = plane1->plane_sprite.GetSize();
-//            plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
-//
-//            plane1->plane_sprite.SetPosition(pos1[0] + _xdisplacement, this->_window->GetHeight() - pos1[1] + _ydisplacement);
-//
-//           
-//
-//
-//            //plane1->plane_sprite.SetRotation(pos1[2]*180 / M_PI - 90);
-//            
-//            plane1->plane_sprite.SetRotation(pos1[2]*180/M_PI);
-//            //plane1->plane_sprite.SetScale(_globalscale,_globalscale);
-//            //fine aereo 1
-//
-//
-//            //stesso discorso del field
-//            sf::Vector2f plane2_size = plane2->plane_sprite.GetSize();
-//            plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
-//
-//            plane2->getPosition(pos2);
-//            plane2->plane_sprite.SetPosition(pos2[0] + _xdisplacement, pos2[1] + _ydisplacement);
-//            plane2->plane_sprite.SetRotation(pos2[2]*180 / M_PI);
-//            //plane2->plane_sprite.SetScale(_globalscale,_globalscale);
-//            //fine aereo 2
-//
-//            _window->Clear(sf::Color(255,255,255));
-//
-//
-//            
-//
-//            _window->SetView(camera);
-//            water->update(0);
-//            sf::Vector2f waterSize = water->getSprite().GetSize();
-//            
-//            //DIRTY TEST
-//            for(int i=0;i<30;i++)
-//            {
-//                for(int j=0;j<30;j++)
-//                {
-//                    
-//                    water->setPos(i*waterSize.x,j*waterSize.y);
-//                    _window->Draw(water->getSprite());
-//                }
-//            }
-//            
-//            
-//             
-//             //OMBRE
-//             sf::Sprite planeshadow=plane1->plane_sprite;
-//             planeshadow.SetColor(sf::Color(0,0,0,128));
-//                     
-//             sf::Vector2f shadowpos = plane1->plane_sprite.GetPosition();
-//             shadowpos.x+=10;
-//             shadowpos.y+=15;
-//             planeshadow.SetPosition(shadowpos);
-//             planeshadow.SetRotation(pos1[2]*180 / M_PI);
-//             _window->Draw(planeshadow);
-//             
-//             shadowpos = plane2->plane_sprite.GetPosition();
-//             shadowpos.x+=10;
-//             shadowpos.y+=10;
-//             planeshadow.SetPosition(shadowpos);
-//             planeshadow.SetRotation(pos2[2]*180 / M_PI);
-//             _window->Draw(planeshadow);
-//             //FINE OMBRE
-//              
-//             
-//             //TEST rotazione
-//             
-//             float tx;
-//             float ty;
-//             tx=pos1[0];
-//             ty=pos1[1];
-//             
-//             tx=cos(angle)+tx;
-//             ty=sin(angle)+ty;
-//             
-//             angle+=0.01f;
-//             
-//             plane1->setX(tx);
-//             plane1->setY(ty);
-//             plane1->setT(angle);
-//             
-//            _window->Draw(plane1->plane_sprite);
-//            _window->Draw(plane2->plane_sprite);
-//            
-//            //SHADOWS
-//            
-//           
-//            
-//            
-//            _window->SetView(_window->GetDefaultView());
-//            kicker->display();
-//            _window->Display();
-//
-//           //accumulator reset
-//            acc=0;
-//            
-//        }
-//        
-//        //adding elapsed time to the accumulator
-//        acc+=theClock.GetElapsedTime();
-//        //resetting the clock
-//        theClock.Reset();
-        
-        
-        
     }
 }
 
 int Field::handleEvents() {
-    sf::Event Event;
-    _window->GetEvent(Event);
+    _window->GetEvent(lastEvent);
     
-    if(Event.Type == sf::Event::KeyPressed)
-    {
-        
-       if(Event.Key.Code == sf::Key::Num1)
-       {
-           
-           camera.Zoom(1.1f);
-       }
-       
-        if(Event.Key.Code == sf::Key::Num2)
-       {
-          
-          camera.Zoom(0.9f);
-       }
-        
-        if (Event.Key.Code == sf::Key::Escape) {
-            return 0;
-        }
-       
-    }
-    
-    
-    if (Event.Type == sf::Event::MouseWheelMoved)
-        {
-             
-            if(Event.MouseWheel.Delta<0) camera.Zoom(1.1f);
-            if(Event.MouseWheel.Delta>0) camera.Zoom(0.9f);
-        }
-    
-    
-    if(Event.Type == sf::Event::MouseButtonPressed || Event.Type == sf::Event::MouseButtonReleased || Event.Type == sf::Event::MouseMoved)
-    {
-        if ((Event.Type == sf::Event::MouseButtonPressed) && (Event.MouseButton.Button == sf::Mouse::Left)) {
-            _mouse_down = true;
-            _xstart = Event.MouseButton.X;
-            _ystart = Event.MouseButton.Y;
+    switch(lastEvent.Type){
+        case sf::Event::KeyPressed:
+            switch(lastEvent.Key.Code){
+                case sf::Key::Num1:
+                    this->camera.Zoom(1.1f);
+                    break;
+                case sf::Key::Num2:
+                    this->camera.Zoom(0.9f);
+                    break;
+                case sf::Key::Escape:
+                    return 0;
+                    break;
+                default:
+                    break;
+            } // END OF KEY.CODE SWITCH
+            break;
             
-        }
-        if ((Event.Type == sf::Event::MouseButtonReleased) && (Event.MouseButton.Button == sf::Mouse::Left)) {
-            _mouse_down = false;
-            _xstart = 0;
-            _ystart = 0;
+        case sf::Event::MouseWheelMoved:
+            if(lastEvent.MouseWheel.Delta<0) this->camera.Zoom(1.1f);
+            else this->camera.Zoom(0.9f);
+            break;
             
-        }
-        if ((Event.Type == sf::Event::MouseMoved) && _mouse_down) 
-        {
-            _xdisplacement += Event.MouseMove.X - _xstart;
-            _ydisplacement += Event.MouseMove.Y - _ystart;
-            if (_xdisplacement < 0) _xdisplacement = 0;
-            if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
-            if (_ydisplacement < 0) _ydisplacement = 0;
-            if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
-            _xstart = Event.MouseMove.X;
-            _ystart = Event.MouseMove.Y;
-        }
-    }
-  
+        case sf::Event::MouseButtonPressed:
+            if (lastEvent.MouseButton.Button == sf::Mouse::Left){
+                _mouse_down = true;
+                _xstart = lastEvent.MouseButton.X;
+                _ystart = lastEvent.MouseButton.Y;
+            }
+            break;
+            
+        case sf::Event::MouseButtonReleased:
+            if(lastEvent.MouseButton.Button == sf::Mouse::Left){
+                _mouse_down = false;
+                _xstart = 0;
+                _ystart = 0;
+            }
+            break;
+            
+        case sf::Event::MouseMoved:
+            if(_mouse_down){
+                _xdisplacement += lastEvent.MouseMove.X - _xstart;
+                _ydisplacement += lastEvent.MouseMove.Y - _ystart;
+                if (_xdisplacement < 0) _xdisplacement = 0;
+                if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
+                if (_ydisplacement < 0) _ydisplacement = 0;
+                if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
+                _xstart = lastEvent.MouseMove.X;
+                _ystart = lastEvent.MouseMove.Y;
+            }
+            break;
+            
+        default:
+            break;
+    }// END OF LASTEVENT.TYPE SWITCH
+    
     return 1;
 }
 
