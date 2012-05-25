@@ -15,11 +15,17 @@ public:
     int run(); //bloccante
     void display(); //non bloccante
 private:
-
+    
+    sf::String message;
+    sf::String detail;
+    sf::Font font;
+    
+    sf::Shape rect;
+    
     sf::RenderWindow* _window;
     
     sf::Image iCats;
-    sf::Sprite sCats;
+    sf::Sprite sCats, sCatsShadow;
 
 };
 

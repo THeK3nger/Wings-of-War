@@ -7,6 +7,21 @@ Kicker::Kicker(sf::RenderWindow *refwindow) {
     sCats.SetImage(iCats);
     
     sCats.SetPosition(5,430);
+    
+    font.LoadFromFile("assets/pixelmix.ttf");
+    message.SetFont(font);
+    detail.SetFont(font);
+    
+    message.SetPosition(170, 510);
+    detail.SetPosition(170, 560);
+    message.SetSize(20);
+    detail.SetSize(20);
+    
+    rect = sf::Shape::Rectangle(0, 500, 800, 600, sf::Color(0, 0, 0, 120));
+    
+    sCatsShadow = sCats;
+    sCatsShadow.SetColor(sf::Color(0,0,0,128));
+    sCatsShadow.SetPosition(sCats.GetPosition().x+7,sCats.GetPosition().y+7);
 }
 
 int Kicker::run() {
@@ -49,32 +64,12 @@ int Kicker::run() {
 }
 
 void Kicker::display() {
-    sf::Event Event;
-
-
-    sf::String message;
-    sf::String detail;
-    message.SetText("Scegli la mossa USANDO LE FRECCE:");
-    detail.SetText("[left]LEFT - [up] FORWARD - [right] RIGHT");
-
-    sf::Font Font;
-    Font.LoadFromFile("assets/pixelmix.ttf");
-
-    message.SetFont(Font);
-    detail.SetFont(Font);
-
-    message.SetPosition(170, 550);
-    detail.SetPosition(170, 570);
-    message.SetSize(20);
-    detail.SetSize(20);
-
-    sf::Shape Rect = sf::Shape::Rectangle(0, 500, 800, 600, sf::Color(0, 0, 0, 120));
-
-    _window->Draw(Rect);
     
-    sf::Sprite sCatsShadow = sCats;
-    sCatsShadow.SetColor(sf::Color(0,0,0,128));
-    sCatsShadow.SetPosition(sCats.GetPosition().x+7,sCats.GetPosition().y+7);
+    message.SetText("Scegli la mossa USANDO LE FRECCE:");
+    detail.SetText("[left] LEFT - [up] FORWARD - [right] RIGHT");
+
+    _window->Draw(rect);
+    
     _window->Draw(sCatsShadow);
     _window->Draw(sCats);
     _window->Draw(message);
