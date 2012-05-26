@@ -14,6 +14,7 @@ CardImage::CardImage(int theId,float xpos, float ypos)
     cardSprite.SetImage(_cardImage);
     cardSprite.SetPosition(xpos,ypos);
     cardSprite.SetScale(SCALE,SCALE);
+    _activated=0;
 }
 
 CardImage::~CardImage() {
@@ -23,19 +24,29 @@ int CardImage::getId()
 {
     return _id;
 }
+
 void CardImage::activateCard()
 {
+    if(_activated==0)
+    {
+    sf::Vector2f pos;
+    pos=cardSprite.GetPosition();
+    pos.y=pos.y-ACTIVATION_OFFSET;
+    cardSprite.SetPosition(pos);
+    _activated=1;
+    }
+    
+}
+void CardImage::deActivateCard()
+{
+    if(_activated==1)
+    {
     sf::Vector2f pos;
     pos=cardSprite.GetPosition();
     pos.y+=ACTIVATION_OFFSET;
     cardSprite.SetPosition(pos);
-}
-void CardImage::deActivateCard()
-{
-    sf::Vector2f pos;
-    pos=cardSprite.GetPosition();
-    pos.y-=ACTIVATION_OFFSET;
-    cardSprite.SetPosition(pos);
+    _activated=0;
+    }
 }
 void CardImage::setPos(sf::Vector2f pos)
 {

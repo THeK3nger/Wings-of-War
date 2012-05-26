@@ -28,7 +28,7 @@ public:
     sf::Sprite cardSprite;
     
 private:
-    
+    bool _activated;
     sf::Image _cardImage;
     sf::String _cardName;
     

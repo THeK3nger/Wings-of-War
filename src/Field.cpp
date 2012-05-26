@@ -57,7 +57,21 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     kicker = new Kicker(_window);
     
-    card = new CardImage(1,50,50);
+    CardImage* card = new CardImage(0,420,450);
+    cards.push_back(card);
+    card = new CardImage(1,520,450);
+    cards.push_back(card);
+    card = new CardImage(2,620,450);
+    cards.push_back(card);
+    
+    
+    sf::Rect<int>* rect = new sf::Rect<int>(420,450,100,180);
+    clickableAreas.push_back(rect);
+    rect = new sf::Rect<int>(520,450,100,180);
+    clickableAreas.push_back(rect);
+    rect = new sf::Rect<int>(620,450,200,180);
+    clickableAreas.push_back(rect);
+    
     
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->loop();
@@ -275,17 +289,19 @@ void Field::loop() {
         _window->Draw(plane1->plane_sprite);
         _window->Draw(plane2->plane_sprite);
         
-        //CARDS TEST --------------
         
-        _window->Draw(card->cardSprite);
-       // _window->Draw(cards[1]->cardSprite);
-       // _window->Draw(cards[2]->cardSprite);
-        //CARDS TEST --------------
         
         
         // ...and display them
         _window->SetView(_window->GetDefaultView());
         kicker->display();
+        
+        //CARDS TEST --------------
+       _window->Draw(cards[0]->cardSprite);
+       _window->Draw(cards[1]->cardSprite);
+       _window->Draw(cards[2]->cardSprite);
+        //CARDS TEST --------------
+        
         _window->Display();
         
         theClock.Reset();
@@ -322,14 +338,36 @@ int Field::handleEvents() {
                 _mouse_down = true;
                 _xstart = lastEvent.MouseButton.X;
                 _ystart = lastEvent.MouseButton.Y;
+                
             }
-            break;
             
+
+            
+            
+            break;
         case sf::Event::MouseButtonReleased:
             if(lastEvent.MouseButton.Button == sf::Mouse::Left){
                 _mouse_down = false;
                 _xstart = 0;
                 _ystart = 0;
+            }
+            
+            for(int i=0;i<clickableAreas.size();i++)
+            {
+            if(lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
+               lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
+               lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
+               lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
+                
+                
+                printf("CLICK ON %d \n",i);
+                //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                cards[0]->deActivateCard();
+                cards[1]->deActivateCard();
+                cards[2]->deActivateCard();
+                
+                cards[i]->activateCard();
+                
             }
             break;
             
@@ -344,6 +382,8 @@ int Field::handleEvents() {
                 _xstart = lastEvent.MouseMove.X;
                 _ystart = lastEvent.MouseMove.Y;
             }
+            
+            
             break;
             
         default:
