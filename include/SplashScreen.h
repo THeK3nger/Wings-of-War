@@ -44,7 +44,7 @@ private:
      * BG Music
      */
     sf::Music _bgmusic;
-
+    
     /*!
      * Sound
      */

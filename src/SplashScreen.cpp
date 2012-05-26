@@ -43,6 +43,7 @@ SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
     _bgmusic.Play();
+    _music=1;
 
 }
 
@@ -154,6 +155,7 @@ bool SplashScreen::handleEvents() {
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
                 Field field(_window);
+                _bgmusic.Play();
             }
             return 1;
         }
