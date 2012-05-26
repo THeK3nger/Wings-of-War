@@ -262,7 +262,7 @@ void Field::loop() {
         for(int i=0;i<30;i++){
                 for(int j=0;j<30;j++)
                 {
-                    water->setPos(i*water_size.x,j*water_size.y);
+                    water->setPos(i*water_size.x*2,j*water_size.y*2);
                     _window->Draw(water->getSprite());
                 }
         }

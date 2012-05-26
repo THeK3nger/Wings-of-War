@@ -43,7 +43,7 @@ SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
     _bgmusic.Play();
-    _music=1;
+ 
 
 }
 
