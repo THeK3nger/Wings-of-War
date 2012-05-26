@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include "WaterTile.h"
 #include "Animation.h"
+#include "CardImage.h"
 
 class Field {
 public:
@@ -49,12 +50,8 @@ private:
     
     bool _mouse_down;
     
-    //conto quante righe/colonne di sprite di field mi servono
-    //per "riempire" il world
-    int field_rows;
-    int field_cols;
+    CardImage* card;
     
-   
     int _xstart;
     int _ystart;
     int _xdisplacement;

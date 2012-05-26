@@ -57,6 +57,8 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     kicker = new Kicker(_window);
     
+    card = new CardImage(1,50,50);
+    
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->loop();
 }
@@ -272,6 +274,14 @@ void Field::loop() {
         _window->Draw(plane2_shadow);
         _window->Draw(plane1->plane_sprite);
         _window->Draw(plane2->plane_sprite);
+        
+        //CARDS TEST --------------
+        
+        _window->Draw(card->cardSprite);
+       // _window->Draw(cards[1]->cardSprite);
+       // _window->Draw(cards[2]->cardSprite);
+        //CARDS TEST --------------
+        
         
         // ...and display them
         _window->SetView(_window->GetDefaultView());
