@@ -59,6 +59,11 @@ private:
     float dy; // Variation along y axis.
     float dtheta; // Variation of theta value.
     CType type; // Card type.
+    
+    //To add:
+    //-card name
+    //-card description
+    //-card image
 };
 
 #endif	/* CARD_H */
