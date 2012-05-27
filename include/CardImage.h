@@ -26,9 +26,10 @@ public:
     void setPos(sf::Vector2f pos);
     void getPos();
     sf::Sprite cardSprite;
+    bool activated;
     
 private:
-    bool _activated;
+
     sf::Image _cardImage;
     sf::String _cardName;
     

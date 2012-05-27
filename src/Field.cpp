@@ -309,86 +309,88 @@ void Field::loop() {
 
 int Field::handleEvents() {
     
-    _window->GetEvent(lastEvent);
-    
-    switch(lastEvent.Type){
-        case sf::Event::KeyPressed:
-            switch(lastEvent.Key.Code){
-                case sf::Key::Num1:
-                    this->camera.Zoom(1.1f);
-                    break;
-                case sf::Key::Num2:
-                    this->camera.Zoom(0.9f);
-                    break;
-                case sf::Key::Escape:
-                    return 0;
-                    break;
-                default:
-                    break;
-            } // END OF KEY.CODE SWITCH
-            break;
-            
-        case sf::Event::MouseWheelMoved:
-            if(lastEvent.MouseWheel.Delta<0) this->camera.Zoom(1.1f);
-            else this->camera.Zoom(0.9f);
-            break;
-            
-        case sf::Event::MouseButtonPressed:
-            if (lastEvent.MouseButton.Button == sf::Mouse::Left){
-                _mouse_down = true;
-                _xstart = lastEvent.MouseButton.X;
-                _ystart = lastEvent.MouseButton.Y;
-                
-            }
-            break;
-            
-        case sf::Event::MouseButtonReleased:
-            
-            if(lastEvent.MouseButton.Button == sf::Mouse::Left){
-                _mouse_down = false;
-                _xstart = 0;
-                _ystart = 0;
-            }
-            
-            for(int i=0;i<clickableAreas.size();i++)
-            {
-            if(
-               lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
-               lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
-               lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
-               lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
-                
-            {
-                printf("CLICK ON %d \n",i);
-                //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-                cards[0]->deActivateCard();
-                cards[1]->deActivateCard();
-                cards[2]->deActivateCard();
-                
-                cards[i]->activateCard();
-                
-                
-            }
-            }
-            break;
-            
-        case sf::Event::MouseMoved:
-            if(_mouse_down){
-                _xdisplacement += lastEvent.MouseMove.X - _xstart;
-                _ydisplacement += lastEvent.MouseMove.Y - _ystart;
-                if (_xdisplacement < 0) _xdisplacement = 0;
-                if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
-                if (_ydisplacement < 0) _ydisplacement = 0;
-                if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
-                _xstart = lastEvent.MouseMove.X;
-                _ystart = lastEvent.MouseMove.Y;
-            }
-            break;
-            
-        default:
-            break;
-    }// END OF LASTEVENT.TYPE SWITCH
-    
+    if(_window->GetEvent(lastEvent))
+    {
+        switch(lastEvent.Type){
+            case sf::Event::KeyPressed:
+                switch(lastEvent.Key.Code){
+                    case sf::Key::Num1:
+                        this->camera.Zoom(1.1f);
+                        break;
+                    case sf::Key::Num2:
+                        this->camera.Zoom(0.9f);
+                        break;
+                    case sf::Key::Escape:
+                        return 0;
+                        break;
+                    default:
+                        break;
+                } // END OF KEY.CODE SWITCH
+                break;
+
+            case sf::Event::MouseWheelMoved:
+                if(lastEvent.MouseWheel.Delta<0) this->camera.Zoom(1.1f);
+                else this->camera.Zoom(0.9f);
+                break;
+
+            case sf::Event::MouseButtonPressed:
+                if (lastEvent.MouseButton.Button == sf::Mouse::Left){
+                    _mouse_down = true;
+                    _xstart = lastEvent.MouseButton.X;
+                    _ystart = lastEvent.MouseButton.Y;
+
+                }
+                break;
+
+            case sf::Event::MouseButtonReleased:
+
+                if(lastEvent.MouseButton.Button == sf::Mouse::Left){
+                    _mouse_down = false;
+                    _xstart = 0;
+                    _ystart = 0;
+                }
+
+                for(int i=0;i<clickableAreas.size();i++)
+                {
+                    if(
+                    lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
+                    lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
+                    lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
+                    lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
+
+                        {
+                            if(cards[i]->activated==0)
+                            {    
+                            for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                            cards[i]->activateCard();
+                            }
+
+                            else if(cards[i]->activated==1)cards[i]->deActivateCard();
+
+
+                        }
+                }
+                break;
+
+            case sf::Event::MouseMoved:
+                if(_mouse_down){
+                    _xdisplacement += lastEvent.MouseMove.X - _xstart;
+                    _ydisplacement += lastEvent.MouseMove.Y - _ystart;
+                    if (_xdisplacement < 0) _xdisplacement = 0;
+                    if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
+                    if (_ydisplacement < 0) _ydisplacement = 0;
+                    if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
+                    _xstart = lastEvent.MouseMove.X;
+                    _ystart = lastEvent.MouseMove.Y;
+                }
+                break;
+
+            default:
+                break;
+        }// END OF LASTEVENT.TYPE SWITCH
+
+        return 1;
+    }
     return 1;
 }
 
