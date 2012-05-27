@@ -57,18 +57,26 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     kicker = new Kicker(_window);
     
+    //pointer to card image, instance to a generic cardImage with id=0
     CardImage* card = new CardImage(0,420,450);
+    //adding the cardImage to the cards vector
     cards.push_back(card);
+    //same
     card = new CardImage(1,520,450);
     cards.push_back(card);
+    //same
     card = new CardImage(2,620,450);
     cards.push_back(card);
     
-    
+    //rect areas to check user inputs (idea: insert the rect class in the cardImage)
+    //insert in the clickableAreas vector
+    //note: rect(startx, starty, width, height)
     sf::Rect<int>* rect = new sf::Rect<int>(420,450,100,180);
     clickableAreas.push_back(rect);
+    //same
     rect = new sf::Rect<int>(520,450,100,180);
     clickableAreas.push_back(rect);
+    //same
     rect = new sf::Rect<int>(620,450,200,180);
     clickableAreas.push_back(rect);
     
@@ -308,7 +316,7 @@ void Field::loop() {
 }
 
 int Field::handleEvents() {
-    
+    //note GetEvent ALWAYS in if() or while()
     if(_window->GetEvent(lastEvent))
     {
         switch(lastEvent.Type){
@@ -352,6 +360,8 @@ int Field::handleEvents() {
 
                 for(int i=0;i<clickableAreas.size();i++)
                 {
+                    //check if the click is inside for EACH clickableAreas rectangle 
+                    //note: rect has a "contains" methods, unluckly... doesn't works -_-"
                     if(
                     lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
                     lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
@@ -359,15 +369,19 @@ int Field::handleEvents() {
                     lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
 
                         {
+                            //the clicked card isn't active
                             if(cards[i]->activated==0)
                             {    
-                            for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-                            cards[i]->activateCard();
+                                //deactivate each card of the deck
+                                for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                                //activate the "i" card
+                                cards[i]->activateCard();
                             }
-
+                            //the "i" card is already activated, so deactivate it
                             else if(cards[i]->activated==1)cards[i]->deActivateCard();
 
-
+                            //note:
+                            //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
                         }
                 }
                 break;
