@@ -125,8 +125,7 @@ void Field::loop() {
     
     while(this->handleEvents())
     {
-        if (this->theClock.GetElapsedTime() < 0.01) //MAX FRAMERATE
-            continue;
+        if (this->theClock.GetElapsedTime() < 0.05) continue;
         
         switch(this->CurrentState){
             case Field::INIT:
@@ -309,6 +308,7 @@ void Field::loop() {
 }
 
 int Field::handleEvents() {
+    
     _window->GetEvent(lastEvent);
     
     switch(lastEvent.Type){
@@ -340,12 +340,10 @@ int Field::handleEvents() {
                 _ystart = lastEvent.MouseButton.Y;
                 
             }
-            
-
-            
-            
             break;
+            
         case sf::Event::MouseButtonReleased:
+            
             if(lastEvent.MouseButton.Button == sf::Mouse::Left){
                 _mouse_down = false;
                 _xstart = 0;
@@ -354,12 +352,13 @@ int Field::handleEvents() {
             
             for(int i=0;i<clickableAreas.size();i++)
             {
-            if(lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
+            if(
+               lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
                lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
                lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
                lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
                 
-                
+            {
                 printf("CLICK ON %d \n",i);
                 //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
                 cards[0]->deActivateCard();
@@ -368,6 +367,8 @@ int Field::handleEvents() {
                 
                 cards[i]->activateCard();
                 
+                
+            }
             }
             break;
             
@@ -382,8 +383,6 @@ int Field::handleEvents() {
                 _xstart = lastEvent.MouseMove.X;
                 _ystart = lastEvent.MouseMove.Y;
             }
-            
-            
             break;
             
         default:
