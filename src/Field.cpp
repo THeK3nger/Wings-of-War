@@ -98,7 +98,8 @@ void Field::loop() {
     std::vector<Card*> player_choices; // used to store player's choices
     std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
     
-    bool something_moved; // used to signal animations are over
+    int moves_counter = 0;      // used to understand how many move cards have already been applied
+    bool something_moved;       // used to signal animations are over
     
     Animation * animation1;     // used for animating the first plane
     Animation * animation2;     // used for animating the second plane
@@ -107,6 +108,8 @@ void Field::loop() {
     float plane1_final_pos [3];
     float plane2_prev_pos[3];
     float plane2_final_pos [3];
+    
+    bool kicker_was_changed = true; // this is used to avoid continuous replacement of the kicker content
     
     //store sprites dimentions and centering
     sf::Vector2f field_size = this->field_sprite.GetSize();
@@ -151,8 +154,11 @@ void Field::loop() {
                 
             case Field::PLAYER_SELECT:
                 // set kicker message
-                this->kicker->setMessage("Choose your move (use ARROWS):");
-                this->kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
+                if (kicker_was_changed){ // this is to avoid continuously replacing it
+                    this->kicker->setMessage("Choose your moves (use ARROWS):");
+                    this->kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
+                    kicker_was_changed = false;
+                }
                 
                 if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
                     if(this->lastEvent.Type == sf::Event::KeyPressed){
@@ -169,9 +175,13 @@ void Field::loop() {
                             default:
                                 break;
                         }
+                        #if DEBUG
+                        LOGMESSAGE("You have chosen a move");
+                        #endif
                     }
                 }
                 else{
+                    kicker_was_changed = true;
                     this->CurrentState = Field::BRAIN_SELECT;
 #if DEBUG
                 LOGMESSAGE("Player has chosen!");
@@ -192,9 +202,6 @@ void Field::loop() {
                 break;
                 
             case Field::APPLY_MOVES:
-                // TODO: add support for moves sequences
-                // for the moment, this only takes the first of the chosen cards
-                
                 // set kicker message
                 this->kicker->setMessage("WOOSH!");
                 this->kicker->setDetails("");
@@ -204,8 +211,8 @@ void Field::loop() {
                 this->plane2->getPosition(plane2_prev_pos);
                 
                 // logically move the planes
-                plane1->move(player_choices[0]);
-                plane2->move(ai_choices[0]);
+                plane1->move(player_choices[moves_counter]);
+                plane2->move(ai_choices[moves_counter]);
                 
                 // get position after move
                 plane1->getPosition(plane1_final_pos);
@@ -240,7 +247,17 @@ void Field::loop() {
                 break;
                 
             case Field::ANIM_DAMAGES:
-                this->CurrentState = Field::CHECK_FINISH;
+                // TODO: add some animation to represent shooting actions
+                
+                moves_counter++;
+                
+                if(moves_counter < CHOICES_PER_TURN){
+                    this->CurrentState = Field::APPLY_MOVES;
+                }
+                else{
+                    moves_counter = 0;
+                    this->CurrentState = Field::CHECK_FINISH;
+                }
                 break;
                 
             case Field::CHECK_FINISH: // this will also destroy things and clear stuff
