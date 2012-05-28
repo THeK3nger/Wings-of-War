@@ -14,6 +14,7 @@ public:
     //experimental
     int run(); //bloccante
     void display(); //non bloccante
+    void draw();
     void setMessage(std::string);
     void setDetails(std::string);
 private:

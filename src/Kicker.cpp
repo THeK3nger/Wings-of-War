@@ -63,17 +63,16 @@ int Kicker::run() {
 
 }
 
-void Kicker::display() {
-    
+void Kicker::draw(){
     _window->Draw(rect);
     _window->Draw(sCatsShadow);
     _window->Draw(sCats);
     _window->Draw(message);
     _window->Draw(detail);
+}
 
+void Kicker::display() {
     _window->Display();
-
-
 }
 
 Kicker::~Kicker() {

@@ -296,19 +296,17 @@ void Field::loop() {
         _window->Draw(plane1->plane_sprite);
         _window->Draw(plane2->plane_sprite);
         
-        
-        
-        
-        // ...and display them
-        _window->SetView(_window->GetDefaultView());
-        kicker->display();
+        // KICKER
+       kicker->draw();
         
         //CARDS TEST --------------
        _window->Draw(cards[0]->cardSprite);
        _window->Draw(cards[1]->cardSprite);
        _window->Draw(cards[2]->cardSprite);
-        //CARDS TEST --------------
-        
+       
+        // ...and display them
+        _window->SetView(_window->GetDefaultView());
+        kicker->display();
         _window->Display();
         
         theClock.Reset();
