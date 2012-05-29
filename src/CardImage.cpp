@@ -7,7 +7,7 @@
 
 #include "CardImage.h"
 
-CardImage::CardImage(int theId,float xpos, float ypos)
+CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow)
 {
     _id=theId;
     _cardImage.LoadFromFile("assets/bluecard.png");
@@ -15,6 +15,7 @@ CardImage::CardImage(int theId,float xpos, float ypos)
     cardSprite.SetPosition(xpos,ypos);
     cardSprite.SetScale(SCALE,SCALE);
     activated=0;
+    _window=refwindow;
 }
 
 CardImage::~CardImage() {
@@ -55,4 +56,9 @@ void CardImage::setPos(sf::Vector2f pos)
 void CardImage::getPos()
 {
    
+}
+
+void CardImage::draw()
+{
+    _window->Draw(cardSprite);
 }

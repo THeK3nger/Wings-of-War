@@ -17,7 +17,7 @@
 
 class CardImage {
 public:
-    CardImage(int theId,float xpos, float ypos);
+    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow);
     virtual ~CardImage();
     
     int getId();
@@ -25,6 +25,9 @@ public:
     void deActivateCard();
     void setPos(sf::Vector2f pos);
     void getPos();
+    
+    void draw();
+    
     sf::Sprite cardSprite;
     bool activated;
     
@@ -32,6 +35,7 @@ private:
 
     sf::Image _cardImage;
     sf::String _cardName;
+    sf::RenderWindow* _window;
     
     int _id;
     
