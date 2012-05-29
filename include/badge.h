@@ -25,7 +25,8 @@ private:
     sf::Color _badgeColor;
     sf::Shape _shape;
     sf::RenderWindow* _window;
-
+    sf::String _numberString;
+    sf::Font _font;
 };
 
 #endif	/* BADGE_H */
