@@ -20,13 +20,17 @@ badge::badge(sf::RenderWindow *refwindow,float posx,float posy) {
     _numberString.SetFont(_font);
     _numberString.SetPosition(_xpos-5,_ypos-10);
     _numberString.SetSize(20.f);
-    _numberString.SetText("1");
+    
 }
 
 
 badge::~badge() {
 }
 
+void badge::setText(char* text)
+{
+ _numberString.SetText(text);   
+}
 
 void badge::draw() {
     

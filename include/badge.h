@@ -17,6 +17,7 @@ public:
     badge(sf::RenderWindow *refwindow,float posx,float posy);
     virtual ~badge();
     void draw();
+    void setText(char* text);
 private:
     
     float _xpos;

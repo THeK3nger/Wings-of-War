@@ -59,6 +59,10 @@ private:
     int _ydisplacement;
     
     WaterTile* water;
+    
+    std::map<int,int> cardmaster;
+    std::map<int,int>::iterator it;
+    int cardCounter;
 };
 
 #endif	/* FIELD_H */

@@ -57,16 +57,21 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     kicker = new Kicker(_window);
     
+    
+    cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
-    CardImage* card = new CardImage(0,420,450,_window);
+    CardImage* card = new CardImage(0,420,450,_window,&cardmaster);
     //adding the cardImage to the cards vector
     cards.push_back(card);
+    
     //same
-    card = new CardImage(1,520,450,_window);
+    card = new CardImage(1,520,450,_window,&cardmaster);
     cards.push_back(card);
+    
     //same
-    card = new CardImage(2,620,450,_window);
+    card = new CardImage(2,620,450,_window,&cardmaster);
     cards.push_back(card);
+    
     
     //rect areas to check user inputs (idea: insert the rect class in the cardImage)
     //insert in the clickableAreas vector
@@ -390,11 +395,18 @@ int Field::handleEvents() {
                                 //deactivate each card of the deck
                                 //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
                                 //activate the "i" card
+                                cardmaster.insert(std::pair<int,int>(i,cardCounter));                               
                                 cards[i]->activateCard();
+                                cardCounter++;
                             }
                             //the "i" card is already activated, so deactivate it
-                            else if(cards[i]->activated==1)cards[i]->deActivateCard();
-
+                            else if(cards[i]->activated==1)
+                            {
+                                it=cardmaster.find(i);
+                                cardmaster.erase(it);
+                                cards[i]->deActivateCard();
+                                cardCounter--;
+                            }
                             //note:
                             //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
                         }

@@ -12,13 +12,15 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "badge.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define ACTIVATION_OFFSET 50
 #define SCALE 0.5f
 
 class CardImage {
 public:
-    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow);
+    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster);
     virtual ~CardImage();
     
     int getId();
@@ -42,7 +44,7 @@ private:
     
     int _id;
     
-    
+    std::map<int,int>* _cardmaster;
 
 };
 

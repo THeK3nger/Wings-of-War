@@ -7,7 +7,7 @@
 
 #include "CardImage.h"
 
-CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow)
+CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster)
 {
     _id=theId;
     _cardImage.LoadFromFile("assets/bluecard.png");
@@ -19,6 +19,7 @@ CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindo
     _badge = new badge(refwindow,xpos+10,ypos-ACTIVATION_OFFSET);
     
     _window=refwindow;
+    _cardmaster=cardmaster;
 }
 
 CardImage::~CardImage() {
@@ -38,6 +39,12 @@ void CardImage::activateCard()
     pos.y=pos.y-ACTIVATION_OFFSET;
     cardSprite.SetPosition(pos);
     activated=1;
+   
+    std::map<int,int>::iterator it;
+    _cardmaster->find(this->_id);
+    char buffer [33];
+    sprintf(buffer, "%d", it->second);
+    _badge->setText(buffer);
     }
     
 }
