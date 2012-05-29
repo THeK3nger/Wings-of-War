@@ -58,14 +58,14 @@ Field::Field(sf::RenderWindow *refwindow) {
     kicker = new Kicker(_window);
     
     //pointer to card image, instance to a generic cardImage with id=0
-    CardImage* card = new CardImage(0,420,450);
+    CardImage* card = new CardImage(0,420,450,_window);
     //adding the cardImage to the cards vector
     cards.push_back(card);
     //same
-    card = new CardImage(1,520,450);
+    card = new CardImage(1,520,450,_window);
     cards.push_back(card);
     //same
-    card = new CardImage(2,620,450);
+    card = new CardImage(2,620,450,_window);
     cards.push_back(card);
     
     //rect areas to check user inputs (idea: insert the rect class in the cardImage)
@@ -317,9 +317,9 @@ void Field::loop() {
        kicker->draw();
         
         //CARDS TEST --------------
-       _window->Draw(cards[0]->cardSprite);
-       _window->Draw(cards[1]->cardSprite);
-       _window->Draw(cards[2]->cardSprite);
+       cards[0]->draw();
+       cards[1]->draw();
+       cards[2]->draw();
        
         // ...and display them
         _window->SetView(_window->GetDefaultView());
