@@ -8,10 +8,15 @@
 #ifndef BADGE_H
 #define	BADGE_H
 
+#include "SFML/Window.hpp"
+#include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
+
 class badge {
 public:
-    badge();
+    badge(sf::RenderWindow *refwindow,float posx,float posy);
     virtual ~badge();
+    void draw();
 private:
     
     float _xpos;
@@ -19,7 +24,7 @@ private:
     int _number;
     sf::Color _badgeColor;
     sf::Shape _shape;
-    sf::RenderWindow _window;
+    sf::RenderWindow* _window;
 
 };
 

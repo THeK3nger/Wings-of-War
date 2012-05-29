@@ -15,6 +15,9 @@ CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindo
     cardSprite.SetPosition(xpos,ypos);
     cardSprite.SetScale(SCALE,SCALE);
     activated=0;
+    
+    _badge = new badge(refwindow,xpos+10,ypos-ACTIVATION_OFFSET);
+    
     _window=refwindow;
 }
 
@@ -61,4 +64,6 @@ void CardImage::getPos()
 void CardImage::draw()
 {
     _window->Draw(cardSprite);
+    if(activated)
+    _badge->draw();
 }

@@ -388,7 +388,7 @@ int Field::handleEvents() {
                             if(cards[i]->activated==0)
                             {    
                                 //deactivate each card of the deck
-                                for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                                //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
                                 //activate the "i" card
                                 cards[i]->activateCard();
                             }
