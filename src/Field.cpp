@@ -170,19 +170,25 @@ void Field::loop() {
                         switch(this->lastEvent.Key.Code){
                             case sf::Key::Right: // TODO: watch out! because of y inversion, "left" becomes "right"
                                 player_choices.push_back(this->plane1->getCardSet()->cards);
+                                #if DEBUG
+                                LOGMESSAGE("You have chosen a move");
+                                #endif
                                 break;
                             case sf::Key::Left:
                                 player_choices.push_back(this->plane1->getCardSet()->cards+1);
+                                #if DEBUG
+                                LOGMESSAGE("You have chosen a move");
+                                #endif
                                 break;
                             case sf::Key::Up:
                                 player_choices.push_back(this->plane1->getCardSet()->cards+2);
+                                #if DEBUG
+                                LOGMESSAGE("You have chosen a move");
+                                #endif
                                 break;
                             default:
                                 break;
                         }
-                        #if DEBUG
-                        LOGMESSAGE("You have chosen a move");
-                        #endif
                     }
                 }
                 else{
@@ -301,6 +307,7 @@ void Field::loop() {
         
         _window->Clear(sf::Color(0,0,0));
         
+        // Set the camera according to the zoom
         _window->SetView(this->camera);
         
         // TODO: adjust this, it is just for testing
@@ -312,11 +319,14 @@ void Field::loop() {
                 }
         }
         
-        // Now draw things...
+        // Now draw things that must be affected by the zoom...
         _window->Draw(plane1_shadow);
         _window->Draw(plane2_shadow);
         _window->Draw(plane1->plane_sprite);
         _window->Draw(plane2->plane_sprite);
+        
+        // Now draw things of fixed size
+        _window->SetView(_window->GetDefaultView());
         
         // KICKER
        kicker->draw();
@@ -326,9 +336,8 @@ void Field::loop() {
        cards[1]->draw();
        cards[2]->draw();
        
-        // ...and display them
-        _window->SetView(_window->GetDefaultView());
-        kicker->display();
+        // ...and display everything
+//        kicker->display(); // NOT NEEDED! This just calls kicker->_window->Dislay(), hence it's a repetition
         _window->Display();
         
         theClock.Reset();
