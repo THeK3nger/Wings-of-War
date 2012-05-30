@@ -398,14 +398,22 @@ int Field::handleEvents() {
                                 cardmaster.insert(std::pair<int,int>(i,cardCounter));                               
                                 cards[i]->activateCard();
                                 cardCounter++;
+                                
                             }
                             //the "i" card is already activated, so deactivate it
                             else if(cards[i]->activated==1)
                             {
-                                it=cardmaster.find(i);
-                                cardmaster.erase(it);
-                                cards[i]->deActivateCard();
-                                cardCounter--;
+                                for(int j=0;j<cards.size();j++)
+                                {
+                                it=cardmaster.find(j);
+                                if(it!=cardmaster.end())
+                                {
+                                    cardmaster.erase(it);
+                                    cardCounter--;
+                                }
+                                cards[j]->deActivateCard();
+                                
+                                }
                             }
                             //note:
                             //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)

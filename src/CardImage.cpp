@@ -41,9 +41,10 @@ void CardImage::activateCard()
     activated=1;
    
     std::map<int,int>::iterator it;
-    _cardmaster->find(this->_id);
-    char buffer [33];
-    sprintf(buffer, "%d", it->second);
+    it=_cardmaster->find(this->_id);
+    
+    char buffer[33];
+    sprintf(buffer, "%d",it->second);
     _badge->setText(buffer);
     }
     
