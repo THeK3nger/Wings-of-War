@@ -404,10 +404,10 @@ void Field::loop() {
         _window->SetView(this->camera);
         
         // TODO: adjust this, it is just for testing
-        for(int i=0;i<30;i++){
-                for(int j=0;j<30;j++)
+        for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
+                for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
                 {
-                    water->setPos(i*water_size.x*2,j*water_size.y*2);
+                    water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
                     _window->Draw(water->getSprite());
                 }
         }
@@ -527,10 +527,10 @@ int Field::handleEvents() {
                 if(_mouse_down){
                     _xdisplacement += lastEvent.MouseMove.X - _xstart;
                     _ydisplacement += lastEvent.MouseMove.Y - _ystart;
-                    if (_xdisplacement < 0) _xdisplacement = 0;
-                    if (_xdisplacement > this->theWorld->getWidth()) _xdisplacement = this->theWorld->getWidth();
-                    if (_ydisplacement < 0) _ydisplacement = 0;
-                    if (_ydisplacement > this->theWorld->getHeight()) _ydisplacement = this->theWorld->getHeight();
+                    if (_xdisplacement > 0) _xdisplacement = 0;
+                    if (-_xdisplacement > this->theWorld->getWidth()) _xdisplacement = -this->theWorld->getWidth();
+                    if (_ydisplacement > 0) _ydisplacement = 0;
+                    if (-_ydisplacement > this->theWorld->getHeight()) _ydisplacement = -this->theWorld->getHeight();
                     _xstart = lastEvent.MouseMove.X;
                     _ystart = lastEvent.MouseMove.Y;
                 }
