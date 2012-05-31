@@ -37,7 +37,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     field_sprite.SetImage(field_image);
 
     LOGMESSAGE("Create Game World");
-    theWorld = new World(800, 800);
+    theWorld = new World(800, 600);
     theWorld->addPlane(plane1);
     theWorld->addPlane(plane2);
     theBrain = new WoWBrain(plane2, theWorld);
@@ -95,10 +95,15 @@ Field::~Field() {
 
 void Field::loop() {
     // Definition of useful stuff
+    bool game_finished = false; // will be TRUE when the game has ended
+    
     float angle=0;
     
     float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
     float p2pos [3];
+    
+    bool plane1_out = false;    // these two booleans are used to signal that planes have gone out of bounds
+    bool plane2_out = false;
     
     std::vector<Card*> player_choices; // used to store player's choices
     std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
@@ -129,7 +134,6 @@ void Field::loop() {
     plane1_shadow.SetColor(sf::Color(0,0,0,128));
     sf::Sprite plane2_shadow = plane2->plane_sprite;
     plane2_shadow.SetColor(sf::Color(0,0,0,128));
-    
     
     // these will keep track of planes shadows positions
     sf::Vector2f shadow1_pos;
@@ -254,31 +258,120 @@ void Field::loop() {
                 this->kicker->setMessage("BUM BUM BUM!");
                 this->kicker->setDetails("");
                 
+                // if some plane is out of bounds, destroy it
+                if (!this->theWorld->isInside(plane1)){
+                    plane1_out = true;
+                    plane1->inflictDamage(plane1->remainingHealth());
+                }
+                if (!this->theWorld->isInside(plane2)){
+                    plane2_out = true;
+                    plane2->inflictDamage(plane2->remainingHealth());
+                }
+                if ((!plane1_out) && plane1->canShootTo(plane2)){
+#if DEBUG
+                    LOGMESSAGE("PLANE1 SHOT TO PLANE2");
+#endif
+                    plane2->inflictDamage(this->theBrain->expectedDamage());
+                }
+                if ((!plane2_out) && plane2->canShootTo(plane1)){
+                    plane1->inflictDamage(this->theBrain->expectedDamage());
+#if DEBUG
+                    LOGMESSAGE("PLANE2 SHOT TO PLANE1");
+#endif
+                }
+                
+#if DEBUG
+                std::cout << "remaining health -- PLANE1: " << plane1->remainingHealth() << ", Plane2: " << plane2->remainingHealth() << '\n';
+#endif
+                
                 this->CurrentState = Field::ANIM_DAMAGES;
                 break;
                 
             case Field::ANIM_DAMAGES:
                 // TODO: add some animation to represent shooting actions
                 
-                moves_counter++;
-                
-                if(moves_counter < CHOICES_PER_TURN){
-                    this->CurrentState = Field::APPLY_MOVES;
-                }
-                else{
-                    moves_counter = 0;
-                    this->CurrentState = Field::CHECK_FINISH;
-                }
+                this->CurrentState = Field::CHECK_FINISH;
                 break;
                 
             case Field::CHECK_FINISH: // this will also destroy things and clear stuff
-                delete animation1;
-                delete animation2;
-                player_choices.clear();
                 
                 // CHECK WIN/LOSE CONDITIONS
-                this->CurrentState = Field::PLAYER_SELECT;
+                if (plane1_out){ // opponent plane is out of bounds
+                    game_finished = true;
+                    if (plane2_out){ // BOTH planes out of bounds
+#if DEBUG
+                        LOGMESSAGE("both planes out of bounds!");
+#endif
+                        kicker->setDetails("DRAW, they all got lost somewhere...");
+                    }
+                    else{ // ONLY OPPONENT is out of bounds
+#if DEBUG
+                        LOGMESSAGE("PLAYER out of bounds!");
+#endif
+                        kicker->setDetails("PLAYER got lost...");
+                    }
+                }
+                else if (plane2_out){   // ONLY AI plane out of bounds
+                    game_finished = true;
+#if DEBUG
+                    LOGMESSAGE("AI PLANE out of bounds!");
+#endif
+                    kicker->setDetails("AI got lost...");
+                }
+                
+                if (!game_finished){    // check other finish conditions
+                    if (plane1->remainingHealth() <= 0){ // PLAYER DIED
+                        game_finished = true;
+                        if (plane2->remainingHealth() <= 0){ // AI DIED TOO
+#if DEBUG
+                        LOGMESSAGE("BOTH PLANES destroyed!");
+#endif
+                        kicker->setDetails("Both planes down: DRAW!");
+                        }
+                        else{
+#if DEBUG
+                            LOGMESSAGE("OPPONENT destroyed!");
+#endif
+                            kicker->setDetails("Plane1 destroyed: YOU LOST!");
+                        }
+                    }
+                    else if(plane1->remainingHealth() <= 0){ // ONLY AI DIED
+                        game_finished = true;
+#if DEBUG
+                        LOGMESSAGE("AI plane destroyed!");
+#endif
+                        kicker->setDetails("Plane2 destroyed: YOU WIN!");
+                    }
+                }
+                
+                if(!game_finished){     // if the game is not over
+                    moves_counter++;
+
+                    if(moves_counter < CHOICES_PER_TURN){
+                        this->CurrentState = Field::APPLY_MOVES;
+                    }
+                    else{
+                        moves_counter = 0;
+                        delete animation1;
+                        delete animation2;
+                        player_choices.clear();
+                        
+                        this->CurrentState = Field::PLAYER_SELECT;
+                    }
+                }
+                else{   // if the game is over
+                    delete animation1;
+                    delete animation2;
+                    player_choices.clear();
+                    
+                    kicker->setMessage("GAME FINISHED");
+                    this->CurrentState = Field::SHOW_INFOS;
+                }
                 break;
+                
+            case Field::SHOW_INFOS:     // we can add something here that shows infos at the end of the game, such as moves performed and damages received by planes
+                break;
+                
             default:
                 break;
         }

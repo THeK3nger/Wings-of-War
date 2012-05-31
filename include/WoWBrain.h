@@ -26,7 +26,14 @@ public:
      * \return The ID of AI-controlled Plane.
      */
     Plane* getAIPlane();
-
+    
+    /*!
+     * Return ID of Opponent Plane.
+     * 
+     * \return The ID of Opponent Plane.
+     */
+    Plane* getOpponentPlane();
+    
     /*!
      * Ask to AI for the best available move given the current status.
      * 
@@ -50,7 +57,13 @@ public:
      * Computes the heuristic based o the actual world state
      */
     int computeHeuristic();
-
+    
+    /*!
+     * Returns the expected value for the damage due to a shot
+     * TODO: maybe this will take as input a "DamageSet", or better a Plane. IDEA: store the expected value for each in the constructor, so that it is ready when needed
+     */
+    int expectedDamage();
+    
     void setWeights(int* weights);
 
 private:
@@ -60,12 +73,6 @@ private:
      * \param depth the reached depth
      */
     int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent);
-
-    /*!
-     * Returns the expected value for the damage due to a shot
-     * TODO: maybe this will take as input a "DamageSet", or better a Plane. IDEA: store the expected value for each in the constructor, so that it is ready when needed
-     */
-    int expectedDamage();
 
     World *current_world;
     Plane *aiplane;

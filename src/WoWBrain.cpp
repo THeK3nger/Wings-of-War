@@ -32,6 +32,10 @@ Plane* WoWBrain::getAIPlane() {
     return this->aiplane;
 }
 
+Plane* WoWBrain::getOpponentPlane(){
+    return this->opponent;
+}
+
 void WoWBrain::setWeights(int* weights) {
     this->weights[0] = weights[0]; // Distance
     this->weights[1] = weights[1]; // CanShoot? CanSee?
