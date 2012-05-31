@@ -1,3 +1,5 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE cardset SYSTEM "cardset.dtd">
 <!-- Just an example of Card-Set file! -->
 <cardset name="Test Set" size="3">
     <card>

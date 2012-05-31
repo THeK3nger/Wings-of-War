@@ -1,0 +1,9 @@
+<!ELEMENT cardset   (card+)>
+<!ELEMENT card      (type,movement)>
+<!ELEMENT type      (#PCDATA)>
+<!ELEMENT movement  EMPTY>
+<!ATTLIST movement
+    x       CDATA       #REQUIRED
+    y       CDATA       #REQUIRED
+    theta   CDATA       #REQUIRED
+>
