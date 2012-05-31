@@ -335,7 +335,7 @@ void Field::loop() {
                             kicker->setDetails("Plane1 destroyed: YOU LOST!");
                         }
                     }
-                    else if(plane1->remainingHealth() <= 0){ // ONLY AI DIED
+                    else if(plane2->remainingHealth() <= 0){ // ONLY AI DIED
                         game_finished = true;
 #if DEBUG
                         LOGMESSAGE("AI plane destroyed!");

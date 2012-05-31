@@ -134,7 +134,9 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         bool opponent_damaged = false;
 
         for (int i = 0; i < possible_moves_number; i++) {
-
+            ai_damaged = false;
+            opponent_damaged = false;
+            
             this->opponent->move(possible_moves[i]); // applies a move card
 
             if (aiplane->canShootTo(opponent)) { // if there are damages to be inflicted, inflict them
