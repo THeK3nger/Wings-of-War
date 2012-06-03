@@ -484,11 +484,13 @@ int Field::handleEvents() {
                 {
                     //check if the click is inside for EACH clickableAreas rectangle 
                     //note: rect has a "contains" methods, unluckly... doesn't works -_-"
+                    double active_offset = 0;
+                    if(cards[i]->activated) active_offset = 50;
                     if(
                     lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
-                    lastEvent.MouseButton.Y>=clickableAreas[i]->Top &&
+                    lastEvent.MouseButton.Y>=clickableAreas[i]->Top - active_offset &&
                     lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
-                    lastEvent.MouseButton.Y<=clickableAreas[i]->Top+clickableAreas[0]->Bottom)
+                    lastEvent.MouseButton.Y<=clickableAreas[i]->Top - active_offset + clickableAreas[0]->Bottom)
 
                         {
                             //the clicked card isn't active
