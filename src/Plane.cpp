@@ -39,7 +39,8 @@ Plane::Plane(int id, int health, float x, float y, float theta) {
     plane_image.LoadFromFile("assets/fighter.png");
     plane_sprite.SetImage(plane_image);
 
-    this->cardset= CardSetLoader::LoadFromFile("assets/cardset/3card.xml");
+    //this->cardset= CardSetLoader::LoadFromFile("assets/cardset/3card.xml");
+    this->cardset= CardSetLoader::LoadFromFile("assets/cardset/default_deck.xml");
 }
 
 Plane::~Plane() {

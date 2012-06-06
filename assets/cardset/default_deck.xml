@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE cardset SYSTEM "cardset.dtd">
+<!-- Just an example of Card-Set file! -->
+<cardset name="Test Set" size="3">
+    <card>
+        <type>L_STEER</type>
+        <movement x="100" y="30" theta="0.785398163"/>
+    </card>
+    <card>
+        <type>R_STEER</type>
+        <movement x="100" y="-30" theta="-0.785398163"/>
+    </card>
+    <card>
+        <type>STRAIGHT</type>
+        <movement x="150" y="0" theta="0"/>
+    </card>
+    <card>
+        <type>L_STEER</type>
+        <movement x="50" y="30" theta="1.7"/>
+    </card>
+    <card>
+        <type>R_STEER</type>
+        <movement x="50" y="-30" theta="-1.7"/>
+    </card>
+    <card>
+        <type>STRAIGHT</type>
+        <movement x="50" y="0" theta="0"/>
+    </card>
+</cardset>

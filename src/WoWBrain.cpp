@@ -89,13 +89,14 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         }
         return heur;
     }
-
-    Card ** possible_moves = new Card*[3];
+       
+    Card ** possible_moves;
     int possible_moves_number = 0;
 
     Card::CType previous_move;
 
     if (maximizing) { // AI PLAYER
+        possible_moves = new Card*[aiplane->getCardSet()->cards_number];
         previous_move = this->aiplane->getLastMove();
         possible_moves_number = this->nextValidMoves(this->aiplane, possible_moves);
 
@@ -123,6 +124,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             actual_sequence->pop_back();
         }
     } else { // OPPONENT PLAYER
+        possible_moves = new Card*[opponent->getCardSet()->cards_number];
         previous_move = this->opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->opponent, possible_moves);
         if (possible_moves_number == 0) {
