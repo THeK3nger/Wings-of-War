@@ -87,6 +87,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
+    this->status = INGAME;
     this->loop();
 }
 
@@ -143,7 +144,7 @@ void Field::loop() {
     field_sprite.SetCenter(field_size.x/2,field_size.y/2);
     field_sprite.SetPosition(field_size.x/2,field_size.y/2);
     
-    while(this->handleEvents())
+    while(this->handleEvents() && this->status != TERMINATED)
     {
         if (this->theClock.GetElapsedTime() < 0.05) continue;
         
@@ -437,6 +438,92 @@ void Field::loop() {
     }
 }
 
+/************ EVENT HANDLER **********/
+
+void Field::zoom(float z)
+{
+    this->camera.Zoom(z);
+}
+
+void Field::stop()
+{
+    this->status = TERMINATED;
+}
+
+void Field::mouseLeftPressed(float x, float y)
+{
+    this->_mouse_down = true;
+    this->_xstart = x;
+    this->_ystart = y;
+}
+
+void Field::mouseLeftReleased(float x, float y)
+{
+    this->_mouse_down = false;
+    this->_xstart = 0;
+    this->_ystart = 0;
+
+    /* TODO: ClickableAreas method? */
+    for(int i=0;i<clickableAreas.size();i++)
+    {
+        //check if the click is inside for EACH clickableAreas rectangle
+        //note: rect has a "contains" methods, unluckly... doesn't works -_-"
+        double active_offset = 0;
+        if(cards[i]->activated) active_offset = 50;
+        if(
+        x>=clickableAreas[i]->Left &&
+        y>=clickableAreas[i]->Top - active_offset &&
+        x<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
+        y<=clickableAreas[i]->Top - active_offset + clickableAreas[0]->Bottom)
+
+            {
+                //the clicked card isn't active
+                if(cards[i]->activated==0)
+                {
+                    //deactivate each card of the deck
+                    //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                    //activate the "i" card
+                    cardmaster.insert(std::pair<int,int>(i,cardCounter));
+                    cards[i]->activateCard();
+                    cardCounter++;
+
+                }
+                //the "i" card is already activated, so deactivate it
+                else if(cards[i]->activated==1)
+                {
+                    for(int j=0;j<cards.size();j++)
+                    {
+                    it=cardmaster.find(j);
+                    if(it!=cardmaster.end())
+                    {
+                        cardmaster.erase(it);
+                        cardCounter--;
+                    }
+                    cards[j]->deActivateCard();
+
+                    }
+                }
+                //note:
+                //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
+            }
+    }
+}
+
+void Field::mouseMoved(float x, float y)
+{
+    if(_mouse_down){
+        _xdisplacement += x - _xstart;
+        _ydisplacement += y - _ystart;
+        if (_xdisplacement > 0) _xdisplacement = 0;
+        if (-_xdisplacement > this->theWorld->getWidth()) _xdisplacement = -this->theWorld->getWidth();
+        if (_ydisplacement > 0) _ydisplacement = 0;
+        if (-_ydisplacement > this->theWorld->getHeight()) _ydisplacement = -this->theWorld->getHeight();
+        _xstart = x;
+        _ystart = y;
+    }
+}
+
+
 int Field::handleEvents() {
     //note GetEvent ALWAYS in if() or while()
     if(_window->GetEvent(lastEvent))
@@ -445,13 +532,13 @@ int Field::handleEvents() {
             case sf::Event::KeyPressed:
                 switch(lastEvent.Key.Code){
                     case sf::Key::Num1:
-                        this->camera.Zoom(1.1f);
+                        zoom(1.1f);
                         break;
                     case sf::Key::Num2:
-                        this->camera.Zoom(0.9f);
+                        zoom(0.9f);
                         break;
                     case sf::Key::Escape:
-                        return 0;
+                        stop();
                         break;
                     default:
                         break;
@@ -459,83 +546,24 @@ int Field::handleEvents() {
                 break;
 
             case sf::Event::MouseWheelMoved:
-                if(lastEvent.MouseWheel.Delta<0) this->camera.Zoom(1.1f);
-                else this->camera.Zoom(0.9f);
+                if(lastEvent.MouseWheel.Delta<0) zoom(1.1f);
+                else zoom(0.9f);
                 break;
 
             case sf::Event::MouseButtonPressed:
                 if (lastEvent.MouseButton.Button == sf::Mouse::Left){
-                    _mouse_down = true;
-                    _xstart = lastEvent.MouseButton.X;
-                    _ystart = lastEvent.MouseButton.Y;
-
+                    mouseLeftPressed(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
                 }
                 break;
 
             case sf::Event::MouseButtonReleased:
-
                 if(lastEvent.MouseButton.Button == sf::Mouse::Left){
-                    _mouse_down = false;
-                    _xstart = 0;
-                    _ystart = 0;
-                }
-
-                for(int i=0;i<clickableAreas.size();i++)
-                {
-                    //check if the click is inside for EACH clickableAreas rectangle 
-                    //note: rect has a "contains" methods, unluckly... doesn't works -_-"
-                    double active_offset = 0;
-                    if(cards[i]->activated) active_offset = 50;
-                    if(
-                    lastEvent.MouseButton.X>=clickableAreas[i]->Left &&
-                    lastEvent.MouseButton.Y>=clickableAreas[i]->Top - active_offset &&
-                    lastEvent.MouseButton.X<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
-                    lastEvent.MouseButton.Y<=clickableAreas[i]->Top - active_offset + clickableAreas[0]->Bottom)
-
-                        {
-                            //the clicked card isn't active
-                            if(cards[i]->activated==0)
-                            {    
-                                //deactivate each card of the deck
-                                //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-                                //activate the "i" card
-                                cardmaster.insert(std::pair<int,int>(i,cardCounter));                               
-                                cards[i]->activateCard();
-                                cardCounter++;
-                                
-                            }
-                            //the "i" card is already activated, so deactivate it
-                            else if(cards[i]->activated==1)
-                            {
-                                for(int j=0;j<cards.size();j++)
-                                {
-                                it=cardmaster.find(j);
-                                if(it!=cardmaster.end())
-                                {
-                                    cardmaster.erase(it);
-                                    cardCounter--;
-                                }
-                                cards[j]->deActivateCard();
-                                
-                                }
-                            }
-                            //note:
-                            //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
-                        }
+                    mouseLeftReleased(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
                 }
                 break;
 
             case sf::Event::MouseMoved:
-                if(_mouse_down){
-                    _xdisplacement += lastEvent.MouseMove.X - _xstart;
-                    _ydisplacement += lastEvent.MouseMove.Y - _ystart;
-                    if (_xdisplacement > 0) _xdisplacement = 0;
-                    if (-_xdisplacement > this->theWorld->getWidth()) _xdisplacement = -this->theWorld->getWidth();
-                    if (_ydisplacement > 0) _ydisplacement = 0;
-                    if (-_ydisplacement > this->theWorld->getHeight()) _ydisplacement = -this->theWorld->getHeight();
-                    _xstart = lastEvent.MouseMove.X;
-                    _ystart = lastEvent.MouseMove.Y;
-                }
+                mouseMoved(lastEvent.MouseMove.X,lastEvent.MouseMove.Y);
                 break;
 
             default:

@@ -23,7 +23,18 @@ public:
     ~Field();
     void loop();
     int handleEvents();
+
+    /* EVENTS HANDLER */
+    void zoom(float z);
+    void stop();
+    void mouseLeftPressed(float x,float y);
+    void mouseLeftReleased(float x, float y);
+    void mouseMoved(float x, float y);
+
+
 private:
+    enum FieldStatus { INGAME, TERMINATED };
+    FieldStatus status;
     
     Plane* plane1;
     Plane* plane2;
