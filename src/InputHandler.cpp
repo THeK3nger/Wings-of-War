@@ -31,14 +31,18 @@ InputHandler* InputHandler::getSingleton()
 
 void InputHandler::handleInput()
 {
-    if(_window->GetEvent(lastEvent))
+    if(_window->GetEvent(_lastEvent))
     {
-        switch(lastEvent.Type)
+        switch(_lastEvent.Type)
         {
             case sf::Event::KeyPressed:
-                switch(lastEvent.Key.Code)
+                switch(_lastEvent.Key.Code)
                 {
                     case sf::Key::Num1:
+                        _event.type = InputHandler::ZOOMIN;
+                        break;
+                    case sf::Key::Num2:
+                        _event.type = InputHandler::ZOOMOUT;
                         break;
                 }
         }
