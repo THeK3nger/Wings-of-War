@@ -3,14 +3,6 @@
 #include "wowcommon.h"
 #include "Field.h"
 
-inline float radiants2degrees(float rads){
-    return rads * 180 / M_PI;
-}
-
-inline float degrees2radiants(float degs){
-    return degs * M_PI / 180;
-}
-
 Field::Field(sf::RenderWindow *refwindow) {
     LOGMESSAGE("Loading Field...");
     _window = refwindow;

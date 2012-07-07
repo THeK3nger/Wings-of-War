@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include "math.h"
 
 /*!
  * \def LOGMESSAGE(X)
@@ -66,5 +67,15 @@
 /* TRIGGER MACRO */
 
 #define DEBUG 1
+
+/* COMMON ARITMETIC INLINE FUNCTION */
+inline float radiants2degrees(float rads){
+    return rads * 180 / M_PI;
+}
+
+inline float degrees2radiants(float degs){
+    return degs * M_PI / 180;
+}
+
 
 #endif
