@@ -3,16 +3,17 @@
 /*!
  * Constructor
  */
-
 SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
-
     //Storing the address of the mainwindow to the current window
     _window = refwindow;
+    this->init();
+}
 
+void SplashScreen::init(){
     //Setting the current state of the fighter on the "STARTGAME" state
     FighterState = SplashScreen::StartGame;
 
-    //Loading the menu sound 
+    //Loading the menu sound
     _buffer.LoadFromFile("assets/menu.ogg");
 
     //Using the buffer
@@ -33,8 +34,6 @@ SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
 
     //Setting the fighter position
     _fighter.SetPosition(250, 385);
-    //Setting the fighter rotation
-    _fighter.SetRotation(-90.f);
 
     //Loading the bgmusic file
     _bgmusic.OpenFromFile("assets/bgmusic.ogg");
@@ -43,8 +42,6 @@ SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
     _bgmusic.Play();
- 
-
 }
 
 /*!
@@ -56,8 +53,6 @@ SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
  *  The ESCAPE key terminates the loop
  * 
  */
-
-
 void SplashScreen::loop() {
     while (this->handleEvents() == 1) {
         //drawing the background
@@ -83,8 +78,6 @@ void SplashScreen::loop() {
  * 
  */
 bool SplashScreen::handleEvents() {
-
-
     sf::Event Event;
     if (_window->GetEvent(Event)) {
         //PRESSING KEY UP
@@ -93,7 +86,7 @@ bool SplashScreen::handleEvents() {
             if (FighterState == SplashScreen::StartGame) {
                 _fighter.SetPosition(250, 385);
                 FighterState = SplashScreen::StartGame;
-            };
+            }
 
             if (FighterState == SplashScreen::Option) {
                 _fighter.SetPosition(250, 385);
@@ -121,7 +114,6 @@ bool SplashScreen::handleEvents() {
 
         //PRESSING KEY ESCAPE
         if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape)) {
-
             return 0;
         }
 
@@ -134,8 +126,7 @@ bool SplashScreen::handleEvents() {
                 Titolo.SetPosition(180,180);
                 sf::String sottoTitolo; sottoTitolo.SetText("");
                 Dialog myDialog(_window,Titolo,sottoTitolo);
-                
-                
+                     
                 sf::PostFX Effect;
                 Effect.LoadFromFile("shaders/blur.sfx");
                 Effect.SetTexture("framebuffer", NULL);
@@ -146,11 +137,7 @@ bool SplashScreen::handleEvents() {
                 _window->Draw(Effect);
                 _window->Display();
 
-                
-                
                 myDialog.run();
-             
-
             }
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
@@ -160,14 +147,12 @@ bool SplashScreen::handleEvents() {
             return 1;
         }
     }
-
     return 1;
 }
 
 /*!
  *  Destructor
  */
-
 SplashScreen::~SplashScreen() {
 
 }

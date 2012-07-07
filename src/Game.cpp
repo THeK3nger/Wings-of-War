@@ -10,10 +10,8 @@ Game::Game(int h, int w, int d) {
     width = w;
     height = h;
     depth = d;
-    //name=n;
 
     _gameState = Game::Uninitialized;
-
 }
 
 /*!
@@ -29,7 +27,7 @@ void Game::init() {
     if (_gameState != Game::Uninitialized) return;
 
     _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
-    _gameState = Game::Playing;
+    _gameState = Game::Playing; //NOTE: Why there is this useless status update?
     _gameState = Game::ShowingSplash;
     OK;
     LOGMESSAGE("Starting Game Loop");
@@ -55,7 +53,6 @@ void Game::run() {
         {
             _mainWindow.Clear(sf::Color(0, 0, 0));
             _mainWindow.Display();
-
             this->CheckForEvents();
         }
 

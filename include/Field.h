@@ -25,10 +25,36 @@ public:
     int handleEvents();
 
     /* EVENTS HANDLER */
+    /*!
+     * \brief Zoom windows view.
+     * \param z Zoom amount!
+     */
     void zoom(float z);
+
+    /*!
+     * \brief Stop the execution of Field.
+     */
     void stop();
+
+    /*!
+     * \brief Perform events on LeftMouse click.
+     * \param x
+     * \param y
+     */
     void mouseLeftPressed(float x,float y);
+
+    /*!
+     * \brief Perform events on LeftMouse release.
+     * \param x
+     * \param y
+     */
     void mouseLeftReleased(float x, float y);
+
+    /*!
+     * \brief Perform events on mouse movement.
+     * \param x
+     * \param y
+     */
     void mouseMoved(float x, float y);
 
 

@@ -10,13 +10,16 @@
 
 class SplashScreen {
 public:
+    /*!
+     * \brief SplashScreen constructor
+     * \param refwindow Reference to the original windows.
+     */
     SplashScreen(sf::RenderWindow *refwindow);
 
     virtual ~SplashScreen();
     void loop();
 
 private:
-
     /*!
      * The render window
      */
@@ -67,8 +70,16 @@ private:
      */
     FighterPosition FighterState;
 
+    /*!
+     * \brief Handle user input.
+     * \return return false on error or exit key.
+     */
     bool handleEvents();
 
+    /*!
+     * \brief Initializa SplashScreen class.
+     */
+    void init();
 };
 
 #endif	/* SPLASHSCREEN_H */

@@ -26,7 +26,6 @@ public:
      * \param int   h=height
      * \param int   w=width
      * \param int   d=depth
-     * \param char* n=name
      */
 
     Game(int h, int w, int d);

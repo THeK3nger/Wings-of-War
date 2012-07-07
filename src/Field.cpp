@@ -42,7 +42,6 @@ Field::Field(sf::RenderWindow *refwindow) {
     theWorld->addPlane(plane2);
     theBrain = new WoWBrain(plane2, theWorld);
 
-
     _xstart = 0;
     _ystart = 0;
     _xdisplacement = 0;
@@ -85,15 +84,15 @@ Field::Field(sf::RenderWindow *refwindow) {
     rect = new sf::Rect<int>(620,450,200,180);
     clickableAreas.push_back(rect);
     
-    
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->status = INGAME;
-    this->loop();
+    this->loop(); //FIXME: It's better to allow the constructor to terminate.
 }
 
 Field::~Field() {
 }
 
+//FIXME: This function is simply TOO BIG. We should split it in sub-function.
 void Field::loop() {
     // Definition of useful stuff
     bool game_finished = false; // will be TRUE when the game has ended
@@ -101,7 +100,7 @@ void Field::loop() {
     float angle=0;
     
     float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
-    float p2pos [3];
+    float p2pos [3];    // WARNING: I think that these should stay in Plane class...
     
     bool plane1_out = false;    // these two booleans are used to signal that planes have gone out of bounds
     bool plane2_out = false;
