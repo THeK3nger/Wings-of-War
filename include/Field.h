@@ -60,7 +60,7 @@ public:
 
 private:
     enum FieldStatus { INGAME, TERMINATED };
-    FieldStatus status;
+    FieldStatus status; //WARING: Difference between status and CurrentState?
     
     Plane* plane1;
     Plane* plane2;
@@ -80,7 +80,7 @@ private:
         INIT, PLAYER_SELECT, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
     };
 
-    States CurrentState;
+    States CurrentState; //WARING: Difference between status and CurrentState?
 
     sf::RenderWindow* _window;
     sf::View camera;

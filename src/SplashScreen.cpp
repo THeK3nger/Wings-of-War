@@ -142,6 +142,7 @@ bool SplashScreen::handleEvents() {
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
                 Field field(_window);
+                field.loop();
                 _bgmusic.Play();
             }
             return 1;

@@ -41,13 +41,11 @@ Field::Field(sf::RenderWindow *refwindow) {
 
     _mouse_down = false;
     
-
     water = new WaterTile(_window);
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
     camera.SetFromRect(frect);
     
     kicker = new Kicker(_window);
-    
     
     cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
@@ -63,7 +61,6 @@ Field::Field(sf::RenderWindow *refwindow) {
     card = new CardImage(2,620,450,_window,&cardmaster);
     cards.push_back(card);
     
-    
     //rect areas to check user inputs (idea: insert the rect class in the cardImage)
     //insert in the clickableAreas vector
     //note: rect(startx, starty, width, height)
@@ -78,10 +75,13 @@ Field::Field(sf::RenderWindow *refwindow) {
     
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->status = INGAME;
-    this->loop(); //FIXME: It's better to allow the constructor to terminate.
 }
 
 Field::~Field() {
+}
+
+void init() {
+
 }
 
 //FIXME: This function is simply TOO BIG. We should split it in sub-function.
@@ -167,19 +167,19 @@ void Field::loop() {
                             case sf::Key::Right: // TODO: watch out! because of y inversion, "left" becomes "right"
                                 player_choices.push_back(this->plane1->getCardSet()->cards);
                                 #if DEBUG
-                                LOGMESSAGE("You have chosen a move");
+                                LOGMESSAGE("You have chosen Right");
                                 #endif
                                 break;
                             case sf::Key::Left:
                                 player_choices.push_back(this->plane1->getCardSet()->cards+1);
                                 #if DEBUG
-                                LOGMESSAGE("You have chosen a move");
+                                LOGMESSAGE("You have chosen Left");
                                 #endif
                                 break;
                             case sf::Key::Up:
                                 player_choices.push_back(this->plane1->getCardSet()->cards+2);
                                 #if DEBUG
-                                LOGMESSAGE("You have chosen a move");
+                                LOGMESSAGE("You have chosen Up");
                                 #endif
                                 break;
                             default:
