@@ -113,6 +113,8 @@ void Field::loop() {
     
     bool kicker_was_changed = true; // this is used to avoid continuous replacement of the kicker content
     
+    bool display_cards = false;
+    
     //store sprites dimentions and centering
     sf::Vector2f field_size = this->field_sprite.GetSize();
     sf::Vector2f water_size = this->water->getSprite().GetSize();
@@ -154,6 +156,8 @@ void Field::loop() {
                 break;
                 
             case Field::PLAYER_SELECT:
+                display_cards = true;
+                
                 // set kicker message
                 if (kicker_was_changed){ // this is to avoid continuously replacing it
                     this->kicker->setMessage("Choose your moves (use ARROWS):");
@@ -189,6 +193,7 @@ void Field::loop() {
                 }
                 else{
                     kicker_was_changed = true;
+                    display_cards = false;
                     this->CurrentState = Field::BRAIN_SELECT;
 #if DEBUG
                 LOGMESSAGE("Player has chosen!");
@@ -415,11 +420,13 @@ void Field::loop() {
         
         // KICKER
        kicker->draw();
-        
-        //CARDS TEST --------------
-       cards[0]->draw();
-       cards[1]->draw();
-       cards[2]->draw();
+       
+       if(display_cards){
+            //CARDS TEST --------------
+            cards[0]->draw();
+            cards[1]->draw();
+            cards[2]->draw();
+       }
        
         // ...and display everything
 //        kicker->display(); // NOT NEEDED! This just calls kicker->_window->Dislay(), hence it's a repetition
@@ -458,7 +465,7 @@ void Field::mouseLeftReleased(float x, float y)
     for(int i=0;i<clickableAreas.size();i++)
     {
         //check if the click is inside for EACH clickableAreas rectangle
-        //note: rect has a "contains" methods, unluckly... doesn't works -_-"
+        //note: rect has a "contains" methods, unluckily... doesn't works -_-"
         double active_offset = 0;
         if(cards[i]->activated) active_offset = 50;
         if(
@@ -496,7 +503,7 @@ void Field::mouseLeftReleased(float x, float y)
                 }
                 //note:
                 //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
-            }
+             }
     }
 }
 
