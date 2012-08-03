@@ -50,28 +50,20 @@ Field::Field(sf::RenderWindow *refwindow) {
     cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
     CardImage* card = new CardImage(0,420,450,_window,&cardmaster);
+    //setting the clickable area
+    card->clickableArea = new sf::Rect<int>(420,450,100,180);
     //adding the cardImage to the cards vector
     cards.push_back(card);
     
     //same
     card = new CardImage(1,520,450,_window,&cardmaster);
+    card->clickableArea = new sf::Rect<int>(520,450,100,180);
     cards.push_back(card);
     
     //same
     card = new CardImage(2,620,450,_window,&cardmaster);
+    card->clickableArea = new sf::Rect<int>(620,450,200,180);
     cards.push_back(card);
-    
-    //rect areas to check user inputs (idea: insert the rect class in the cardImage)
-    //insert in the clickableAreas vector
-    //note: rect(startx, starty, width, height)
-    sf::Rect<int>* rect = new sf::Rect<int>(420,450,100,180);
-    clickableAreas.push_back(rect);
-    //same
-    rect = new sf::Rect<int>(520,450,100,180);
-    clickableAreas.push_back(rect);
-    //same
-    rect = new sf::Rect<int>(620,450,200,180);
-    clickableAreas.push_back(rect);
     
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->status = INGAME;
@@ -462,17 +454,17 @@ void Field::mouseLeftReleased(float x, float y)
     this->_ystart = 0;
 
     /* TODO: ClickableAreas method? */
-    for(int i=0;i<clickableAreas.size();i++)
+    for(int i=0;i<cards.size();i++)
     {
         //check if the click is inside for EACH clickableAreas rectangle
         //note: rect has a "contains" methods, unluckily... doesn't works -_-"
         double active_offset = 0;
-        if(cards[i]->activated) active_offset = 50;
+        if(cards[i]->activated==1) active_offset = 50;
         if(
-        x>=clickableAreas[i]->Left &&
-        y>=clickableAreas[i]->Top - active_offset &&
-        x<=clickableAreas[i]->Left+clickableAreas[0]->Right &&
-        y<=clickableAreas[i]->Top - active_offset + clickableAreas[0]->Bottom)
+        x>=cards[i]->clickableArea->Left &&
+        y>=cards[i]->clickableArea->Top - active_offset &&
+        x<=cards[i]->clickableArea->Left+cards[0]->clickableArea->Right &&
+        y<=cards[i]->clickableArea->Top - active_offset + cards[0]->clickableArea->Bottom)
 
             {
                 //the clicked card isn't active
@@ -484,10 +476,9 @@ void Field::mouseLeftReleased(float x, float y)
                     cardmaster.insert(std::pair<int,int>(i,cardCounter));
                     cards[i]->activateCard();
                     cardCounter++;
-
                 }
                 //the "i" card is already activated, so deactivate it
-                else if(cards[i]->activated==1)
+                else if(cards[i]->activated)
                 {
                     for(int j=0;j<cards.size();j++)
                     {

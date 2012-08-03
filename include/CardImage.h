@@ -34,6 +34,8 @@ public:
     sf::Sprite cardSprite;
     bool activated;
     
+    sf::Rect<int>* clickableArea;
+    
 private:
 
     sf::Image _cardImage;

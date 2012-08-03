@@ -88,7 +88,6 @@ private:
     bool _mouse_down;
     
     std::vector<CardImage*> cards;
-    std::vector<sf::Rect<int> *> clickableAreas;
     
     int _xstart;
     int _ystart;

@@ -20,6 +20,8 @@ CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindo
     
     _window=refwindow;
     _cardmaster=cardmaster;
+    
+    
 }
 
 CardImage::~CardImage() {
