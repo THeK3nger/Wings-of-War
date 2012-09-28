@@ -19,6 +19,20 @@
  */
 class Game {
 public:
+    /*!
+     * \brief FRAME_PER_SECOND is the desired fps of the game loop.
+     */
+    static const int FRAME_PER_SECOND = 50;
+
+    /*!
+     * \brief SKIP_TICKS is the amount of ticks to the next frame.
+     */
+    static const double SKIP_TICKS = 1000/FRAME_PER_SECOND;
+
+    /*!
+     * \brief MAX_FRAME_SKIP is the maximum number of skippable frames.
+     */
+    static const double MAX_FRAME_SKIP = 10;
 
     /*!
      * Costructor for the class Game.
@@ -35,18 +49,10 @@ public:
      */
     virtual ~Game();
 
-
     /*!
-     * Game initialization routine != from the alloc/init of the constructor
+     * \brief mainGameLoop starts the main game loop.
      */
-    void init();
-
-
-
-    /*!
-     * Private side
-     */
-
+    void mainGameLoop();
 
 private:
     World* world;
@@ -87,15 +93,24 @@ private:
     void exit();
 
     /*!
-     * Main loop for the game
+     * Draw the scene
      */
-    void run();
+    void draw();
 
+    /*!
+     * \brief update the game status
+     */
+    void update();
 
     /*!
      * Events polling routine
      */
     void CheckForEvents();
+
+    /*!
+     * Game initialization routine != from the alloc/init of the constructor
+     */
+    void init();
 };
 
 #endif	/* GAME_H */

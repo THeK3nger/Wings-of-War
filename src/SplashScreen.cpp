@@ -54,17 +54,15 @@ void SplashScreen::init(){
  * 
  */
 void SplashScreen::loop() {
-    while (this->handleEvents() == 1) {
-        //drawing the background
-        _window->Draw(_background);
+    //drawing the background
+    _window->Draw(_background);
 
-        //drawing the fighter
-        if (fighter_display) {
-            _window->Draw(_fighter);
-        }
-        //displaying on the window
-        _window->Display();
+    //drawing the fighter
+    if (fighter_display) {
+        _window->Draw(_fighter);
     }
+    //displaying on the window
+    _window->Display();
 }
 
 /*!

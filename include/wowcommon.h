@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <sys/time.h>
 #include "math.h"
 
 /*!
@@ -77,5 +78,10 @@ inline float degrees2radiants(float degs){
     return degs * M_PI / 180;
 }
 
+inline long getTicks(){
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000) + 0.5;
+}
 
 #endif

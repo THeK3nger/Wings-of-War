@@ -29,10 +29,26 @@ void Game::init() {
     _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
     _gameState = Game::Playing; //NOTE: Why there is this useless status update?
     _gameState = Game::ShowingSplash;
+    splashscreen = new SplashScreen(&_mainWindow);
     OK;
+}
+
+void Game::mainGameLoop() {
+    this->init();
+
+    long next_step_time = getTicks();
+    int loop = 0;
+
     LOGMESSAGE("Starting Game Loop");
     while (_gameState != Game::Exiting) {
-        this->run();
+        loop = 0;
+        while ((getTicks()>next_step_time) && (loop<Game::MAX_FRAME_SKIP)) {
+            this->update();
+            next_step_time += Game::SKIP_TICKS;
+            loop++;
+        }
+
+        this->draw();
     }
     LOGMESSAGE("Game Exit Correctly!");
 }
@@ -45,9 +61,9 @@ void Game::exit() {
 }
 
 /*!
- * Game loop routine
+ * Game rendering routine
  */
-void Game::run() {
+void Game::draw() {
     switch (_gameState) {
         case Game::Playing:
         {
@@ -58,18 +74,18 @@ void Game::run() {
 
         case Game::ShowingSplash:
         {
-
-            splashscreen = new SplashScreen(&_mainWindow);
-            splashscreen->loop();
-            _gameState = Game::Exiting;
-            delete splashscreen;
-            
+            splashscreen->loop();          
         }
-
-
+    default :
             break;
     }
 
+}
+
+void Game::update() {
+    if (!splashscreen->handleEvents()) {
+        _gameState = Game::Exiting;
+    }
 }
 
 /*!
@@ -87,5 +103,6 @@ void Game::CheckForEvents() {
 }
 
 Game::~Game() {
+    delete splashscreen;
 }
 

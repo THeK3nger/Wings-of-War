@@ -19,6 +19,12 @@ public:
     virtual ~SplashScreen();
     void loop();
 
+    /*!
+     * \brief Handle user input.
+     * \return return false on error or exit key.
+     */
+    bool handleEvents();
+
 private:
     /*!
      * The render window
@@ -69,12 +75,6 @@ private:
      * The fighter position on the splashscreen
      */
     FighterPosition FighterState;
-
-    /*!
-     * \brief Handle user input.
-     * \return return false on error or exit key.
-     */
-    bool handleEvents();
 
     /*!
      * \brief Initializa SplashScreen class.
