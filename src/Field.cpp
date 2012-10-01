@@ -15,6 +15,13 @@ Field::Field(sf::RenderWindow *refwindow) {
     _bgmusic.SetLoop(true);
             
     CurrentState = Field::INIT;
+}
+
+Field::~Field() {
+}
+
+void Field::init() {
+    _bgmusic.Play();
 
     LOGMESSAGE("Initialize Plane 1");
     plane1 = new Plane(0, 10, 400, 300, 0);
@@ -39,13 +46,13 @@ Field::Field(sf::RenderWindow *refwindow) {
     _ydisplacement = 0;
 
     _mouse_down = false;
-    
+
     water = new WaterTile(_window);
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
     camera.SetFromRect(frect);
-    
+
     kicker = new Kicker(_window);
-    
+
     cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
     CardImage* card = new CardImage(0,420,450,_window,&cardmaster);
@@ -53,12 +60,12 @@ Field::Field(sf::RenderWindow *refwindow) {
     card->clickableArea = new sf::Rect<int>(420,450,100,180);
     //adding the cardImage to the cards vector
     cards.push_back(card);
-    
+
     //same
     card = new CardImage(1,520,450,_window,&cardmaster);
     card->clickableArea = new sf::Rect<int>(520,450,100,180);
     cards.push_back(card);
-    
+
     //same
     card = new CardImage(2,620,450,_window,&cardmaster);
     card->clickableArea = new sf::Rect<int>(620,450,200,180);
@@ -81,16 +88,9 @@ Field::Field(sf::RenderWindow *refwindow) {
     // adjust sprites center (needed for dealing nicely with scaling)
     field_sprite.SetCenter(field_size.x/2,field_size.y/2);
     field_sprite.SetPosition(field_size.x/2,field_size.y/2);
-    
+
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->status = INGAME;
-}
-
-Field::~Field() {
-}
-
-void Field::init() {
-    _bgmusic.Play();
 }
 
 void Field::update() {
@@ -350,6 +350,18 @@ void Field::update() {
 }
 
 void Field::draw() {
+    // Set the camera according to the zoom
+    _window->SetView(this->camera);
+
+    // TODO: adjust this, it is just for testing
+    for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
+            for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
+            {
+                water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
+                _window->Draw(water->getSprite());
+            }
+    }
+
     // Now draw things that must be affected by the zoom...
     _window->Draw(plane1_shadow);
     _window->Draw(plane2_shadow);
@@ -369,17 +381,9 @@ void Field::draw() {
         cards[2]->draw();
    }
 
-   // TODO: adjust this, it is just for testing
-   for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
-           for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
-           {
-               water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
-               _window->Draw(water->getSprite());
-           }
-   }
 
-   // Set the camera according to the zoom
-   _window->SetView(this->camera);
+
+
 }
 
 /************ EVENT HANDLER **********/
