@@ -18,6 +18,8 @@ public:
 
     virtual ~SplashScreen();
     void loop();
+    void draw();
+    void update();
 
     /*!
      * \brief Handle user input.
@@ -25,7 +27,21 @@ public:
      */
     bool handleEvents();
 
+    bool isExiting();
+
 private:
+    /*!
+     * Possible states of the game
+     */
+    enum SplashState {
+        OnSplash, InGame, Exit
+    };
+
+    /*!
+     * Actual state of SplashScreen
+     */
+    SplashState _splashState;
+
     /*!
      * The render window
      */
@@ -75,6 +91,8 @@ private:
      * The fighter position on the splashscreen
      */
     FighterPosition FighterState;
+
+    Field* field;
 
     /*!
      * \brief Initializa SplashScreen class.

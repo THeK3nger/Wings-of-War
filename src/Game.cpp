@@ -33,6 +33,9 @@ void Game::init() {
     OK;
 }
 
+/*!
+ * MAIN GAME LOOP
+ */
 void Game::mainGameLoop() {
     this->init();
 
@@ -64,6 +67,8 @@ void Game::exit() {
  * Game rendering routine
  */
 void Game::draw() {
+    // Clear Window
+    _mainWindow.Clear(sf::Color(0,0,0));
     switch (_gameState) {
         case Game::Playing:
         {
@@ -74,17 +79,26 @@ void Game::draw() {
 
         case Game::ShowingSplash:
         {
-            splashscreen->loop();          
+            splashscreen->draw();
         }
     default :
             break;
     }
-
+    //displaying on the window
+    _mainWindow.Display();
 }
 
 void Game::update() {
-    if (!splashscreen->handleEvents()) {
+    if (splashscreen->isExiting()) {
         _gameState = Game::Exiting;
+    }
+    switch (_gameState) {
+        case Game::Playing:
+            this->CheckForEvents();
+            break;
+
+        case Game::ShowingSplash:
+            splashscreen->update();
     }
 }
 

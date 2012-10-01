@@ -1,4 +1,5 @@
 #include "SplashScreen.h"
+#include "wowcommon.h"
 
 /*!
  * Constructor
@@ -6,6 +7,7 @@
 SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
     //Storing the address of the mainwindow to the current window
     _window = refwindow;
+    _splashState = OnSplash;
     this->init();
 }
 
@@ -42,6 +44,8 @@ void SplashScreen::init(){
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
     _bgmusic.Play();
+
+    field = new Field(_window);
 }
 
 /*!
@@ -53,16 +57,46 @@ void SplashScreen::init(){
  *  The ESCAPE key terminates the loop
  * 
  */
-void SplashScreen::loop() {
-    //drawing the background
-    _window->Draw(_background);
+void SplashScreen::draw() {
+    switch (_splashState) {
+    case InGame :
+        field->draw();
+        break;
+    case OnSplash :
+        //drawing the background
+        _window->Draw(_background);
 
-    //drawing the fighter
-    if (fighter_display) {
-        _window->Draw(_fighter);
+        //drawing the fighter
+        if (fighter_display) {
+            _window->Draw(_fighter);
+        }
+        break;
+    case Exit :
+        break;
     }
-    //displaying on the window
-    _window->Display();
+}
+
+void SplashScreen::update() {
+    switch (_splashState) {
+    case InGame :
+        field->update();
+        break;
+    case OnSplash :
+        if (!handleEvents()) {
+            LOGMESSAGE("ESC!");
+            _splashState = Exit;
+        }
+        break;
+    case Exit :
+        break;
+    }
+}
+
+bool SplashScreen::isExiting() {
+    if (_splashState == Exit) {
+        return true;
+    }
+    return false;
 }
 
 /*!
@@ -139,9 +173,8 @@ bool SplashScreen::handleEvents() {
             }
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
-                Field field(_window);
-                field.loop();
-                _bgmusic.Play();
+                field->init();
+                _splashState = InGame;
             }
             return 1;
         }
