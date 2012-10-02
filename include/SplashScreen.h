@@ -17,8 +17,15 @@ public:
     SplashScreen(sf::RenderWindow *refwindow);
 
     virtual ~SplashScreen();
-    void loop();
+
+    /*!
+     * \brief Draw routine for SplashScreen.
+     */
     void draw();
+
+    /*!
+     * \brief Update routine for SplashScreen.
+     */
     void update();
 
     /*!
@@ -27,6 +34,10 @@ public:
      */
     bool handleEvents();
 
+    /*!
+     * \brief isExiting check for splashcreen exit.
+     * \return True if SplashScreen is Exiting. False otherwise.
+     */
     bool isExiting();
 
 private:
@@ -46,24 +57,18 @@ private:
      * The render window
      */
     sf::RenderWindow* _window;
+
     /*!
      * Image files, needed for the sprites
      */
-
-    sf::Image image1;
-    sf::Image image2;
-
+    sf::Image _image1;
+    sf::Image _image2;
 
     /*!
-     * Sprites 
+     * Sprites for background and fighter
      */
     sf::Sprite _background;
     sf::Sprite _fighter;
-
-    /*!
-     * Have I to display the fighter?
-     */
-    bool fighter_display;
 
     /*!
      * BG Music
@@ -92,10 +97,13 @@ private:
      */
     FighterPosition FighterState;
 
-    Field* field;
+    /*!
+     * \brief field is a pointer to a Field object. In Field object we play the real game.
+     */
+    Field* _field;
 
     /*!
-     * \brief Initializa SplashScreen class.
+     * \brief Initialize SplashScreen class.
      */
     void init();
 };

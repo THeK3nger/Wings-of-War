@@ -41,7 +41,6 @@ public:
      * \param int   w=width
      * \param int   d=depth
      */
-
     Game(int h, int w, int d);
 
     /*!
@@ -55,16 +54,12 @@ public:
     void mainGameLoop();
 
 private:
-    World* world;
-    WoWBrain* ai;
-
     /*!
      * Window height*width*color_depth + name
      */
     int height;
     int width;
     int depth;
-    char name[100];
 
     SplashScreen* splashscreen;
     Dialog* dialog;
@@ -73,13 +68,12 @@ private:
      * Possible states of the game
      */
     enum GameState {
-        Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting
+        Uninitialized, ShowingSplash, ShowingMenu, Exiting
     };
 
     /*!
      * Actual state of the game
      */
-
     GameState _gameState;
 
     /*!
@@ -98,14 +92,9 @@ private:
     void draw();
 
     /*!
-     * \brief update the game status
+     * \brief Update the game status
      */
     void update();
-
-    /*!
-     * Events polling routine
-     */
-    void CheckForEvents();
 
     /*!
      * Game initialization routine != from the alloc/init of the constructor

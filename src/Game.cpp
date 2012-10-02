@@ -16,18 +16,16 @@ Game::Game(int h, int w, int d) {
 
 /*!
  * Game initialization routine != from the alloc/init of the constructor
- * 
+ *
  * Workflow;
- * init is public, called in the mainfile of the application.
- * init instantiate the main windows, then sets the game state to PLAYING 
- * and calls the "run" method.
+ * init is public, called in `mainGameLoop`.
+ * init instantiate the main windows, then sets the game state to PLAYING
  */
 void Game::init() {
     LOGMESSAGE_NO_ENDL("Initializing Game...");
     if (_gameState != Game::Uninitialized) return;
 
     _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
-    _gameState = Game::Playing; //NOTE: Why there is this useless status update?
     _gameState = Game::ShowingSplash;
     splashscreen = new SplashScreen(&_mainWindow);
     OK;
@@ -35,12 +33,14 @@ void Game::init() {
 
 /*!
  * MAIN GAME LOOP
+ *
+ * Perform Update at FRAME_PER_SECOND and Draw as fast as it can!
  */
 void Game::mainGameLoop() {
     this->init();
 
     long next_step_time = getTicks();
-    int loop = 0;
+    int loop;
 
     LOGMESSAGE("Starting Game Loop");
     while (_gameState != Game::Exiting) {
@@ -68,53 +68,28 @@ void Game::exit() {
 void Game::draw() {
     // Clear Window
     _mainWindow.Clear(sf::Color(0,0,0));
-    switch (_gameState) {
-        case Game::Playing:
-        {
-            _mainWindow.Clear(sf::Color(0, 0, 0));
-            _mainWindow.Display();
-            this->CheckForEvents();
-        }
-
-        case Game::ShowingSplash:
-        {
-            splashscreen->draw();
-        }
-    default :
-            break;
-    }
-    //displaying on the window
+    // Different draw for each state.
+    // NOTE: Only One State.
+    splashscreen->draw();
+    //Displaying on the window
     _mainWindow.Display();
 }
 
+/*!
+ * Game Update Routine
+ */
 void Game::update() {
+    // If splashscreen is Exiting than Game is Exiting.
     if (splashscreen->isExiting()) {
         _gameState = Game::Exiting;
     }
-    switch (_gameState) {
-        case Game::Playing:
-            this->CheckForEvents();
-            break;
-
-        case Game::ShowingSplash:
-            splashscreen->update();
-    }
+    // Else update.
+    splashscreen->update();
 }
 
 /*!
- *Events handler routine
+ * Destructor
  */
-void Game::CheckForEvents() {
-    sf::Event Event;
-    if (_mainWindow.GetEvent(Event)) {
-        if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape)) {
-            //game state setted on EXITING
-            _gameState = Game::Exiting;
-        }
-    }
-
-}
-
 Game::~Game() {
     delete splashscreen;
 }

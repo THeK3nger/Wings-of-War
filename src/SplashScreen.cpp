@@ -25,14 +25,13 @@ void SplashScreen::init(){
     _menuSound.SetVolume(100.0f);
 
     //Loading the splashscreen image from file
-    image1.LoadFromFile("assets/splashscreen.png");
+    _image1.LoadFromFile("assets/splashscreen.png");
     //Loading the fighter image from file
-    image2.LoadFromFile("assets/fighter.png");
+    _image2.LoadFromFile("assets/fighter.png");
     //Setting the background sprite
-    _background.SetImage(image1);
+    _background.SetImage(_image1);
     //Setting the fighter sprite
-    _fighter.SetImage(image2);
-    fighter_display = true;
+    _fighter.SetImage(_image2);
 
     //Setting the fighter position
     _fighter.SetPosition(250, 385);
@@ -45,31 +44,27 @@ void SplashScreen::init(){
     _bgmusic.SetLoop(true);
     _bgmusic.Play();
 
-    field = new Field(_window);
+    // Create an empty Field.
+    _field = new Field(_window);
 }
 
 /*!
- *  Loop routine for the SplashScreenClass
+ *  Draw routine for the SplashScreen class
  * 
- *  The Loop routine renders the sprites on the renderwindow 
- *  while checking for the user activity.
- *  
- *  The ESCAPE key terminates the loop
- * 
+ *  The Draw routine renders the sprites on the renderwindow.
  */
 void SplashScreen::draw() {
     switch (_splashState) {
     case InGame :
-        field->draw();
+        // If InGame propagate draw to field.
+        _field->draw();
         break;
     case OnSplash :
         //drawing the background
         _window->Draw(_background);
 
         //drawing the fighter
-        if (fighter_display) {
-            _window->Draw(_fighter);
-        }
+        _window->Draw(_fighter);
         break;
     case Exit :
         break;
@@ -79,8 +74,11 @@ void SplashScreen::draw() {
 void SplashScreen::update() {
     switch (_splashState) {
     case InGame :
-        field->update();
-        if (field->isTerminated()) {
+        // If InGame propagate draw to field.
+        _field->update();
+        // Check for termination.
+        // TODO: It is better to use lazy approach.
+        if (_field->isTerminated()) {
             _splashState = OnSplash;
             _bgmusic.Play();
         }
@@ -97,10 +95,7 @@ void SplashScreen::update() {
 }
 
 bool SplashScreen::isExiting() {
-    if (_splashState == Exit) {
-        return true;
-    }
-    return false;
+    return _splashState == Exit;
 }
 
 /*!
@@ -177,7 +172,7 @@ bool SplashScreen::handleEvents() {
             }
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
-                field->init();
+                _field->init();
                 _splashState = InGame;
             }
             return 1;
@@ -190,6 +185,6 @@ bool SplashScreen::handleEvents() {
  *  Destructor
  */
 SplashScreen::~SplashScreen() {
-
+    delete _field;
 }
 
