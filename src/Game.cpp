@@ -50,7 +50,6 @@ void Game::mainGameLoop() {
             next_step_time += Game::SKIP_TICKS;
             loop++;
         }
-        //LOGMESSAGE_PARAM("FPD: ",Game::FRAME_PER_SECOND/(loop+1));
         this->draw();
     }
     LOGMESSAGE("Game Exit Correctly!");

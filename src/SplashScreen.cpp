@@ -80,6 +80,10 @@ void SplashScreen::update() {
     switch (_splashState) {
     case InGame :
         field->update();
+        if (field->isTerminated()) {
+            _splashState = OnSplash;
+            _bgmusic.Play();
+        }
         break;
     case OnSplash :
         if (!handleEvents()) {

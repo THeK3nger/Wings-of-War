@@ -61,6 +61,8 @@ public:
      */
     void mouseMoved(float x, float y);
 
+    bool isTerminated();
+
 
 private:
     enum FieldStatus { INGAME, TERMINATED };

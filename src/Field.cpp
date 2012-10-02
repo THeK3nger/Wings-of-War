@@ -351,7 +351,7 @@ void Field::update() {
 
 void Field::draw() {
     // Set the camera according to the zoom
-    _window->SetView(this->camera);
+    //_window->SetView(this->camera);
 
     // TODO: adjust this, it is just for testing
     for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
@@ -369,7 +369,7 @@ void Field::draw() {
     _window->Draw(plane2->plane_sprite);
 
     // Now draw things of fixed size
-    _window->SetView(_window->GetDefaultView());
+    //_window->SetView(_window->GetDefaultView());
 
     // KICKER
     kicker->draw();
@@ -392,6 +392,15 @@ void Field::zoom(float z)
 void Field::stop()
 {
     this->status = TERMINATED;
+    _bgmusic.Stop();
+}
+
+bool Field::isTerminated()
+{
+    if (status == TERMINATED) {
+        return true;
+    }
+    return false;
 }
 
 void Field::mouseLeftPressed(float x, float y)
