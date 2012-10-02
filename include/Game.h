@@ -22,7 +22,7 @@ public:
     /*!
      * \brief FRAME_PER_SECOND is the desired fps of the game loop.
      */
-    static const int FRAME_PER_SECOND = 50;
+    static const int FRAME_PER_SECOND = 30;
 
     /*!
      * \brief SKIP_TICKS is the amount of ticks to the next frame.

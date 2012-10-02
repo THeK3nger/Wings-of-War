@@ -13,7 +13,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     _bgmusic.SetVolume(100.0f);
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
-            
+
     CurrentState = Field::INIT;
 }
 
@@ -355,11 +355,11 @@ void Field::draw() {
 
     // TODO: adjust this, it is just for testing
     for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
-            for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
-            {
-                water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
-                _window->Draw(water->getSprite());
-            }
+        for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
+        {
+            water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
+            _window->Draw(water->getSprite());
+        }
     }
 
     // Now draw things that must be affected by the zoom...
@@ -372,18 +372,14 @@ void Field::draw() {
     _window->SetView(_window->GetDefaultView());
 
     // KICKER
-   kicker->draw();
+    kicker->draw();
 
-   if(display_cards){
+    if(display_cards){
         //CARDS TEST --------------
         cards[0]->draw();
         cards[1]->draw();
         cards[2]->draw();
-   }
-
-
-
-
+    }
 }
 
 /************ EVENT HANDLER **********/
@@ -419,27 +415,27 @@ void Field::mouseLeftReleased(float x, float y)
         double active_offset = 0;
         if(cards[i]->activated==1) active_offset = 50;
         if(
-        x>=cards[i]->clickableArea->Left &&
-        y>=cards[i]->clickableArea->Top - active_offset &&
-        x<=cards[i]->clickableArea->Left+cards[0]->clickableArea->Right &&
-        y<=cards[i]->clickableArea->Top - active_offset + cards[0]->clickableArea->Bottom)
+                x>=cards[i]->clickableArea->Left &&
+                y>=cards[i]->clickableArea->Top - active_offset &&
+                x<=cards[i]->clickableArea->Left+cards[0]->clickableArea->Right &&
+                y<=cards[i]->clickableArea->Top - active_offset + cards[0]->clickableArea->Bottom)
 
+        {
+            //the clicked card isn't active
+            if(cards[i]->activated==0)
             {
-                //the clicked card isn't active
-                if(cards[i]->activated==0)
+                //deactivate each card of the deck
+                //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+                //activate the "i" card
+                cardmaster.insert(std::pair<int,int>(i,cardCounter));
+                cards[i]->activateCard();
+                cardCounter++;
+            }
+            //the "i" card is already activated, so deactivate it
+            else if(cards[i]->activated)
+            {
+                for(int j=0;j<cards.size();j++)
                 {
-                    //deactivate each card of the deck
-                    //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-                    //activate the "i" card
-                    cardmaster.insert(std::pair<int,int>(i,cardCounter));
-                    cards[i]->activateCard();
-                    cardCounter++;
-                }
-                //the "i" card is already activated, so deactivate it
-                else if(cards[i]->activated)
-                {
-                    for(int j=0;j<cards.size();j++)
-                    {
                     it=cardmaster.find(j);
                     if(it!=cardmaster.end())
                     {
@@ -448,11 +444,11 @@ void Field::mouseLeftReleased(float x, float y)
                     }
                     cards[j]->deActivateCard();
 
-                    }
                 }
-                //note:
-                //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
-             }
+            }
+            //note:
+            //this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
+        }
     }
 }
 
@@ -476,45 +472,45 @@ int Field::handleEvents() {
     if(_window->GetEvent(lastEvent))
     {
         switch(lastEvent.Type){
-            case sf::Event::KeyPressed:
-                switch(lastEvent.Key.Code){
-                    case sf::Key::Num1:
-                        zoom(1.1f);
-                        break;
-                    case sf::Key::Num2:
-                        zoom(0.9f);
-                        break;
-                    case sf::Key::Escape:
-                        stop();
-                        break;
-                    default:
-                        break;
-                } // END OF KEY.CODE SWITCH
+        case sf::Event::KeyPressed:
+            switch(lastEvent.Key.Code){
+            case sf::Key::Num1:
+                zoom(1.1f);
                 break;
-
-            case sf::Event::MouseWheelMoved:
-                if(lastEvent.MouseWheel.Delta<0) zoom(1.1f);
-                else zoom(0.9f);
+            case sf::Key::Num2:
+                zoom(0.9f);
                 break;
-
-            case sf::Event::MouseButtonPressed:
-                if (lastEvent.MouseButton.Button == sf::Mouse::Left){
-                    mouseLeftPressed(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
-                }
+            case sf::Key::Escape:
+                stop();
                 break;
-
-            case sf::Event::MouseButtonReleased:
-                if(lastEvent.MouseButton.Button == sf::Mouse::Left){
-                    mouseLeftReleased(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
-                }
-                break;
-
-            case sf::Event::MouseMoved:
-                mouseMoved(lastEvent.MouseMove.X,lastEvent.MouseMove.Y);
-                break;
-
             default:
                 break;
+            } // END OF KEY.CODE SWITCH
+            break;
+
+        case sf::Event::MouseWheelMoved:
+            if(lastEvent.MouseWheel.Delta<0) zoom(1.1f);
+            else zoom(0.9f);
+            break;
+
+        case sf::Event::MouseButtonPressed:
+            if (lastEvent.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftPressed(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
+            }
+            break;
+
+        case sf::Event::MouseButtonReleased:
+            if(lastEvent.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftReleased(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
+            }
+            break;
+
+        case sf::Event::MouseMoved:
+            mouseMoved(lastEvent.MouseMove.X,lastEvent.MouseMove.Y);
+            break;
+
+        default:
+            break;
         }// END OF LASTEVENT.TYPE SWITCH
 
         return 1;
