@@ -1,18 +1,20 @@
 #ifndef FIELD_H
 #define	FIELD_H
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-#include <string.h>
-#include <stdio.h>
+
 #include "Dialog.h"
 #include "Plane.h"
 #include "WoWBrain.h"
 #include "World.h"
 #include "math.h"
 #include "Kicker.h"
-#include <stdlib.h>
 #include "WaterTile.h"
 #include "Animation.h"
 #include "CardImage.h"
@@ -21,11 +23,21 @@ class Field {
 public:
     Field(sf::RenderWindow *refwindow);
     ~Field();
-    void loop();
     int handleEvents();
 
+    /*!
+     * \brief Draw routine for Field class.
+     */
     void draw();
+
+    /*!
+     * \brief Update routine for Field class.
+     */
     void update();
+
+    /*!
+     * \brief Initialize Field Class
+     */
     void init();
 
     /* EVENTS HANDLER */
@@ -61,54 +73,102 @@ public:
      */
     void mouseMoved(float x, float y);
 
+    /*!
+     * \brief isTerminated
+     * \return
+     */
     bool isTerminated();
 
 
 private:
-    enum FieldStatus { INGAME, TERMINATED };
-    FieldStatus status; //WARING: Difference between status and CurrentState?
-    
-    Plane* plane1;
-    Plane* plane2;
+    /*!
+     * \brief The FieldStatus enum represents external global status for Field.
+     */
+    enum FieldStates { INGAME, TERMINATED };
 
-    WoWBrain* theBrain;
-    World* theWorld;
+    /*!
+     * \brief status stores the current status of the field game.
+     */
+    FieldStates _status;
+
+    /*!
+     * \brief Store planes.
+     */
+    Plane* _plane1;
+    Plane* _plane2;
+
+    /*!
+     * \brief theBrain stores a reference to WoW AI.
+     */
+    WoWBrain* _theBrain;
+
+    /*!
+     * \brief theWorld stores a reference to Game World.
+     */
+    World* _theWorld;
     
-    sf::Event lastEvent;        // used to store the last event
+    /*!
+     * \brief lastEvent stores the last event
+     */
+    sf::Event _lastEvent;
     
-    Kicker * kicker;
-    
-    sf::Image field_image;
-    sf::Sprite field_sprite;
-    sf::Clock theClock;
+    /*!
+     * \brief kicker stores a kicker reference
+     */
+    Kicker * _kicker;
+
+    /*!
+     * \brief _bgmusic BG music.
+     */
     sf::Music _bgmusic;
+
+    /*!
+     * \brief The States enum represent the game internal status.
+     */
     enum States {
         INIT, PLAYER_SELECT, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
     };
 
-    States CurrentState; //WARING: Difference between status and CurrentState?
+    /*!
+     * \brief _internal_state stores the game internal state.
+     */
+    States _internal_state;
 
+    /*!
+     * \brief _window stores a reference to main window.
+     */
     sf::RenderWindow* _window;
-    sf::View camera;
+
+    /*!
+     * \brief _camera stores the game camera.
+     */
+    sf::View _camera;
     
+    /*!
+     * \brief _mouse_down is true if and only if mouse left-button is down.
+     */
     bool _mouse_down;
     
-    std::vector<CardImage*> cards;
+    /*!
+     * \brief _cards stores the cards.
+     */
+    std::vector<CardImage*> _cards;
     
+    /*!
+     * Store variables for mouse button.
+     */
     int _xstart;
     int _ystart;
     int _xdisplacement;
     int _ydisplacement;
     
-    WaterTile* water;
+    WaterTile* _water;
     
-    std::map<int,int> cardmaster;
-    std::map<int,int>::iterator it;
+    std::map<int,int> _cardmaster;
+    std::map<int,int>::iterator _it;
     int cardCounter;
 
     bool game_finished; // will be TRUE when the game has ended
-
-    float angle;
 
     float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
     float p2pos [3];    // WARNING: I think that these should stay in Plane class...
@@ -137,15 +197,12 @@ private:
     sf::Vector2f shadow1_pos;
     sf::Vector2f shadow2_pos;
 
-    sf::Vector2f field_size;
     sf::Vector2f water_size;
     sf::Vector2f plane1_size;
     sf::Vector2f plane2_size;
 
     sf::Sprite plane1_shadow;
     sf::Sprite plane2_shadow;
-
-
 };
 
 #endif	/* FIELD_H */

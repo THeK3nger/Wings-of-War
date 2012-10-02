@@ -14,7 +14,7 @@ Field::Field(sf::RenderWindow *refwindow) {
     //PLaying the bgmusic
     _bgmusic.SetLoop(true);
 
-    CurrentState = Field::INIT;
+    _internal_state = Field::INIT;
 }
 
 Field::~Field() {
@@ -24,21 +24,18 @@ void Field::init() {
     _bgmusic.Play();
 
     LOGMESSAGE("Initialize Plane 1");
-    plane1 = new Plane(0, 10, 400, 300, 0);
-    plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));        // PLANE 1 IS RED
+    _plane1 = new Plane(0, 10, 400, 300, 0);
+    _plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));        // PLANE 1 IS RED
 
     LOGMESSAGE("Initialize Plane 2");
-    plane2 = new Plane(1, 10, 50, 50, 0);
-    plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
-
-    field_image.LoadFromFile("assets/field.png");
-    field_sprite.SetImage(field_image);
+    _plane2 = new Plane(1, 10, 50, 50, 0);
+    _plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
 
     LOGMESSAGE("Create Game World");
-    theWorld = new World(800, 600);
-    theWorld->addPlane(plane1);
-    theWorld->addPlane(plane2);
-    theBrain = new WoWBrain(plane2, theWorld);
+    _theWorld = new World(800, 600);
+    _theWorld->addPlane(_plane1);
+    _theWorld->addPlane(_plane2);
+    _theBrain = new WoWBrain(_plane2, _theWorld);
 
     _xstart = 0;
     _ystart = 0;
@@ -47,66 +44,61 @@ void Field::init() {
 
     _mouse_down = false;
 
-    water = new WaterTile(_window);
+    _water = new WaterTile(_window);
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
-    camera.SetFromRect(frect);
+    _camera.SetFromRect(frect);
 
-    kicker = new Kicker(_window);
+    _kicker = new Kicker(_window);
 
     cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
-    CardImage* card = new CardImage(0,420,450,_window,&cardmaster);
+    CardImage* card = new CardImage(0,420,450,_window,&_cardmaster);
     //setting the clickable area
     card->clickableArea = new sf::Rect<int>(420,450,100,180);
     //adding the cardImage to the cards vector
-    cards.push_back(card);
+    _cards.push_back(card);
 
     //same
-    card = new CardImage(1,520,450,_window,&cardmaster);
+    card = new CardImage(1,520,450,_window,&_cardmaster);
     card->clickableArea = new sf::Rect<int>(520,450,100,180);
-    cards.push_back(card);
+    _cards.push_back(card);
 
     //same
-    card = new CardImage(2,620,450,_window,&cardmaster);
+    card = new CardImage(2,620,450,_window,&_cardmaster);
     card->clickableArea = new sf::Rect<int>(620,450,200,180);
-    cards.push_back(card);
+    _cards.push_back(card);
 
     //store sprites dimentions and centering
-    field_size = this->field_sprite.GetSize();
-    water_size = this->water->getSprite().GetSize();
-    plane1_size = this->plane1->plane_sprite.GetSize();
-    plane2_size = this->plane2->plane_sprite.GetSize();
-    plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
-    plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
+    water_size = this->_water->getSprite().GetSize();
+    plane1_size = this->_plane1->plane_sprite.GetSize();
+    plane2_size = this->_plane2->plane_sprite.GetSize();
+    _plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
+    _plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
 
     // planes shadows sprites (they could be different)
-    plane1_shadow = plane1->plane_sprite;
+    plane1_shadow = _plane1->plane_sprite;
     plane1_shadow.SetColor(sf::Color(0,0,0,128));
-    plane2_shadow = plane2->plane_sprite;
+    plane2_shadow = _plane2->plane_sprite;
     plane2_shadow.SetColor(sf::Color(0,0,0,128));
 
-    // adjust sprites center (needed for dealing nicely with scaling)
-    field_sprite.SetCenter(field_size.x/2,field_size.y/2);
-    field_sprite.SetPosition(field_size.x/2,field_size.y/2);
-
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
-    this->status = INGAME;
+    this->_status = INGAME;
 }
 
 void Field::update() {
     this->handleEvents();
-    switch(this->CurrentState){
+    switch(this->_internal_state){
     case Field::INIT:
         // HERE WE INITIALIZE THINGS
         // set kicker message
-        this->kicker->setMessage("Initializing stuff");
-        this->kicker->setDetails("enhancing funnyness...");
+        this->_kicker->setMessage("Initializing stuff");
+        this->_kicker->setDetails("enhancing funnyness...");
 
         // planes positions
-        this->plane1->getPosition(p1pos);
-        this->plane2->getPosition(p2pos);
+        this->_plane1->getPosition(p1pos);
+        this->_plane2->getPosition(p2pos);
 
-        this->CurrentState = Field::PLAYER_SELECT;
+        this->_internal_state = Field::PLAYER_SELECT;
         break;
 
     case Field::PLAYER_SELECT:
@@ -114,28 +106,28 @@ void Field::update() {
 
         // set kicker message
         if (kicker_was_changed){ // this is to avoid continuously replacing it
-            this->kicker->setMessage("Choose your moves (use ARROWS):");
-            this->kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
+            this->_kicker->setMessage("Choose your moves (use ARROWS):");
+            this->_kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
             kicker_was_changed = false;
         }
 
         if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
-            if(this->lastEvent.Type == sf::Event::KeyPressed){
-                switch(this->lastEvent.Key.Code){
+            if(this->_lastEvent.Type == sf::Event::KeyPressed){
+                switch(this->_lastEvent.Key.Code){
                 case sf::Key::Right: // TODO: watch out! because of y inversion, "left" becomes "right"
-                    player_choices.push_back(this->plane1->getCardSet()->cards);
+                    player_choices.push_back(this->_plane1->getCardSet()->cards);
 #if DEBUG
                     LOGMESSAGE("You have chosen Right");
 #endif
                     break;
                 case sf::Key::Left:
-                    player_choices.push_back(this->plane1->getCardSet()->cards+1);
+                    player_choices.push_back(this->_plane1->getCardSet()->cards+1);
 #if DEBUG
                     LOGMESSAGE("You have chosen Left");
 #endif
                     break;
                 case sf::Key::Up:
-                    player_choices.push_back(this->plane1->getCardSet()->cards+2);
+                    player_choices.push_back(this->_plane1->getCardSet()->cards+2);
 #if DEBUG
                     LOGMESSAGE("You have chosen Up");
 #endif
@@ -148,7 +140,7 @@ void Field::update() {
         else{
             kicker_was_changed = true;
             display_cards = false;
-            this->CurrentState = Field::BRAIN_SELECT;
+            this->_internal_state = Field::BRAIN_SELECT;
 #if DEBUG
             LOGMESSAGE("Player has chosen!");
 #endif
@@ -157,38 +149,38 @@ void Field::update() {
 
     case Field::BRAIN_SELECT:
         // set kicker message
-        this->kicker->setMessage("AI is choosing...");
-        this->kicker->setDetails("it's so clever!");
+        this->_kicker->setMessage("AI is choosing...");
+        this->_kicker->setDetails("it's so clever!");
 
-        ai_choices = theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
+        ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 #if DEBUG
         LOGMESSAGE("AI has chosen!");
 #endif
-        this->CurrentState = Field::APPLY_MOVES;
+        this->_internal_state = Field::APPLY_MOVES;
         break;
 
     case Field::APPLY_MOVES:
         // set kicker message
-        this->kicker->setMessage("WOOSH!");
-        this->kicker->setDetails("");
+        this->_kicker->setMessage("WOOSH!");
+        this->_kicker->setDetails("");
 
         // store positions before moving
-        this->plane1->getPosition(plane1_prev_pos);
-        this->plane2->getPosition(plane2_prev_pos);
+        this->_plane1->getPosition(plane1_prev_pos);
+        this->_plane2->getPosition(plane2_prev_pos);
 
         // logically move the planes
-        plane1->move(player_choices[moves_counter]);
-        plane2->move(ai_choices[moves_counter]);
+        _plane1->move(player_choices[moves_counter]);
+        _plane2->move(ai_choices[moves_counter]);
 
         // get position after move
-        plane1->getPosition(plane1_final_pos);
-        plane2->getPosition(plane2_final_pos);
+        _plane1->getPosition(plane1_final_pos);
+        _plane2->getPosition(plane2_final_pos);
 
         // construct the animations
         animation1 = new Animation(plane1_prev_pos[0], plane1_prev_pos[1], plane1_prev_pos[2], plane1_final_pos[0], plane1_final_pos[1], plane1_final_pos[2]);
         animation2 = new Animation(plane2_prev_pos[0], plane2_prev_pos[1], plane2_prev_pos[2], plane2_final_pos[0], plane2_final_pos[1], plane2_final_pos[2]);
 
-        this->CurrentState = Field::ANIM_MOVES;
+        this->_internal_state = Field::ANIM_MOVES;
         break;
 
     case Field::ANIM_MOVES:
@@ -200,48 +192,48 @@ void Field::update() {
             something_moved = true;
 
         if(!something_moved)
-            this->CurrentState = Field::COMPUTE_DAMAGES;
+            this->_internal_state = Field::COMPUTE_DAMAGES;
 
         break;
 
     case Field::COMPUTE_DAMAGES:
         // set kicker message
-        this->kicker->setMessage("BUM BUM BUM!");
-        this->kicker->setDetails("");
+        this->_kicker->setMessage("BUM BUM BUM!");
+        this->_kicker->setDetails("");
 
         // if some plane is out of bounds, destroy it
-        if (!this->theWorld->isInside(plane1)){
+        if (!this->_theWorld->isInside(_plane1)){
             plane1_out = true;
-            plane1->inflictDamage(plane1->remainingHealth());
+            _plane1->inflictDamage(_plane1->remainingHealth());
         }
-        if (!this->theWorld->isInside(plane2)){
+        if (!this->_theWorld->isInside(_plane2)){
             plane2_out = true;
-            plane2->inflictDamage(plane2->remainingHealth());
+            _plane2->inflictDamage(_plane2->remainingHealth());
         }
-        if ((!plane1_out) && plane1->canShootTo(plane2)){
+        if ((!plane1_out) && _plane1->canShootTo(_plane2)){
 #if DEBUG
             LOGMESSAGE("PLANE1 SHOT TO PLANE2");
 #endif
-            plane2->inflictDamage(this->theBrain->expectedDamage());
+            _plane2->inflictDamage(this->_theBrain->expectedDamage());
         }
-        if ((!plane2_out) && plane2->canShootTo(plane1)){
-            plane1->inflictDamage(this->theBrain->expectedDamage());
+        if ((!plane2_out) && _plane2->canShootTo(_plane1)){
+            _plane1->inflictDamage(this->_theBrain->expectedDamage());
 #if DEBUG
             LOGMESSAGE("PLANE2 SHOT TO PLANE1");
 #endif
         }
 
 #if DEBUG
-        std::cout << "remaining health -- PLANE1: " << plane1->remainingHealth() << ", Plane2: " << plane2->remainingHealth() << '\n';
+        std::cout << "remaining health -- PLANE1: " << _plane1->remainingHealth() << ", Plane2: " << _plane2->remainingHealth() << '\n';
 #endif
 
-        this->CurrentState = Field::ANIM_DAMAGES;
+        this->_internal_state = Field::ANIM_DAMAGES;
         break;
 
     case Field::ANIM_DAMAGES:
         // TODO: add some animation to represent shooting actions
 
-        this->CurrentState = Field::CHECK_FINISH;
+        this->_internal_state = Field::CHECK_FINISH;
         break;
 
     case Field::CHECK_FINISH: // this will also destroy things and clear stuff
@@ -253,13 +245,13 @@ void Field::update() {
 #if DEBUG
                 LOGMESSAGE("both planes out of bounds!");
 #endif
-                kicker->setDetails("DRAW, they all got lost somewhere...");
+                _kicker->setDetails("DRAW, they all got lost somewhere...");
             }
             else{ // ONLY OPPONENT is out of bounds
 #if DEBUG
                 LOGMESSAGE("PLAYER out of bounds!");
 #endif
-                kicker->setDetails("PLAYER got lost...");
+                _kicker->setDetails("PLAYER got lost...");
             }
         }
         else if (plane2_out){   // ONLY AI plane out of bounds
@@ -267,31 +259,31 @@ void Field::update() {
 #if DEBUG
             LOGMESSAGE("AI PLANE out of bounds!");
 #endif
-            kicker->setDetails("AI got lost...");
+            _kicker->setDetails("AI got lost...");
         }
 
         if (!game_finished){    // check other finish conditions
-            if (plane1->remainingHealth() <= 0){ // PLAYER DIED
+            if (_plane1->remainingHealth() <= 0){ // PLAYER DIED
                 game_finished = true;
-                if (plane2->remainingHealth() <= 0){ // AI DIED TOO
+                if (_plane2->remainingHealth() <= 0){ // AI DIED TOO
 #if DEBUG
                     LOGMESSAGE("BOTH PLANES destroyed!");
 #endif
-                    kicker->setDetails("Both planes down: DRAW!");
+                    _kicker->setDetails("Both planes down: DRAW!");
                 }
                 else{
 #if DEBUG
                     LOGMESSAGE("OPPONENT destroyed!");
 #endif
-                    kicker->setDetails("Plane1 destroyed: YOU LOST!");
+                    _kicker->setDetails("Plane1 destroyed: YOU LOST!");
                 }
             }
-            else if(plane2->remainingHealth() <= 0){ // ONLY AI DIED
+            else if(_plane2->remainingHealth() <= 0){ // ONLY AI DIED
                 game_finished = true;
 #if DEBUG
                 LOGMESSAGE("AI plane destroyed!");
 #endif
-                kicker->setDetails("Plane2 destroyed: YOU WIN!");
+                _kicker->setDetails("Plane2 destroyed: YOU WIN!");
             }
         }
 
@@ -299,7 +291,7 @@ void Field::update() {
             moves_counter++;
 
             if(moves_counter < CHOICES_PER_TURN){
-                this->CurrentState = Field::APPLY_MOVES;
+                this->_internal_state = Field::APPLY_MOVES;
             }
             else{
                 moves_counter = 0;
@@ -307,7 +299,7 @@ void Field::update() {
                 delete animation2;
                 player_choices.clear();
 
-                this->CurrentState = Field::PLAYER_SELECT;
+                this->_internal_state = Field::PLAYER_SELECT;
             }
         }
         else{   // if the game is over
@@ -315,8 +307,8 @@ void Field::update() {
             delete animation2;
             player_choices.clear();
 
-            kicker->setMessage("GAME FINISHED");
-            this->CurrentState = Field::SHOW_INFOS;
+            _kicker->setMessage("GAME FINISHED");
+            this->_internal_state = Field::SHOW_INFOS;
         }
         break;
 
@@ -328,25 +320,25 @@ void Field::update() {
     }
 
     // set planes positions
-    plane1->plane_sprite.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
-    plane1->plane_sprite.SetRotation(radiants2degrees(p1pos[2]));
-    plane2->plane_sprite.SetPosition(p2pos[0] + _xdisplacement, p2pos[1] + _ydisplacement);
-    plane2->plane_sprite.SetRotation(radiants2degrees(p2pos[2]));
+    _plane1->plane_sprite.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
+    _plane1->plane_sprite.SetRotation(radiants2degrees(p1pos[2]));
+    _plane2->plane_sprite.SetPosition(p2pos[0] + _xdisplacement, p2pos[1] + _ydisplacement);
+    _plane2->plane_sprite.SetRotation(radiants2degrees(p2pos[2]));
 
     // compute and set shadows positions
-    shadow1_pos = this->plane1->plane_sprite.GetPosition();
+    shadow1_pos = this->_plane1->plane_sprite.GetPosition();
     shadow1_pos.x+=10;
     shadow1_pos.y+=15;
     plane1_shadow.SetPosition(shadow1_pos);
     plane1_shadow.SetRotation(radiants2degrees(p1pos[2]));
-    shadow2_pos = this->plane2->plane_sprite.GetPosition();
+    shadow2_pos = this->_plane2->plane_sprite.GetPosition();
     shadow2_pos.x+=10;
     shadow2_pos.y+=15;
     plane2_shadow.SetPosition(shadow2_pos);
     plane2_shadow.SetRotation(radiants2degrees(p2pos[2]));
 
     // update the water tile(waves effect)
-    this->water->update(0);
+    this->_water->update(0);
 }
 
 void Field::draw() {
@@ -354,31 +346,31 @@ void Field::draw() {
     //_window->SetView(this->camera);
 
     // TODO: adjust this, it is just for testing
-    for(int i=0;i<=(int)(theWorld->getWidth()/(2*water_size.x));i++){
-        for(int j=0;j<=(int)(theWorld->getHeight()/(2*water_size.y));j++)
+    for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
+        for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
         {
-            water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
-            _window->Draw(water->getSprite());
+            _water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
+            _window->Draw(_water->getSprite());
         }
     }
 
     // Now draw things that must be affected by the zoom...
     _window->Draw(plane1_shadow);
     _window->Draw(plane2_shadow);
-    _window->Draw(plane1->plane_sprite);
-    _window->Draw(plane2->plane_sprite);
+    _window->Draw(_plane1->plane_sprite);
+    _window->Draw(_plane2->plane_sprite);
 
     // Now draw things of fixed size
     //_window->SetView(_window->GetDefaultView());
 
     // KICKER
-    kicker->draw();
+    _kicker->draw();
 
     if(display_cards){
         //CARDS TEST --------------
-        cards[0]->draw();
-        cards[1]->draw();
-        cards[2]->draw();
+        _cards[0]->draw();
+        _cards[1]->draw();
+        _cards[2]->draw();
     }
 }
 
@@ -386,21 +378,18 @@ void Field::draw() {
 
 void Field::zoom(float z)
 {
-    this->camera.Zoom(z);
+    this->_camera.Zoom(z);
 }
 
 void Field::stop()
 {
-    this->status = TERMINATED;
+    this->_status = TERMINATED;
     _bgmusic.Stop();
 }
 
 bool Field::isTerminated()
 {
-    if (status == TERMINATED) {
-        return true;
-    }
-    return false;
+    return _status == TERMINATED;
 }
 
 void Field::mouseLeftPressed(float x, float y)
@@ -417,41 +406,41 @@ void Field::mouseLeftReleased(float x, float y)
     this->_ystart = 0;
 
     /* TODO: ClickableAreas method? */
-    for(int i=0;i<cards.size();i++)
+    for(int i=0;i<_cards.size();i++)
     {
         //check if the click is inside for EACH clickableAreas rectangle
         //note: rect has a "contains" methods, unluckily... doesn't works -_-"
         double active_offset = 0;
-        if(cards[i]->activated==1) active_offset = 50;
+        if(_cards[i]->activated==1) active_offset = 50;
         if(
-                x>=cards[i]->clickableArea->Left &&
-                y>=cards[i]->clickableArea->Top - active_offset &&
-                x<=cards[i]->clickableArea->Left+cards[0]->clickableArea->Right &&
-                y<=cards[i]->clickableArea->Top - active_offset + cards[0]->clickableArea->Bottom)
+                x>=_cards[i]->clickableArea->Left &&
+                y>=_cards[i]->clickableArea->Top - active_offset &&
+                x<=_cards[i]->clickableArea->Left+_cards[0]->clickableArea->Right &&
+                y<=_cards[i]->clickableArea->Top - active_offset + _cards[0]->clickableArea->Bottom)
 
         {
             //the clicked card isn't active
-            if(cards[i]->activated==0)
+            if(_cards[i]->activated==0)
             {
                 //deactivate each card of the deck
                 //for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
                 //activate the "i" card
-                cardmaster.insert(std::pair<int,int>(i,cardCounter));
-                cards[i]->activateCard();
+                _cardmaster.insert(std::pair<int,int>(i,cardCounter));
+                _cards[i]->activateCard();
                 cardCounter++;
             }
             //the "i" card is already activated, so deactivate it
-            else if(cards[i]->activated)
+            else if(_cards[i]->activated)
             {
-                for(int j=0;j<cards.size();j++)
+                for(int j=0;j<_cards.size();j++)
                 {
-                    it=cardmaster.find(j);
-                    if(it!=cardmaster.end())
+                    _it=_cardmaster.find(j);
+                    if(_it!=_cardmaster.end())
                     {
-                        cardmaster.erase(it);
+                        _cardmaster.erase(_it);
                         cardCounter--;
                     }
-                    cards[j]->deActivateCard();
+                    _cards[j]->deActivateCard();
 
                 }
             }
@@ -467,9 +456,9 @@ void Field::mouseMoved(float x, float y)
         _xdisplacement += x - _xstart;
         _ydisplacement += y - _ystart;
         if (_xdisplacement > 0) _xdisplacement = 0;
-        if (-_xdisplacement > this->theWorld->getWidth()) _xdisplacement = -this->theWorld->getWidth();
+        if (-_xdisplacement > this->_theWorld->getWidth()) _xdisplacement = -this->_theWorld->getWidth();
         if (_ydisplacement > 0) _ydisplacement = 0;
-        if (-_ydisplacement > this->theWorld->getHeight()) _ydisplacement = -this->theWorld->getHeight();
+        if (-_ydisplacement > this->_theWorld->getHeight()) _ydisplacement = -this->_theWorld->getHeight();
         _xstart = x;
         _ystart = y;
     }
@@ -478,11 +467,11 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
     //note GetEvent ALWAYS in if() or while()
-    if(_window->GetEvent(lastEvent))
+    if(_window->GetEvent(_lastEvent))
     {
-        switch(lastEvent.Type){
+        switch(_lastEvent.Type){
         case sf::Event::KeyPressed:
-            switch(lastEvent.Key.Code){
+            switch(_lastEvent.Key.Code){
             case sf::Key::Num1:
                 zoom(1.1f);
                 break;
@@ -498,24 +487,24 @@ int Field::handleEvents() {
             break;
 
         case sf::Event::MouseWheelMoved:
-            if(lastEvent.MouseWheel.Delta<0) zoom(1.1f);
+            if(_lastEvent.MouseWheel.Delta<0) zoom(1.1f);
             else zoom(0.9f);
             break;
 
         case sf::Event::MouseButtonPressed:
-            if (lastEvent.MouseButton.Button == sf::Mouse::Left){
-                mouseLeftPressed(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
+            if (_lastEvent.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftPressed(_lastEvent.MouseButton.X,_lastEvent.MouseButton.Y);
             }
             break;
 
         case sf::Event::MouseButtonReleased:
-            if(lastEvent.MouseButton.Button == sf::Mouse::Left){
-                mouseLeftReleased(lastEvent.MouseButton.X,lastEvent.MouseButton.Y);
+            if(_lastEvent.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftReleased(_lastEvent.MouseButton.X,_lastEvent.MouseButton.Y);
             }
             break;
 
         case sf::Event::MouseMoved:
-            mouseMoved(lastEvent.MouseMove.X,lastEvent.MouseMove.Y);
+            mouseMoved(_lastEvent.MouseMove.X,_lastEvent.MouseMove.Y);
             break;
 
         default:
