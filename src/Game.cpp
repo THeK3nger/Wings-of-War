@@ -49,7 +49,6 @@ void Game::mainGameLoop() {
         loops = 0;
         long new_time = (long) ((_clock.GetElapsedTime() * 1000)+0.5);
         while ((new_time>next_step_time) && (loops<Game::MAX_FRAME_SKIP)) {
-            LOGMESSAGE("LOL");
             this->update();
             next_step_time += Game::SKIP_TICKS;
             loops++;

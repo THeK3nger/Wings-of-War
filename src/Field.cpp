@@ -114,6 +114,7 @@ void Field::update() {
             kicker_was_changed = false;
         }
 
+        // WARNING: EVENT HANDLING CANNOT BE DONE HERE!!
         if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
             if(this->_lastEvent.Type == sf::Event::KeyPressed){
                 switch(this->_lastEvent.Key.Code){
@@ -472,7 +473,7 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
     //note GetEvent ALWAYS in if() or while()
-    if(_window->GetEvent(_lastEvent))
+    while(_window->GetEvent(_lastEvent))
     {
         switch(_lastEvent.Type){
         case sf::Event::KeyPressed:

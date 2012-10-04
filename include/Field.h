@@ -106,7 +106,7 @@ private:
      * \brief theWorld stores a reference to Game World.
      */
     World* _theWorld;
-    
+
     /*!
      * \brief lastEvent stores the last event
      */
