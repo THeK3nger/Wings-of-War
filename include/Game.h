@@ -22,7 +22,8 @@ public:
     /*!
      * \brief FRAME_PER_SECOND is the desired fps of the game loop.
      */
-    static const int FRAME_PER_SECOND = 30;
+    static const int FRAME_PER_SECOND = 50;
+    // WARNING: To avoid problem in input handling this value is overvalued.
 
     /*!
      * \brief SKIP_TICKS is the amount of ticks to the next frame.
@@ -80,6 +81,11 @@ private:
      * Render window
      */
     sf::RenderWindow _mainWindow;
+
+    /*!
+     * \brief _clock represent the internal clock of the game.
+     */
+    sf::Clock _clock;
 
     /*!
      * Game exit routine

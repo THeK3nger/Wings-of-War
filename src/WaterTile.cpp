@@ -13,9 +13,9 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) {
     
     xpos=100;
     ypos=100;
-    
-    timer=10;
-    acc=0;
+
+    _frame_step = 20;
+    _frame_count = 0;
     
     _spritesheet.LoadFromFile("assets/watertile2.png");
     _sprite.SetImage(_spritesheet);
@@ -30,60 +30,28 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) {
 }
 
 
-void WaterTile::update(int instant)
+void WaterTile::update()
 {
-    if(instant==0)
-        {
-        acc+=Clock.GetElapsedTime();
-        //printf("%f \n",acc);
-        if(acc>=timer)
-        {
+    if (_frame_count==_frame_step) {
+        switch (this->currentFrame) {
 
-            if(currentFrame==WaterTile::one)
-            {
-                currentFrame=WaterTile::two;
-                _sprite.SetSubRect(frame2);
-                
-            }
-
-            else if(currentFrame==WaterTile::two)
-            {
-                currentFrame=WaterTile::three;
-                _sprite.SetSubRect(frame3);
-                 
-            }
-            
-            else if(currentFrame==WaterTile::three)
-            {
-                currentFrame=WaterTile::one;
-                _sprite.SetSubRect(frame1);
-                 
-            }
-
-            _sprite.SetScale(1.0f,1.0f);
-            Clock.Reset();
-            acc=0;
+        case WaterTile::one :
+            currentFrame=WaterTile::two;
+            _sprite.SetSubRect(frame2);
+            break;
+        case WaterTile::two :
+            currentFrame=WaterTile::three;
+            _sprite.SetSubRect(frame3);
+            break;
+        case WaterTile::three :
+            currentFrame=WaterTile::one;
+            _sprite.SetSubRect(frame1);
         }
+        _frame_count = 0;
     }
-    
-    else
-    {
-        if(currentFrame==WaterTile::one)
-            {
-                currentFrame=WaterTile::two;
-                _sprite.SetSubRect(frame2);
-                
-            }
-
-            else if(currentFrame==WaterTile::two)
-            {
-                currentFrame=WaterTile::one;
-                _sprite.SetSubRect(frame1);
-                
-            }
-    }
-    
-       _sprite.SetScale(2,2);
+    //_sprite.SetScale(1.0f,1.0f);
+    _sprite.SetScale(2,2);
+    _frame_count++;
 }
 
 WaterTile::~WaterTile() {

@@ -19,19 +19,18 @@ class WaterTile {
 public:
     WaterTile(sf::RenderWindow *refWindow);
 
-    void update(int instant);
+    void update();
     virtual ~WaterTile();
     void setPos(float x, float y);
     
     sf::Sprite getSprite();
     
-private:
-
-    float timer;
-    float acc;
-    
+private:    
     int xpos;
     int ypos;
+
+    int _frame_step;
+    int _frame_count;
     
     sf::IntRect frame1;
     sf::IntRect frame2;
@@ -40,7 +39,6 @@ private:
     enum FrameState{one,two,three};
     FrameState currentFrame;
     
-    sf::Clock Clock;
     sf::Image _spritesheet;
     sf::Sprite _sprite;
     sf::RenderWindow* _window;

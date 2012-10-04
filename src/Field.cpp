@@ -87,6 +87,9 @@ void Field::init() {
 
 void Field::update() {
     this->handleEvents();
+
+    //==========
+    // Game Turns Switch
     switch(this->_internal_state){
     case Field::INIT:
         // HERE WE INITIALIZE THINGS
@@ -318,8 +321,9 @@ void Field::update() {
     default:
         break;
     }
+    //----------
 
-    // set planes positions
+    // set planes positionsma
     _plane1->plane_sprite.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
     _plane1->plane_sprite.SetRotation(radiants2degrees(p1pos[2]));
     _plane2->plane_sprite.SetPosition(p2pos[0] + _xdisplacement, p2pos[1] + _ydisplacement);
@@ -338,13 +342,10 @@ void Field::update() {
     plane2_shadow.SetRotation(radiants2degrees(p2pos[2]));
 
     // update the water tile(waves effect)
-    this->_water->update(0);
+    this->_water->update();
 }
 
 void Field::draw() {
-    // Set the camera according to the zoom
-    //_window->SetView(this->camera);
-
     // TODO: adjust this, it is just for testing
     for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
         for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
@@ -354,6 +355,9 @@ void Field::draw() {
         }
     }
 
+    // Set the camera according to the zoom
+    _window->SetView(this->_camera);
+
     // Now draw things that must be affected by the zoom...
     _window->Draw(plane1_shadow);
     _window->Draw(plane2_shadow);
@@ -361,7 +365,7 @@ void Field::draw() {
     _window->Draw(_plane2->plane_sprite);
 
     // Now draw things of fixed size
-    //_window->SetView(_window->GetDefaultView());
+    _window->SetView(_window->GetDefaultView());
 
     // KICKER
     _kicker->draw();
@@ -375,7 +379,6 @@ void Field::draw() {
 }
 
 /************ EVENT HANDLER **********/
-
 void Field::zoom(float z)
 {
     this->_camera.Zoom(z);
@@ -394,6 +397,7 @@ bool Field::isTerminated()
 
 void Field::mouseLeftPressed(float x, float y)
 {
+    LOGMESSAGE("L PRESSED");
     this->_mouse_down = true;
     this->_xstart = x;
     this->_ystart = y;
@@ -401,6 +405,7 @@ void Field::mouseLeftPressed(float x, float y)
 
 void Field::mouseLeftReleased(float x, float y)
 {
+    LOGMESSAGE("L RELEASED");
     this->_mouse_down = false;
     this->_xstart = 0;
     this->_ystart = 0;

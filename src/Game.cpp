@@ -11,6 +11,7 @@ Game::Game(int h, int w, int d) {
     height = h;
     depth = d;
 
+    _clock = sf::Clock();
     _gameState = Game::Uninitialized;
 }
 
@@ -39,16 +40,19 @@ void Game::init() {
 void Game::mainGameLoop() {
     this->init();
 
-    long next_step_time = getTicks();
-    int loop;
+    //long next_step_time = getTicks();
+    long next_step_time = (long) ((_clock.GetElapsedTime() * 1000)+0.5);
+    int loops;
 
     LOGMESSAGE("Starting Game Loop");
     while (_gameState != Game::Exiting) {
-        loop = 0;
-        while ((getTicks()>next_step_time) && (loop<Game::MAX_FRAME_SKIP)) {
+        loops = 0;
+        long new_time = (long) ((_clock.GetElapsedTime() * 1000)+0.5);
+        while ((new_time>next_step_time) && (loops<Game::MAX_FRAME_SKIP)) {
+            LOGMESSAGE("LOL");
             this->update();
             next_step_time += Game::SKIP_TICKS;
-            loop++;
+            loops++;
         }
         this->draw();
     }
