@@ -1,6 +1,8 @@
 #include "SplashScreen.h"
 #include "wowcommon.h"
 
+#include "Dialog.h"
+
 /*!
  * Constructor
  */

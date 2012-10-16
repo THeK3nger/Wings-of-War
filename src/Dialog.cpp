@@ -1,3 +1,6 @@
+#include <string.h>
+#include <stdio.h>
+
 #include "Dialog.h"
 
 Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessage) {

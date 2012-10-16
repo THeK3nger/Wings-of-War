@@ -1,7 +1,3 @@
-#include <cstdlib>
-#include <iostream>
-#include "Plane.h"
-#include "Card.h"
 #include "Game.h"
 
 using namespace std;

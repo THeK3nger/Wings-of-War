@@ -1,16 +1,7 @@
 #ifndef GAME_H
 #define	GAME_H
 
-#include "Plane.h"
-#include "World.h"
-#include "WoWBrain.h"
 #include "SplashScreen.h"
-#include "Dialog.h"
-
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
-
-#include <stdio.h>
 
 /*!
  * \brief This class is the core class of the Game.
