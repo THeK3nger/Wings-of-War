@@ -103,9 +103,8 @@ void Field::update() {
     switch(this->_internal_state){
     case Field::INIT:
         // HERE WE INITIALIZE THINGS
-        // set kicker message
-        this->_kicker->setMessage("Initializing stuff");
-        this->_kicker->setDetails("enhancing funnyness...");
+
+
 
         // planes positions
         this->_plane1->getPosition(p1pos);
@@ -117,16 +116,10 @@ void Field::update() {
     case Field::PLAYER_SELECT:
         display_cards = true;
 
-        // set kicker message
-        if (kicker_was_changed){ // this is to avoid continuously replacing it
-            this->_kicker->setMessage("Choose your moves (use ARROWS):");
-            this->_kicker->setDetails("[left] LEFT - [up] FORWARD - [right] RIGHT");
-            kicker_was_changed = false;
-        }
 
         // WARNING: EVENT HANDLING CANNOT BE DONE HERE!!
         if(player_choices.size() >= CHOICES_PER_TURN){
-            kicker_was_changed = true;
+
             display_cards = false;
 
             // create preview planes
@@ -150,9 +143,7 @@ void Field::update() {
     	delete _preview_plane_a;
     	delete _preview_plane_b;
 
-        // set kicker message
-        this->_kicker->setMessage("AI is choosing...");
-        this->_kicker->setDetails("it's so clever!");
+
 
         ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 #if DEBUG
@@ -162,9 +153,7 @@ void Field::update() {
         break;
 
     case Field::APPLY_MOVES:
-        // set kicker message
-        this->_kicker->setMessage("WOOSH!");
-        this->_kicker->setDetails("");
+
 
         // store positions before moving
         this->_plane1->getPosition(plane1_prev_pos);
@@ -199,9 +188,7 @@ void Field::update() {
         break;
 
     case Field::COMPUTE_DAMAGES:
-        // set kicker message
-        this->_kicker->setMessage("BUM BUM BUM!");
-        this->_kicker->setDetails("");
+
 
         // if some plane is out of bounds, destroy it
         if (!this->_theWorld->isInside(_plane1)){
@@ -249,13 +236,13 @@ void Field::update() {
 #if DEBUG
                 LOGMESSAGE("both planes out of bounds!");
 #endif
-                _kicker->setDetails("DRAW, they all got lost somewhere...");
+
             }
             else{ // ONLY OPPONENT is out of bounds
 #if DEBUG
                 LOGMESSAGE("PLAYER out of bounds!");
 #endif
-                _kicker->setDetails("PLAYER got lost...");
+
             }
         }
         else if (plane2_out){   // ONLY AI plane out of bounds
@@ -263,7 +250,7 @@ void Field::update() {
 #if DEBUG
             LOGMESSAGE("AI PLANE out of bounds!");
 #endif
-            _kicker->setDetails("AI got lost...");
+
         }
 
         if (!game_finished){    // check other finish conditions
@@ -273,13 +260,13 @@ void Field::update() {
 #if DEBUG
                     LOGMESSAGE("BOTH PLANES destroyed!");
 #endif
-                    _kicker->setDetails("Both planes down: DRAW!");
+
                 }
                 else{
 #if DEBUG
                     LOGMESSAGE("OPPONENT destroyed!");
 #endif
-                    _kicker->setDetails("Plane1 destroyed: YOU LOST!");
+
                 }
             }
             else if(_plane2->remainingHealth() <= 0){ // ONLY AI DIED
@@ -287,7 +274,7 @@ void Field::update() {
 #if DEBUG
                 LOGMESSAGE("AI plane destroyed!");
 #endif
-                _kicker->setDetails("Plane2 destroyed: YOU WIN!");
+
             }
         }
 
@@ -311,7 +298,7 @@ void Field::update() {
             delete animation2;
             player_choices.clear();
 
-            _kicker->setMessage("GAME FINISHED");
+
             this->_internal_state = Field::SHOW_INFOS;
         }
         break;
@@ -375,7 +362,7 @@ void Field::draw() {
     _window->SetView(_window->GetDefaultView());
 
     // KICKER
-    _kicker->draw();
+
 
     //HUD
     _enemyLifebar->draw();
