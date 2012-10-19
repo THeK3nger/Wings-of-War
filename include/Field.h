@@ -14,7 +14,9 @@
 #include "WoWBrain.h"
 #include "World.h"
 #include "math.h"
-#include "Kicker.h"
+
+//KICKER REMOVED
+
 #include "WaterTile.h"
 #include "Animation.h"
 #include "CardImage.h"
@@ -115,10 +117,6 @@ private:
 	 */
 	sf::Event _lastEvent;
 
-	/*!
-	 * \brief kicker stores a kicker reference
-	 */
-	Kicker * _kicker;
 
 	/*!
 	 * \brief lifebar stores a lifebar reference

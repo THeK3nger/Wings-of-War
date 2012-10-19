@@ -53,7 +53,6 @@ void Field::init() {
     sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
     _camera.SetFromRect(frect);
 
-    _kicker = new Kicker(_window);
 
     cardCounter=0;
     //pointer to card image, instance to a generic cardImage with id=0
