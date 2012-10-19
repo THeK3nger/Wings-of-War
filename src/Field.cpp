@@ -117,7 +117,7 @@ void Field::update() {
         if(player_choices.size() >= CHOICES_PER_TURN){
             kicker_was_changed = true;
             display_cards = false;
-            this->_internal_state = Field::BRAIN_SELECT;
+            this->_internal_state = Field::PREVIEW_MOVES;
 #if DEBUG
             LOGMESSAGE("Player has chosen!");
 #endif
@@ -461,27 +461,34 @@ int Field::handleEvents() {
                 stop();
                 break;
             case sf::Key::Right:
-            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT)
+            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
             		player_choices.push_back(this->_plane1->getCardSet()->cards);
 					#if DEBUG
             			LOGMESSAGE("You have chosen Right");
 					#endif
+            	}
             	break;
             case sf::Key::Left:
-            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT)
+            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
             	player_choices.push_back(this->_plane1->getCardSet()->cards+1);
 					#if DEBUG
 						LOGMESSAGE("You have chosen Left");
 					#endif
+            	}
                 break;
             case sf::Key::Up:
-            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT)
+            	if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
             	player_choices.push_back(this->_plane1->getCardSet()->cards+2);
 					#if DEBUG
         	    		LOGMESSAGE("You have chosen Up");
         			#endif
+            	}
                 break;
-
+            case sf::Key::Return:
+            	if(this->_internal_state == Field::PREVIEW_MOVES){
+            		this->_internal_state = Field::BRAIN_SELECT;
+            	}
+            	break;
             default:
                 break;
             } // END OF KEY.CODE SWITCH
