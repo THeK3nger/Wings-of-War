@@ -27,7 +27,8 @@ CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindo
     
     _window=refwindow;
     _cardmaster=cardmaster;
-    
+    _timer=0;
+    anim=0;
     
 }
 
@@ -80,4 +81,24 @@ void CardImage::getPos()
 void CardImage::draw()
 {
     _window->Draw(cardSprite);
+}
+
+void CardImage::update()
+{
+
+	if(anim==0)
+	{
+		_Clock.Reset();
+	}
+	else
+	{
+		_timer=_Clock.GetElapsedTime();
+		cardSprite.SetColor(sf::Color::Red);
+		if(_timer==1.0f)
+		{
+			anim=0;
+			cardSprite.SetColor(sf::Color(0,0,0,0));
+		}
+	}
+
 }

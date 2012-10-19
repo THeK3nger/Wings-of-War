@@ -23,12 +23,14 @@ public:
     void deActivateCard();
     void setPos(sf::Vector2f pos);
     void getPos();
-    
+    void update();
     void draw();
     
+
+    bool anim;
     sf::Sprite cardSprite;
     bool activated;
-    
+
     sf::Rect<int>* clickableArea;
     
 private:
@@ -38,7 +40,9 @@ private:
     sf::RenderWindow* _window;
     
     int _id;
-    
+    float _timer;
+    sf::Clock _Clock;
+
     std::map<int,int>* _cardmaster;
 
 };
