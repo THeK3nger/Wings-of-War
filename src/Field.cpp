@@ -129,6 +129,17 @@ void Field::update() {
         if(player_choices.size() >= CHOICES_PER_TURN){
             kicker_was_changed = true;
             display_cards = false;
+
+            // create preview planes
+            float initpos[3];
+            _plane1->getPosition(initpos);
+            _preview_plane_a = new Plane(10, 10, initpos[0], initpos[1], initpos[2]);
+            _preview_plane_b = new Plane(11, 10, initpos[0], initpos[1], initpos[2]);
+            _preview_plane_a->move(player_choices[0]);
+            _preview_plane_b->move(player_choices[0]);
+            _preview_plane_b->move(player_choices[1]);
+
+            // change state
             this->_internal_state = Field::PREVIEW_MOVES;
 #if DEBUG
             LOGMESSAGE("Player has chosen!");
@@ -136,6 +147,10 @@ void Field::update() {
         }
         break;
     case Field::BRAIN_SELECT:
+    	// destroy preview planes
+    	delete _preview_plane_a;
+    	delete _preview_plane_b;
+
         // set kicker message
         this->_kicker->setMessage("AI is choosing...");
         this->_kicker->setDetails("it's so clever!");
@@ -351,21 +366,11 @@ void Field::draw() {
     _window->Draw(_plane1->plane_sprite);
     _window->Draw(_plane2->plane_sprite);
 
-//    if(this->_internal_state == Field::PREVIEW_MOVES){
-//    	std::vector<Card::CType> card_types;
-//    	for(unsigned int i=0; i<player_choices.size(); i++){
-//    		card_types.push_back(_plane1->getLastMove());
-//    		_plane1->move(player_choices[i]);
-//    		_plane1->getPosition(p1pos);
-//    		plane1_preview.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
-//    		plane1_preview.SetRotation(radiants2degrees(p1pos[2]));
-//    		_window->Draw(plane1_preview);
-//    	}
-//    	for(unsigned int i=player_choices.size()-1; i>=0; i--){
-//    		_plane1->revertMove(player_choices[i], card_types[i]);
-//    	}
-//    	_plane1->getPosition(p1pos);\]
-//    }
+    if(this->_internal_state == Field::PREVIEW_MOVES){
+    	_preview_plane_a->getPosition(preview_plane_a_pos);
+    	_preview_plane_b->getPosition(preview_plane_b_pos);
+
+    }
 
     // Now draw things of fixed size
     _window->SetView(_window->GetDefaultView());
