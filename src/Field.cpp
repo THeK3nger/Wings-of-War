@@ -20,6 +20,7 @@ Field::~Field() {
 }
 
 void Field::init() {
+<<<<<<< HEAD
 	_bgmusic.Play();
 
 	LOGMESSAGE("Initialize Plane 1");
@@ -91,6 +92,83 @@ void Field::init() {
 
 	LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
 	this->_status = INGAME;
+=======
+    _bgmusic.Play();
+
+    LOGMESSAGE("Initialize Plane 1");
+    _plane1 = new Plane(0, 10, 400, 300, 0);
+    _plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));        // PLANE 1 IS RED
+
+    LOGMESSAGE("Initialize Plane 2");
+    _plane2 = new Plane(1, 10, 50, 50, 0);
+    _plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
+
+    LOGMESSAGE("Initialize Preview Planes");
+    _preview_plane_a = new Plane(10,10,400,300,0);
+    _preview_plane_b = new Plane(11,10,400,300,0);
+    sf::Color col = _plane1->plane_sprite.GetColor();
+    col.a = 128;
+    _preview_plane_a->plane_sprite.SetColor(col);
+    _preview_plane_b->plane_sprite.SetColor(col);
+
+    LOGMESSAGE("Init enemy lifebar");
+    _enemyLifebar= new LifeBar(0,10,590,10,_window);
+
+    LOGMESSAGE("Init player lifebar");
+    _playerLifebar= new LifeBar(1,10,10,10,_window);
+
+    LOGMESSAGE("Create Game World");
+    _theWorld = new World(800, 600);
+    _theWorld->addPlane(_plane1);
+    _theWorld->addPlane(_plane2);
+    _theBrain = new WoWBrain(_plane2, _theWorld);
+
+    _xstart = 0;
+    _ystart = 0;
+    _xdisplacement = 0;
+    _ydisplacement = 0;
+
+    _mouse_down = false;
+
+    _water = new WaterTile(_window);
+    sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
+    _camera.SetFromRect(frect);
+
+
+    cardCounter=0;
+    //pointer to card image, instance to a generic cardImage with id=0
+    CardImage* card = new CardImage(0,420,450,_window,&_cardmaster);
+    //setting the clickable area
+    card->clickableArea = new sf::Rect<int>(420,450,100,180);
+    //adding the cardImage to the cards vector
+    _cards.push_back(card);
+
+    //same
+    card = new CardImage(1,520,450,_window,&_cardmaster);
+    card->clickableArea = new sf::Rect<int>(520,450,100,180);
+    _cards.push_back(card);
+
+    //same
+    card = new CardImage(2,620,450,_window,&_cardmaster);
+    card->clickableArea = new sf::Rect<int>(620,450,200,180);
+    _cards.push_back(card);
+
+    //store sprites dimentions and centering
+    water_size = this->_water->getSprite().GetSize();
+    plane1_size = this->_plane1->plane_sprite.GetSize();
+    plane2_size = this->_plane2->plane_sprite.GetSize();
+    _plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
+    _plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
+
+    // planes shadows sprites (they could be different)
+    plane1_shadow = _plane1->plane_sprite;
+    plane1_shadow.SetColor(sf::Color(0,0,0,128));
+    plane2_shadow = _plane2->plane_sprite;
+    plane2_shadow.SetColor(sf::Color(0,0,0,128));
+
+    LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
+    this->_status = INGAME;
+>>>>>>> b2a09ce3157812d19674d75f63e2f05e4a3ddf0f
 }
 
 void Field::update() {
@@ -120,6 +198,7 @@ void Field::update() {
 
 			display_cards = false;
 
+<<<<<<< HEAD
 			// create preview planes
 			float initpos[3];
 			_plane1->getPosition(initpos);
@@ -128,12 +207,27 @@ void Field::update() {
 			_preview_plane_a->move(player_choices[0]);
 			_preview_plane_b->move(player_choices[0]);
 			_preview_plane_b->move(player_choices[1]);
+=======
+            // create preview planes
+            float initpos[3];
+            _plane1->getPosition(initpos);
+            _preview_plane_a->setX(initpos[0]);
+            _preview_plane_a->setY(initpos[1]);
+            _preview_plane_a->setT(initpos[2]);
+            _preview_plane_b->setX(initpos[0]);
+            _preview_plane_b->setY(initpos[1]);
+            _preview_plane_b->setT(initpos[2]);
+            _preview_plane_a->move(player_choices[0]);
+            _preview_plane_b->move(player_choices[0]);
+            _preview_plane_b->move(player_choices[1]);
+>>>>>>> b2a09ce3157812d19674d75f63e2f05e4a3ddf0f
 
 			// change state
 			this->_internal_state = Field::PREVIEW_MOVES;
 #if DEBUG
 			LOGMESSAGE("Player has chosen!");
 #endif
+<<<<<<< HEAD
 		}
 		break;
 	case Field::BRAIN_SELECT:
@@ -144,6 +238,12 @@ void Field::update() {
 
 
 		ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
+=======
+        }
+        break;
+    case Field::BRAIN_SELECT:
+        ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
+>>>>>>> b2a09ce3157812d19674d75f63e2f05e4a3ddf0f
 #if DEBUG
 		LOGMESSAGE("AI has chosen!");
 #endif
@@ -332,6 +432,7 @@ void Field::update() {
 }
 
 void Field::draw() {
+<<<<<<< HEAD
 	// TODO: adjust this, it is just for testing
 	for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
 		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
@@ -371,6 +472,53 @@ void Field::draw() {
 		_cards[i]->draw();
 
 	}
+=======
+    // TODO: adjust this, it is just for testing
+    for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
+        for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
+        {
+            _water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
+            _window->Draw(_water->getSprite());
+        }
+    }
+
+    // Set the camera according to the zoom
+    _window->SetView(this->_camera);
+
+    // Now draw things that must be affected by the zoom...
+    _window->Draw(plane1_shadow);
+    _window->Draw(plane2_shadow);
+    _window->Draw(_plane1->plane_sprite);
+    _window->Draw(_plane2->plane_sprite);
+
+    if(this->_internal_state == Field::PREVIEW_MOVES){
+    	_preview_plane_a->getPosition(preview_plane_a_pos);
+    	_preview_plane_b->getPosition(preview_plane_b_pos);
+    	_preview_plane_a->plane_sprite.SetPosition(preview_plane_a_pos[0] + _xdisplacement, preview_plane_a_pos[1] + _ydisplacement);
+    	_preview_plane_a->plane_sprite.SetRotation(-radiants2degrees(preview_plane_a_pos[2]));
+    	_preview_plane_b->plane_sprite.SetPosition(preview_plane_b_pos[0] + _xdisplacement, preview_plane_b_pos[1] + _ydisplacement);
+    	_preview_plane_b->plane_sprite.SetRotation(-radiants2degrees(preview_plane_b_pos[2]));
+    	_window->Draw(_preview_plane_a->plane_sprite);
+    	_window->Draw(_preview_plane_b->plane_sprite);
+    }
+
+    // Now draw things of fixed size
+    _window->SetView(_window->GetDefaultView());
+
+    // KICKER
+
+
+    //HUD
+    _enemyLifebar->draw();
+    _playerLifebar->draw();
+
+    if(display_cards){
+        //CARDS TEST --------------
+        _cards[0]->draw();
+        _cards[1]->draw();
+        _cards[2]->draw();
+    }
+>>>>>>> b2a09ce3157812d19674d75f63e2f05e4a3ddf0f
 }
 
 /************ EVENT HANDLER **********/

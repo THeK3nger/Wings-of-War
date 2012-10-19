@@ -16,13 +16,13 @@ public:
 
 private:
 
-    sf::Image dialog_image;
-    sf::Sprite dialog_sprite;
+    sf::Image _dialog_image;
+    sf::Sprite _dialog_sprite;
 
     sf::RenderWindow* _window;
-    sf::Font Font;
-    sf::String Title;
-    sf::String Message;
+    sf::Font _font;
+    sf::String _title;
+    sf::String _message;
 };
 
 #endif	/* DIALOG_H */

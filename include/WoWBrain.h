@@ -64,7 +64,7 @@ public:
      */
     int expectedDamage();
     
-    void setWeights(int* weights);
+    void setWeights(int* _weights);
 
 private:
 
@@ -72,12 +72,12 @@ private:
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent);
+    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * _opponent);
 
-    World *current_world;
-    Plane *aiplane;
-    Plane *opponent;
-    int* weights;
+    World *_current_world;
+    Plane *_aiplane;
+    Plane *_opponent;
+    int* _weights;
 
 };
 

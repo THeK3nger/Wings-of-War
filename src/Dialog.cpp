@@ -3,21 +3,17 @@
 
 #include "Dialog.h"
 
-Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessage) {
-    _window = refwindow;
+Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessage) :
+    _window(refwindow), _title(rTitle), _message(rMessage)
+{
+    _dialog_image.LoadFromFile("assets/option.png");
+    _dialog_sprite.SetImage(_dialog_image);
+    _dialog_sprite.SetPosition(150, 150);
 
-    dialog_image.LoadFromFile("assets/option.png");
-    dialog_sprite.SetImage(dialog_image);
-    dialog_sprite.SetPosition(150, 150);
+    _font.LoadFromFile("assets/pixelmix.ttf");
 
-
-    Font.LoadFromFile("assets/pixelmix.ttf");
-
-    Title = rTitle;
-    Message = rMessage;
-
-    Title.SetFont(Font);
-    Message.SetFont(Font);
+    _title.SetFont(_font);
+    _message.SetFont(_font);
     
 }
 
@@ -26,9 +22,9 @@ int Dialog::run() {
     _window->GetEvent(Event);
 
     while (Event.Type != sf::Event::KeyPressed) {
-        _window->Draw(dialog_sprite);
-        _window->Draw(Title);
-        _window->Draw(Message);
+        _window->Draw(_dialog_sprite);
+        _window->Draw(_title);
+        _window->Draw(_message);
         _window->Display();
         _window->GetEvent(Event);
     }
