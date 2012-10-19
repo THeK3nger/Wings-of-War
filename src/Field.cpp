@@ -66,15 +66,14 @@ void Field::init() {
 	//pointer to card image, instance to a generic cardImage with id=0
 	CardImage* card = new CardImage(0,0,450,_window,&_cardmaster,0);
 	//setting the clickable area
-	//card->clickableArea = new sf::Rect<int>(420,450,100,180);
+	card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 	//adding the cardImage to the cards vector
 	_cards.push_back(card);
 	for(int i=1;i<6;i++)
 	{
 		card = new CardImage(1,91*i,450,_window,&_cardmaster,i);
-		//card->clickableArea = new sf::Rect<int>(520,450,100,180);
+		card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 		_cards.push_back(card);
-		std::cout<<"card "<<i<<std::endl;
 	}
 
 	//store sprites dimentions and centering
@@ -97,7 +96,7 @@ void Field::init() {
 void Field::update() {
 	this->handleEvents();
 
-	//==========
+
 	// Game Turns Switch
 	switch(this->_internal_state){
 	case Field::INIT:
