@@ -209,6 +209,7 @@ private:
 	sf::Vector2f plane1_size;
 	sf::Vector2f plane2_size;
 
+	sf::Sprite plane1_preview;	// used for showing where the plane will go when the player chooses his moves
 	sf::Sprite plane1_shadow;
 	sf::Sprite plane2_shadow;
 };
