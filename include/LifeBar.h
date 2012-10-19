@@ -1,3 +1,4 @@
+#include "wowcommon.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"

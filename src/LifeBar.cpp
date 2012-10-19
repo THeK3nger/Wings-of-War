@@ -43,6 +43,6 @@ void LifeBar::draw(){
 void LifeBar::setLife(int hp)
 {
 	this->_life=this->_life-hp;
-	this->_bar_sprite.SetScale((float)(this->_maxlife/this->_life),1);
+	this->_bar_sprite.SetScale( ( (float)this->_life/(float)this->_maxlife),1);
 
 }

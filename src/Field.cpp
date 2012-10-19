@@ -34,7 +34,7 @@ void Field::init() {
     _enemyLifebar= new LifeBar(0,10,590,10,_window);
 
     LOGMESSAGE("Init player lifebar");
-    _playerLifebar= new LifeBar(1,10,10,10,_window);
+    _playerLifebar= new LifeBar(1,10,590,10,_window);
 
     LOGMESSAGE("Create Game World");
     _theWorld = new World(800, 600);
@@ -203,7 +203,7 @@ void Field::update() {
             LOGMESSAGE("PLANE1 SHOT TO PLANE2");
 #endif
             _plane2->inflictDamage(this->_theBrain->expectedDamage());
-            _enemyLifebar->setLife(this->_theBrain->expectedDamage());
+            _playerLifebar->setLife(this->_theBrain->expectedDamage());
         }
         if ((!plane2_out) && _plane2->canShootTo(_plane1)){
             _plane1->inflictDamage(this->_theBrain->expectedDamage());
