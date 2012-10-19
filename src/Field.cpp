@@ -4,7 +4,6 @@
 #include "Field.h"
 
 Field::Field(sf::RenderWindow *refwindow) {
-    LOGMESSAGE("Loading Field...");
     _window = refwindow;
     
     //Loading the bgmusic file
