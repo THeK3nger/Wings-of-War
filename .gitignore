@@ -4,10 +4,5 @@
 /dist/Debug/
 .dep.inc
 *.user
-<<<<<<< HEAD
 .project
 .cproject
-=======
-.cpproject
-.project
->>>>>>> 0e27b88ec25c52686876c2840d69b56600682061
