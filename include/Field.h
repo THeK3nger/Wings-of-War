@@ -212,7 +212,6 @@ private:
 	float preview_plane_a_pos [3];	// these are for drawing the preview planes
 	float preview_plane_b_pos [3];
 
-	sf::Sprite plane1_preview;	// used for showing where the plane will go when the player chooses his moves
 	sf::Sprite plane1_shadow;
 	sf::Sprite plane2_shadow;
 };

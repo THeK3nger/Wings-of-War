@@ -30,6 +30,14 @@ void Field::init() {
     _plane2 = new Plane(1, 10, 50, 50, 0);
     _plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
 
+    LOGMESSAGE("Initialize Preview Planes");
+    _preview_plane_a = new Plane(10,10,400,300,0);
+    _preview_plane_b = new Plane(11,10,400,300,0);
+    sf::Color col = _plane1->plane_sprite.GetColor();
+    col.a = 128;
+    _preview_plane_a->plane_sprite.SetColor(col);
+    _preview_plane_b->plane_sprite.SetColor(col);
+
     LOGMESSAGE("Init enemy lifebar");
     _enemyLifebar= new LifeBar(0,10,590,10,_window);
 
@@ -85,12 +93,6 @@ void Field::init() {
     plane2_shadow = _plane2->plane_sprite;
     plane2_shadow.SetColor(sf::Color(0,0,0,128));
 
-    // preview plane sprite
-    plane1_preview = _plane1->plane_sprite;
-    sf::Color col = plane1_preview.GetColor();
-    col.a = 128;
-    plane1_preview.SetColor(col);
-
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->_status = INGAME;
 }
@@ -125,8 +127,12 @@ void Field::update() {
             // create preview planes
             float initpos[3];
             _plane1->getPosition(initpos);
-            _preview_plane_a = new Plane(10, 10, initpos[0], initpos[1], initpos[2]);
-            _preview_plane_b = new Plane(11, 10, initpos[0], initpos[1], initpos[2]);
+            _preview_plane_a->setX(initpos[0]);
+            _preview_plane_a->setY(initpos[1]);
+            _preview_plane_a->setT(initpos[2]);
+            _preview_plane_b->setX(initpos[0]);
+            _preview_plane_b->setY(initpos[1]);
+            _preview_plane_b->setT(initpos[2]);
             _preview_plane_a->move(player_choices[0]);
             _preview_plane_b->move(player_choices[0]);
             _preview_plane_b->move(player_choices[1]);
@@ -139,12 +145,6 @@ void Field::update() {
         }
         break;
     case Field::BRAIN_SELECT:
-    	// destroy preview planes
-    	delete _preview_plane_a;
-    	delete _preview_plane_b;
-
-
-
         ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 #if DEBUG
         LOGMESSAGE("AI has chosen!");
@@ -355,7 +355,12 @@ void Field::draw() {
     if(this->_internal_state == Field::PREVIEW_MOVES){
     	_preview_plane_a->getPosition(preview_plane_a_pos);
     	_preview_plane_b->getPosition(preview_plane_b_pos);
-
+    	_preview_plane_a->plane_sprite.SetPosition(preview_plane_a_pos[0] + _xdisplacement, preview_plane_a_pos[1] + _ydisplacement);
+    	_preview_plane_a->plane_sprite.SetRotation(-radiants2degrees(preview_plane_a_pos[2]));
+    	_preview_plane_b->plane_sprite.SetPosition(preview_plane_b_pos[0] + _xdisplacement, preview_plane_b_pos[1] + _ydisplacement);
+    	_preview_plane_b->plane_sprite.SetRotation(-radiants2degrees(preview_plane_b_pos[2]));
+    	_window->Draw(_preview_plane_a->plane_sprite);
+    	_window->Draw(_preview_plane_b->plane_sprite);
     }
 
     // Now draw things of fixed size
