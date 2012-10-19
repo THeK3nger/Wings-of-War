@@ -80,6 +80,12 @@ void Field::init() {
     plane2_shadow = _plane2->plane_sprite;
     plane2_shadow.SetColor(sf::Color(0,0,0,128));
 
+    // preview plane sprite
+    plane1_preview = _plane1->plane_sprite;
+    sf::Color col = plane1_preview.GetColor();
+    col.a = 128;
+    plane1_preview.SetColor(col);
+
     LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
     this->_status = INGAME;
 }
@@ -123,7 +129,6 @@ void Field::update() {
 #endif
         }
         break;
-
     case Field::BRAIN_SELECT:
         // set kicker message
         this->_kicker->setMessage("AI is choosing...");
@@ -337,6 +342,22 @@ void Field::draw() {
     _window->Draw(plane2_shadow);
     _window->Draw(_plane1->plane_sprite);
     _window->Draw(_plane2->plane_sprite);
+
+//    if(this->_internal_state == Field::PREVIEW_MOVES){
+//    	std::vector<Card::CType> card_types;
+//    	for(unsigned int i=0; i<player_choices.size(); i++){
+//    		card_types.push_back(_plane1->getLastMove());
+//    		_plane1->move(player_choices[i]);
+//    		_plane1->getPosition(p1pos);
+//    		plane1_preview.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
+//    		plane1_preview.SetRotation(radiants2degrees(p1pos[2]));
+//    		_window->Draw(plane1_preview);
+//    	}
+//    	for(unsigned int i=player_choices.size()-1; i>=0; i--){
+//    		_plane1->revertMove(player_choices[i], card_types[i]);
+//    	}
+//    	_plane1->getPosition(p1pos);\]
+//    }
 
     // Now draw things of fixed size
     _window->SetView(_window->GetDefaultView());

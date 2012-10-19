@@ -201,6 +201,9 @@ private:
     sf::Vector2f plane1_size;
     sf::Vector2f plane2_size;
 
+    sf::Vector2f preview_pos;	// these are for previewing the positions of the plane when player chooses his moves
+
+    sf::Sprite plane1_preview;
     sf::Sprite plane1_shadow;
     sf::Sprite plane2_shadow;
 };
