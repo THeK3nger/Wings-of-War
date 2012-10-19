@@ -3,15 +3,10 @@
 
 #include "Animation.h"
 
-Animation::Animation(float xi, float yi, float thetai, float xf, float yf, float thetaf){
-    // store the input values
-    this->init_x = xi;
-    this->init_y = yi;
-    this->init_theta = thetai;
-    this->final_x = xf;
-    this->final_y = yf;
-    this->final_theta = thetaf;
-    
+Animation::Animation(float xi, float yi, float thetai, float xf, float yf, float thetaf) :
+    init_x(xi), init_y(yi), init_theta(thetai),
+    final_x(xf), final_y(xf), final_theta(thetaf)
+{
     // TODO: compute k according to the given values
     this->k = 50;
     
