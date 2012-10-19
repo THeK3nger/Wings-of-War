@@ -336,6 +336,7 @@ void Field::update() {
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
 		_window->Draw(gameover_sprite);
+		return;
 	}
 
 	// TODO: adjust this, it is just for testing
