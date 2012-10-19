@@ -1,18 +1,12 @@
 #include "Card.h"
 
-Card::Card() {
-    this->type = STRAIGHT;
-    this->dx = 0;
-    this->dy = 0;
-    this->dtheta = 0;
-}
+Card::Card() :
+    type(STRAIGHT), dx(0), dy(0), dtheta(0)
+{}
 
-Card::Card(CType type, float mov_x, float mov_y, float mov_theta) {
-    this->type = type;
-    this->dx = mov_x;
-    this->dy = mov_y;
-    this->dtheta = mov_theta;
-}
+Card::Card(CType type, float mov_x, float mov_y, float mov_theta) :
+    type(type), dx(mov_x), dy(mov_y), dtheta(mov_theta)
+{}
 
 Card::~Card() {
 }
