@@ -4,7 +4,6 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
-#include "badge.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,8 +36,6 @@ private:
     sf::Image _cardImage;
     sf::String _cardName;
     sf::RenderWindow* _window;
-    
-    badge* _badge;
     
     int _id;
     

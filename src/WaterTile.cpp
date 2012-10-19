@@ -7,15 +7,12 @@
 
 #include "WaterTile.h"
 
-WaterTile::WaterTile(sf::RenderWindow *refWindow) {
-    
-    _window=refWindow;
+WaterTile::WaterTile(sf::RenderWindow *refWindow) :
+    _window(refWindow), _frame_step(20), _frame_count(0)
+{
     
     xpos=100;
     ypos=100;
-
-    _frame_step = 20;
-    _frame_count = 0;
     
     _spritesheet.LoadFromFile("assets/watertile2.png");
     _sprite.SetImage(_spritesheet);
