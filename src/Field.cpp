@@ -34,7 +34,7 @@ void Field::init() {
     _enemyLifebar= new LifeBar(0,10,590,10,_window);
 
     LOGMESSAGE("Init player lifebar");
-    _playerLifebar= new LifeBar(1,10,590,10,_window);
+    _playerLifebar= new LifeBar(1,10,10,10,_window);
 
     LOGMESSAGE("Create Game World");
     _theWorld = new World(800, 600);
