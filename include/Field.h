@@ -14,9 +14,6 @@
 #include "WoWBrain.h"
 #include "World.h"
 #include "math.h"
-
-//KICKER REMOVED
-
 #include "WaterTile.h"
 #include "Animation.h"
 #include "CardImage.h"

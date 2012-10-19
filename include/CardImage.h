@@ -1,10 +1,3 @@
-/* 
- * File:   CardImage.h
- * Author: malcom
- *
- * Created on May 26, 2012, 11:13 AM
- */
-
 #ifndef CARDIMAGE_H
 #define	CARDIMAGE_H
 
@@ -15,12 +8,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #define ACTIVATION_OFFSET 50
-#define SCALE 0.5f
+#define SCALE 0.6f
+
+
 
 class CardImage {
 public:
-    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster);
+    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster,int file=0);
     virtual ~CardImage();
     
     int getId();

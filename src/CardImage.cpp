@@ -7,10 +7,19 @@
 
 #include "CardImage.h"
 
-CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster)
+std::string CardsFile[6]={	"assets/arrows/left_long.png",
+							"assets/arrows/left_short.png",
+							"assets/arrows/right_long.png",
+							"assets/arrows/right_short.png",
+							"assets/arrows/straight_long.png",
+							"assets/arrows/straight_short.png"};
+
+
+
+CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster,int file)
 {
     _id=theId;
-    _cardImage.LoadFromFile("assets/bluecard.png");
+    _cardImage.LoadFromFile(CardsFile[file]);
     cardSprite.SetImage(_cardImage);
     cardSprite.SetPosition(xpos,ypos);
     cardSprite.SetScale(SCALE,SCALE);
