@@ -22,6 +22,10 @@ Field::~Field() {
 void Field::init() {
 	_bgmusic.Play();
 
+	LOGMESSAGE("Loading gameover image");
+	gameover_image.LoadFromFile("assets/gameover.png");
+	gameover_sprite.SetImage(gameover_image);
+
 	LOGMESSAGE("Initialize Plane 1");
 	_plane1 = new Plane(0, 10, 400, 300, 0);
 	_plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));        // PLANE 1 IS RED
@@ -331,7 +335,7 @@ void Field::update() {
 
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
-
+		_window->Draw(gameover_sprite);
 	}
 
 	// TODO: adjust this, it is just for testing

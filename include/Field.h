@@ -211,6 +211,9 @@ private:
 
 	sf::Sprite plane1_shadow;
 	sf::Sprite plane2_shadow;
+
+	sf::Image gameover_image;
+	sf::Sprite gameover_sprite;
 };
 
 #endif	/* FIELD_H */
