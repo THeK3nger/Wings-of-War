@@ -330,6 +330,10 @@ void Field::update() {
 }
 
 void Field::draw() {
+	if(this->_internal_state == Field::SHOW_INFOS){
+
+	}
+
 	// TODO: adjust this, it is just for testing
 	for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
 		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
