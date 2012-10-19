@@ -18,191 +18,199 @@
 #include "WaterTile.h"
 #include "Animation.h"
 #include "CardImage.h"
+#include "LifeBar.h"
 
 class Field {
 public:
-    Field(sf::RenderWindow *refwindow);
-    ~Field();
-    int handleEvents();
+	Field(sf::RenderWindow *refwindow);
+	~Field();
+	int handleEvents();
 
-    /*!
-     * \brief Draw routine for Field class.
-     */
-    void draw();
+	/*!
+	 * \brief Draw routine for Field class.
+	 */
+	void draw();
 
-    /*!
-     * \brief Update routine for Field class.
-     */
-    void update();
+	/*!
+	 * \brief Update routine for Field class.
+	 */
+	void update();
 
-    /*!
-     * \brief Initialize Field Class
-     */
-    void init();
+	/*!
+	 * \brief Initialize Field Class
+	 */
+	void init();
 
-    /* EVENTS HANDLER */
-    /*!
-     * \brief Zoom windows view.
-     * \param z Zoom amount!
-     */
-    void zoom(float z);
+	/* EVENTS HANDLER */
+	/*!
+	 * \brief Zoom windows view.
+	 * \param z Zoom amount!
+	 */
+	void zoom(float z);
 
-    /*!
-     * \brief Stop the execution of Field.
-     */
-    void stop();
+	/*!
+	 * \brief Stop the execution of Field.
+	 */
+	void stop();
 
-    /*!
-     * \brief Perform events on LeftMouse click.
-     * \param x
-     * \param y
-     */
-    void mouseLeftPressed(float x,float y);
+	/*!
+	 * \brief Perform events on LeftMouse click.
+	 * \param x
+	 * \param y
+	 */
+	void mouseLeftPressed(float x,float y);
 
-    /*!
-     * \brief Perform events on LeftMouse release.
-     * \param x
-     * \param y
-     */
-    void mouseLeftReleased(float x, float y);
+	/*!
+	 * \brief Perform events on LeftMouse release.
+	 * \param x
+	 * \param y
+	 */
+	void mouseLeftReleased(float x, float y);
 
-    /*!
-     * \brief Perform events on mouse movement.
-     * \param x
-     * \param y
-     */
-    void mouseMoved(float x, float y);
+	/*!
+	 * \brief Perform events on mouse movement.
+	 * \param x
+	 * \param y
+	 */
+	void mouseMoved(float x, float y);
 
-    /*!
-     * \brief isTerminated
-     * \return
-     */
-    bool isTerminated();
+	/*!
+	 * \brief isTerminated
+	 * \return
+	 */
+	bool isTerminated();
 
 
 private:
-    /*!
-     * \brief The FieldStatus enum represents external global status for Field.
-     */
-    enum FieldStates { INGAME, TERMINATED };
+	/*!
+	 * \brief The FieldStatus enum represents external global status for Field.
+	 */
+	enum FieldStates { INGAME, TERMINATED };
 
-    /*!
-     * \brief status stores the current status of the field game.
-     */
-    FieldStates _status;
+	/*!
+	 * \brief status stores the current status of the field game.
+	 */
+	FieldStates _status;
 
-    /*!
-     * \brief Store planes.
-     */
-    Plane* _plane1;
-    Plane* _plane2;
+	/*!
+	 * \brief Store planes.
+	 */
+	Plane* _plane1;
+	Plane* _plane2;
 
-    /*!
-     * \brief theBrain stores a reference to WoW AI.
-     */
-    WoWBrain* _theBrain;
+	/*!
+	 * \brief theBrain stores a reference to WoW AI.
+	 */
+	WoWBrain* _theBrain;
 
-    /*!
-     * \brief theWorld stores a reference to Game World.
-     */
-    World* _theWorld;
+	/*!
+	 * \brief theWorld stores a reference to Game World.
+	 */
+	World* _theWorld;
 
-    /*!
-     * \brief lastEvent stores the last event
-     */
-    sf::Event _lastEvent;
-    
-    /*!
-     * \brief kicker stores a kicker reference
-     */
-    Kicker * _kicker;
+	/*!
+	 * \brief lastEvent stores the last event
+	 */
+	sf::Event _lastEvent;
 
-    /*!
-     * \brief _bgmusic BG music.
-     */
-    sf::Music _bgmusic;
+	/*!
+	 * \brief kicker stores a kicker reference
+	 */
+	Kicker * _kicker;
 
-    /*!
-     * \brief The States enum represent the game internal status.
-     */
-    enum States {
-        INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
-    };
+	/*!
+	 * \brief lifebar stores a lifebar reference
+	 */
+	LifeBar * _enemyLifebar;
+	LifeBar * _playerLifebar;
 
-    /*!
-     * \brief _internal_state stores the game internal state.
-     */
-    States _internal_state;
 
-    /*!
-     * \brief _window stores a reference to main window.
-     */
-    sf::RenderWindow* _window;
+	/*!
+	 * \brief _bgmusic BG music.
+	 */
+	sf::Music _bgmusic;
 
-    /*!
-     * \brief _camera stores the game camera.
-     */
-    sf::View _camera;
-    
-    /*!
-     * \brief _mouse_down is true if and only if mouse left-button is down.
-     */
-    bool _mouse_down;
-    
-    /*!
-     * \brief _cards stores the cards.
-     */
-    std::vector<CardImage*> _cards;
-    
-    /*!
-     * Store variables for mouse button.
-     */
-    int _xstart;
-    int _ystart;
-    int _xdisplacement;
-    int _ydisplacement;
-    
-    WaterTile* _water;
-    
-    std::map<int,int> _cardmaster;
-    std::map<int,int>::iterator _it;
-    int cardCounter;
+	/*!
+	 * \brief The States enum represent the game internal status.
+	 */
+	enum States {
+		INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
+	};
 
-    bool game_finished; // will be TRUE when the game has ended
+	/*!
+	 * \brief _internal_state stores the game internal state.
+	 */
+	States _internal_state;
 
-    float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
-    float p2pos [3];    // WARNING: I think that these should stay in Plane class...
+	/*!
+	 * \brief _window stores a reference to main window.
+	 */
+	sf::RenderWindow* _window;
 
-    bool plane1_out;    // these two booleans are used to signal that planes have gone out of bounds
-    bool plane2_out;
+	/*!
+	 * \brief _camera stores the game camera.
+	 */
+	sf::View _camera;
 
-    std::vector<Card*> player_choices; // used to store player's choices
-    std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
+	/*!
+	 * \brief _mouse_down is true if and only if mouse left-button is down.
+	 */
+	bool _mouse_down;
 
-    int moves_counter;      // used to understand how many move cards have already been applied
-    bool something_moved;       // used to signal animations are over
+	/*!
+	 * \brief _cards stores the cards.
+	 */
+	std::vector<CardImage*> _cards;
 
-    Animation * animation1;     // used for animating the first plane
-    Animation * animation2;     // used for animating the second plane
+	/*!
+	 * Store variables for mouse button.
+	 */
+	int _xstart;
+	int _ystart;
+	int _xdisplacement;
+	int _ydisplacement;
 
-    float plane1_prev_pos[3];   // these four arrays will be used to correctly construct the animations
-    float plane1_final_pos [3];
-    float plane2_prev_pos[3];
-    float plane2_final_pos [3];
+	WaterTile* _water;
 
-    bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
-    bool display_cards;
+	std::map<int,int> _cardmaster;
+	std::map<int,int>::iterator _it;
+	int cardCounter;
 
-    // these will keep track of planes shadows positions
-    sf::Vector2f shadow1_pos;
-    sf::Vector2f shadow2_pos;
+	bool game_finished; // will be TRUE when the game has ended
 
-    sf::Vector2f water_size;
-    sf::Vector2f plane1_size;
-    sf::Vector2f plane2_size;
+	float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
+	float p2pos [3];    // WARNING: I think that these should stay in Plane class...
 
-    sf::Sprite plane1_shadow;
-    sf::Sprite plane2_shadow;
+	bool plane1_out;    // these two booleans are used to signal that planes have gone out of bounds
+	bool plane2_out;
+
+	std::vector<Card*> player_choices; // used to store player's choices
+	std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
+
+	int moves_counter;      // used to understand how many move cards have already been applied
+	bool something_moved;       // used to signal animations are over
+
+	Animation * animation1;     // used for animating the first plane
+	Animation * animation2;     // used for animating the second plane
+
+	float plane1_prev_pos[3];   // these four arrays will be used to correctly construct the animations
+	float plane1_final_pos [3];
+	float plane2_prev_pos[3];
+	float plane2_final_pos [3];
+
+	bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
+	bool display_cards;
+
+	// these will keep track of planes shadows positions
+	sf::Vector2f shadow1_pos;
+	sf::Vector2f shadow2_pos;
+
+	sf::Vector2f water_size;
+	sf::Vector2f plane1_size;
+	sf::Vector2f plane2_size;
+
+	sf::Sprite plane1_shadow;
+	sf::Sprite plane2_shadow;
 };
 
 #endif	/* FIELD_H */
