@@ -30,6 +30,12 @@ void Field::init() {
     _plane2 = new Plane(1, 10, 50, 50, 0);
     _plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
 
+    LOGMESSAGE("Init enemy lifebar");
+    _enemyLifebar= new LifeBar(0,10,590,10,_window);
+
+    LOGMESSAGE("Init player lifebar");
+    _playerLifebar= new LifeBar(1,10,10,10,_window);
+
     LOGMESSAGE("Create Game World");
     _theWorld = new World(800, 600);
     _theWorld->addPlane(_plane1);
@@ -197,9 +203,11 @@ void Field::update() {
             LOGMESSAGE("PLANE1 SHOT TO PLANE2");
 #endif
             _plane2->inflictDamage(this->_theBrain->expectedDamage());
+            _enemyLifebar->setLife(this->_theBrain->expectedDamage());
         }
         if ((!plane2_out) && _plane2->canShootTo(_plane1)){
             _plane1->inflictDamage(this->_theBrain->expectedDamage());
+            _enemyLifebar->setLife(this->_theBrain->expectedDamage());
 #if DEBUG
             LOGMESSAGE("PLANE2 SHOT TO PLANE1");
 #endif
@@ -364,6 +372,10 @@ void Field::draw() {
 
     // KICKER
     _kicker->draw();
+
+    //HUD
+    _enemyLifebar->draw();
+    _playerLifebar->draw();
 
     if(display_cards){
         //CARDS TEST --------------
