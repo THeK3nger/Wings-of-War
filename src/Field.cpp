@@ -115,33 +115,7 @@ void Field::update() {
         }
 
         // WARNING: EVENT HANDLING CANNOT BE DONE HERE!!
-        if(player_choices.size() < CHOICES_PER_TURN){ // THERE ARE STILL CARDS TO BE CHOSEN
-            if(this->_lastEvent.Type == sf::Event::KeyPressed){
-                switch(this->_lastEvent.Key.Code){
-                case sf::Key::Right: // TODO: watch out! because of y inversion, "left" becomes "right"
-                    player_choices.push_back(this->_plane1->getCardSet()->cards);
-#if DEBUG
-                    LOGMESSAGE("You have chosen Right");
-#endif
-                    break;
-                case sf::Key::Left:
-                    player_choices.push_back(this->_plane1->getCardSet()->cards+1);
-#if DEBUG
-                    LOGMESSAGE("You have chosen Left");
-#endif
-                    break;
-                case sf::Key::Up:
-                    player_choices.push_back(this->_plane1->getCardSet()->cards+2);
-#if DEBUG
-                    LOGMESSAGE("You have chosen Up");
-#endif
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-        else{
+        if(player_choices.size() >= CHOICES_PER_TURN){
             kicker_was_changed = true;
             display_cards = false;
             this->_internal_state = Field::BRAIN_SELECT;
@@ -487,6 +461,28 @@ int Field::handleEvents() {
             case sf::Key::Escape:
                 stop();
                 break;
+            case sf::Key::Right:
+            	if(player_choices.size() < CHOICES_PER_TURN || this->_internal_state == Field::PLAYER_SELECT)
+            		player_choices.push_back(this->_plane1->getCardSet()->cards);
+					#if DEBUG
+            			LOGMESSAGE("You have chosen Right");
+					#endif
+            	break;
+            case sf::Key::Left:
+            	if(player_choices.size() < CHOICES_PER_TURN || this->_internal_state == Field::PLAYER_SELECT)
+            	player_choices.push_back(this->_plane1->getCardSet()->cards+1);
+					#if DEBUG
+						LOGMESSAGE("You have chosen Left");
+					#endif
+                break;
+            case sf::Key::Up:
+            	if(player_choices.size() < CHOICES_PER_TURN || this->_internal_state == Field::PLAYER_SELECT)
+            	player_choices.push_back(this->_plane1->getCardSet()->cards+2);
+					#if DEBUG
+        	    		LOGMESSAGE("You have chosen Up");
+        			#endif
+                break;
+
             default:
                 break;
             } // END OF KEY.CODE SWITCH
