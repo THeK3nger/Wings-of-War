@@ -1,10 +1,8 @@
 #include "World.h"
 
-World::World(float w, float h) {
-    this->width = w;
-    this->height = h;
-    this->planes = std::vector<Plane*>();
-}
+World::World(float w, float h) :
+    width(w), height(w)
+{}
 
 World::~World() {
 }
