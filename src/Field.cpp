@@ -117,7 +117,7 @@ void Field::update() {
         if(player_choices.size() >= CHOICES_PER_TURN){
             kicker_was_changed = true;
             display_cards = false;
-            this->_internal_state = Field::BRAIN_SELECT;
+            this->_internal_state = Field::PREVIEW_MOVES;
 #if DEBUG
             LOGMESSAGE("Player has chosen!");
 #endif
@@ -486,7 +486,7 @@ int Field::handleEvents() {
                 break;
             case sf::Key::Return:
             	if(this->_internal_state == Field::PREVIEW_MOVES){
-
+            		this->_internal_state = Field::BRAIN_SELECT;
             	}
             	break;
             default:
