@@ -7,12 +7,14 @@
 
 #include "CardImage.h"
 
-std::string CardsFile[6]={	"assets/arrows/left_long.png",
-							"assets/arrows/left_short.png",
-							"assets/arrows/right_long.png",
-							"assets/arrows/right_short.png",
-							"assets/arrows/straight_long.png",
-							"assets/arrows/straight_short.png"};
+std::string CardsFile[6]={
+		"assets/arrows/right_long.png",
+		"assets/arrows/left_long.png",
+		"assets/arrows/straight_long.png",
+		"assets/arrows/right_short.png",
+		"assets/arrows/left_short.png",
+		"assets/arrows/straight_short.png"
+};
 
 
 

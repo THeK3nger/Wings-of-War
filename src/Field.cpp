@@ -417,49 +417,65 @@ void Field::mouseLeftReleased(float x, float y)
 	this->_xstart = 0;
 	this->_ystart = 0;
 
-	/* TODO: ClickableAreas method? */
-	for(int i=0;i<_cards.size();i++)
-	{
-		//check if the click is inside for EACH clickableAreas rectangle
-		//note: rect has a "contains" methods, unluckily... doesn't works -_-"
-		double active_offset = 0;
-		if(_cards[i]->activated==1) active_offset = 50;
-		if(
-				x>=_cards[i]->clickableArea->Left &&
-				y>=_cards[i]->clickableArea->Top - active_offset &&
+	int clicked_card = -1;
+	for(int i=0; i<this->_plane1->getCardSet()->cards_number; i++){
+		if(		x>=_cards[i]->clickableArea->Left &&
+				y>=_cards[i]->clickableArea->Top &&
 				x<=_cards[i]->clickableArea->Left+_cards[0]->clickableArea->Right &&
-				y<=_cards[i]->clickableArea->Top - active_offset + _cards[0]->clickableArea->Bottom)
-
+				y<=_cards[i]->clickableArea->Top + _cards[0]->clickableArea->Bottom)
 		{
-			//the clicked card isn't active
-			if(_cards[i]->activated==0)
-			{
-				//deactivate each card of the deck
-				//for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-				//activate the "i" card
-				_cardmaster.insert(std::pair<int,int>(i,cardCounter));
-				_cards[i]->activateCard();
-				cardCounter++;
-			}
-			//the "i" card is already activated, so deactivate it
-			else if(_cards[i]->activated)
-			{
-				for(int j=0;j<_cards.size();j++)
-				{
-					_it=_cardmaster.find(j);
-					if(_it!=_cardmaster.end())
-					{
-						_cardmaster.erase(_it);
-						cardCounter--;
-					}
-					_cards[j]->deActivateCard();
-
-				}
-			}
-			//note:
-			//this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
+			clicked_card = i;
+			break;
 		}
 	}
+
+	if(clicked_card != -1){
+		player_choices.push_back(this->_plane1->getCardSet()->cards + clicked_card);
+	}
+
+	//	/* TODO: ClickableAreas method? */
+	//	for(int i=0;i<_cards.size();i++)
+	//	{
+	//		//check if the click is inside for EACH clickableAreas rectangle
+	//		//note: rect has a "contains" methods, unluckily... doesn't works -_-"
+	//		double active_offset = 0;
+	//		if(_cards[i]->activated==1) active_offset = 50;
+	//		if(
+	//				x>=_cards[i]->clickableArea->Left &&
+	//				y>=_cards[i]->clickableArea->Top - active_offset &&
+	//				x<=_cards[i]->clickableArea->Left+_cards[0]->clickableArea->Right &&
+	//				y<=_cards[i]->clickableArea->Top - active_offset + _cards[0]->clickableArea->Bottom)
+	//
+	//		{
+	//			//the clicked card isn't active
+	//			if(_cards[i]->activated==0)
+	//			{
+	//				//deactivate each card of the deck
+	//				//for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
+	//				//activate the "i" card
+	//				_cardmaster.insert(std::pair<int,int>(i,cardCounter));
+	//				_cards[i]->activateCard();
+	//				cardCounter++;
+	//			}
+	//			//the "i" card is already activated, so deactivate it
+	//			else if(_cards[i]->activated)
+	//			{
+	//				for(int j=0;j<_cards.size();j++)
+	//				{
+	//					_it=_cardmaster.find(j);
+	//					if(_it!=_cardmaster.end())
+	//					{
+	//						_cardmaster.erase(_it);
+	//						cardCounter--;
+	//					}
+	//					_cards[j]->deActivateCard();
+	//
+	//				}
+	//			}
+	//			//note:
+	//			//this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
+	//		}
+	//	}
 }
 
 void Field::mouseMoved(float x, float y)
@@ -520,6 +536,12 @@ int Field::handleEvents() {
 			case sf::Key::Return:
 				if(this->_internal_state == Field::PREVIEW_MOVES){
 					this->_internal_state = Field::BRAIN_SELECT;
+				}
+				break;
+			case sf::Key::Delete:
+				if(this->_internal_state == Field::PREVIEW_MOVES){
+					player_choices.clear();
+					this->_internal_state = Field::PLAYER_SELECT;
 				}
 				break;
 			default:
