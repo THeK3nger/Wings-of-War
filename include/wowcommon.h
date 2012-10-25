@@ -77,4 +77,7 @@ inline float degrees2radiants(float degs){
     return degs * M_PI / 180;
 }
 
+/* COMMON TYPEDEF */
+typedef unsigned int UInt;
+
 #endif

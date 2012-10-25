@@ -7,10 +7,10 @@ set(wingsofwar_VERSION_MAJOR 0)
 set(wingsofwar_VERSION_MINOR 5)
 
 # Fetch Wing of War Source Files
-file(GLOB WOWSOURCES src/*.cpp)
+file(GLOB_RECURSE WOWSOURCES src/*.cpp)
 
 # Fetch Wing of War Test Files
-file(GLOB WOWTEST_FILE test/*.cpp)
+file(GLOB_RECURSE WOWTEST_FILE test/*.cpp)
 
 # Add local cmake_modules folder in CMake serach path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
