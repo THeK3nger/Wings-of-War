@@ -55,7 +55,7 @@ bool Animation::nextStep(float* pos){
     pos[1] = pow(this->s, 3) * this->cy1 + pow(this->s, 2) * this->cy2 + this->s * this->cy3 + this->init_y;
     
     // compute new angle
-    pos[2] = -atan2(pos[1]-this->prev_pos[1], pos[0]-this->prev_pos[0]);        // this is MINUS because angles must be considered positive when in the half plane of positive Y
+    pos[2] = atan2(pos[1]-this->prev_pos[1], pos[0]-this->prev_pos[0]);        // this is MINUS because angles must be considered positive when in the half plane of positive Y
     
     // update prev_pos
     this->prev_pos[0] = pos[0];

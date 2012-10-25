@@ -182,8 +182,11 @@ void Field::update() {
 		if (animation2->nextStep(p2pos))
 			something_moved = true;
 
-		if(!something_moved)
+		if(!something_moved){
+			this->_plane1->getPosition(p1pos);
+			this->_plane2->getPosition(p2pos);
 			this->_internal_state = Field::COMPUTE_DAMAGES;
+		}
 
 		break;
 
@@ -313,21 +316,21 @@ void Field::update() {
 
 	// set planes positionsma
 	_plane1->plane_sprite.SetPosition(p1pos[0] + _xdisplacement, p1pos[1] + _ydisplacement);
-	_plane1->plane_sprite.SetRotation(radiants2degrees(p1pos[2]));
+	_plane1->plane_sprite.SetRotation(radiants2degrees(-p1pos[2]));
 	_plane2->plane_sprite.SetPosition(p2pos[0] + _xdisplacement, p2pos[1] + _ydisplacement);
-	_plane2->plane_sprite.SetRotation(radiants2degrees(p2pos[2]));
+	_plane2->plane_sprite.SetRotation(radiants2degrees(-p2pos[2]));
 
 	// compute and set shadows positions
 	shadow1_pos = this->_plane1->plane_sprite.GetPosition();
 	shadow1_pos.x+=10;
 	shadow1_pos.y+=15;
 	plane1_shadow.SetPosition(shadow1_pos);
-	plane1_shadow.SetRotation(radiants2degrees(p1pos[2]));
+	plane1_shadow.SetRotation(-radiants2degrees(p1pos[2]));
 	shadow2_pos = this->_plane2->plane_sprite.GetPosition();
 	shadow2_pos.x+=10;
 	shadow2_pos.y+=15;
 	plane2_shadow.SetPosition(shadow2_pos);
-	plane2_shadow.SetRotation(radiants2degrees(p2pos[2]));
+	plane2_shadow.SetRotation(-radiants2degrees(p2pos[2]));
 
 	// update the water tile(waves effect)
 	this->_water->update();
