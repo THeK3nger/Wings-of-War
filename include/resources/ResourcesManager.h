@@ -29,7 +29,8 @@ private:
     UInt _resources_count;
 
     // Mappa Scope -> ID -> Resource
-    std::map<UInt,std::map<std::string,Resource*> > _resources;
+    typedef std::map<UInt, std::map<std::string,Resource*> > ResourceTable;
+    ResourceTable _resources;
 
     ResourcesManager();
     ~ResourcesManager();
@@ -39,6 +40,8 @@ private:
     ResourcesManager& operator=(ResourcesManager const&);
 
     static void cleanUp();
+    void loadScope(UInt scope);
+    void unloadScope(UInt scope);
 };
 
 #endif

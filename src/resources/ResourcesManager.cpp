@@ -6,6 +6,7 @@
 #include "wowcommon.h"
 #include "resources/Resource.h"
 #include "resources/ResourcesManager.h"
+#include "resources/ResourcesFactory.h"
 
 using namespace std;
 
@@ -68,8 +69,23 @@ void ResourcesManager::loadResourcesFromXML(string filename) {
             type = pRes->Attribute("type");
 
             filename = pRes->GetText();
-            // TODO: ResourceFactory(type,id,scope,filename);
+            _resources[scope][id] = RESOURCES_FACTORY_CREATE(type,id,filename,scope);
         }
+    }
 
+    loadScope(ResourcesManager::GLOBAL_SCOPE);
+}
+
+void ResourcesManager::loadScope(UInt scope) {
+    map<string,Resource*>::iterator it;
+    for (it = _resources[scope].begin();it != _resources[scope].end();it++) {
+        (*it).second->Load();
+    }
+}
+
+void ResourcesManager::unloadScope(UInt scope) {
+    map<string,Resource*>::iterator it;
+    for (it = _resources[scope].begin();it != _resources[scope].end();it++) {
+        (*it).second->Unload();
     }
 }
