@@ -1,3 +1,6 @@
+#ifndef _H_RESOURCE_
+#define _H_RESOURCE_
+
 #include "wowcommon.h"
 
 #include <string>
@@ -19,8 +22,8 @@ public:
     virtual void Load() = 0;
     virtual void Unload() = 0;
 
-    void setID(UInt);
-    UInt getID();
+    void setID(std::string);
+    std::string getID();
 
     void setFileName(std::string new_filename);
     std::string getFileName();
@@ -35,9 +38,11 @@ public:
     void setLoaded();
 
 protected:
-    UInt _id;
+    std::string _id;
     std::string _filename;
     RESOURCE_TYPE _type;
     UInt _scope;
     bool _loaded;
 };
+
+#endif

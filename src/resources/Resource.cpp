@@ -3,8 +3,8 @@
 
 using namespace std;
 
-void Resource::setID(UInt new_id) { _id = new_id; }
-UInt Resource::getID() { return _id; }
+void Resource::setID(std::string new_id) { _id = new_id; }
+string Resource::getID() { return _id; }
 
 void Resource::setFileName(string new_filename) { _filename = new_filename; }
 string Resource::getFileName() { return _filename; }
