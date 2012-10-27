@@ -12,8 +12,8 @@ string Resource::getFileName() { return _filename; }
 void Resource::setScope(UInt new_scope) { _scope = new_scope; }
 UInt Resource::getScope() { return _scope; }
 
-void Resource::setType(RESOURCE_TYPE new_type) { _type = new_type; }
-RESOURCE_TYPE Resource::getType() { return _type; }
+void Resource::setType(std::string new_type) { _type = new_type; }
+std::string Resource::getType() { return _type; }
 
 bool Resource::isLoaded() { return _loaded; }
 void Resource::setLoaded() { _loaded = true; }

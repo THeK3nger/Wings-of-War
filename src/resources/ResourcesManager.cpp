@@ -58,22 +58,14 @@ void ResourcesManager::loadResourcesFromXML(string filename) {
         LOGMESSAGE_CONDITIONAL(!pRes,"ERROR! No resource defined in the XML file!",return);
 
         string id;
-        RESOURCE_TYPE type;
+        string type;
         string filename;
         UInt scope;
         while (pRes) {
             id = pRes->Attribute("id");
             scope = atoi(pRes->Attribute("source"));
 
-            string tmp = pRes->Attribute("type");
-            if ( tmp == "image")
-                type = RESOURCE_GRAPH;
-            else if ( tmp == "image")
-                type = RESOURCE_AUDIO;
-            else if ( tmp == "font")
-                type = RESOURCE_FONT;
-            else if ( tmp == "font")
-                type = RESOURCE_NULL;
+            type = pRes->Attribute("type");
 
             filename = pRes->GetText();
             // TODO: ResourceFactory(type,id,scope,filename);
