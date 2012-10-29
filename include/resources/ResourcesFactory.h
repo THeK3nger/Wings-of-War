@@ -6,6 +6,8 @@
 #include "wowcommon.h"
 #include "resources/Resource.h"
 
+class Resource;
+
 class ResourcesFactory {
 public:
     typedef Resource* (*ResourceCreator)(std::string id, std::string filename, UInt scope);
@@ -18,6 +20,13 @@ public:
                              const std::string &id,
                              const std::string &filename,
                              const UInt scope);
+
+    class Registerer {
+    public :
+        Registerer(const std::string &type, ResourcesFactory::ResourceCreator producer) {
+            ResourcesFactory::getSingleton().registerProduct(type,producer);
+        }
+    };
 
 private:
     ResourcesFactory();
@@ -36,11 +45,9 @@ private:
 
 //////////////////////////////////////////////////
 ///// INLINE SHORTCUTS
-inline void RESOURCES_FACTORY_REGISTER(const std::string &type,
-                                      ResourcesFactory::ResourceCreator producer)
-{
-    ResourcesFactory::getSingleton().registerProduct(type,producer);
-}
+
+// TODO: Fix this macro.
+#define RESOURCE_FACTORY_REGISTER(type,producer) (static ResourcesFactory::Registerer _register_trick((type),(producer)))
 
 inline Resource* RESOURCES_FACTORY_CREATE(const std::string &type,
                                           const std::string &id,

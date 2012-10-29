@@ -3,6 +3,8 @@
 
 using namespace std;
 
+Resource::~Resource() {}
+
 void Resource::setID(std::string new_id) { _id = new_id; }
 string Resource::getID() { return _id; }
 

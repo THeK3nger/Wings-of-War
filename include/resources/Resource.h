@@ -5,6 +5,10 @@
 
 #include <string>
 
+#include "resources/ResourcesFactory.h"
+
+class ResourcesFactory;
+
 /*!
  * \brief The Resource class represents a generic resource for the game.
  */

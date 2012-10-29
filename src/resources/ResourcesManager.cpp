@@ -43,7 +43,7 @@ Resource* ResourcesManager::findByID(string id) {
 }
 
 void ResourcesManager::clear() {
-
+    // TODO: Fill clear function!
 }
 
 void ResourcesManager::loadResourcesFromXML(string filename) {
