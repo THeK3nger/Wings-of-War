@@ -1,0 +1,5 @@
+<assets>
+<!-- GLOBAL SCOPE -->
+<resource id="splashscreen" type="image" scope="0">./assets/splashscreen.png</resource>
+<resource id="fighter" type="image" scope="0">./assets/fighter.png</resource>
+</assets>

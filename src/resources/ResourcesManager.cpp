@@ -40,6 +40,8 @@ Resource* ResourcesManager::findByID(string id) {
     if (it!=_resources[GLOBAL_SCOPE].end()) return it->second;
     it = _resources[_current_scope].find(id);
     if (it!=_resources[_current_scope].end()) return it->second;
+    LOGMESSAGE("RESOURCE NOT FOUND");
+    return 0;
 }
 
 void ResourcesManager::clear() {
@@ -64,12 +66,13 @@ void ResourcesManager::loadResourcesFromXML(string filename) {
         UInt scope;
         while (pRes) {
             id = pRes->Attribute("id");
-            scope = atoi(pRes->Attribute("source"));
+            scope = atoi(pRes->Attribute("scope"));
 
             type = pRes->Attribute("type");
 
             filename = pRes->GetText();
             _resources[scope][id] = RESOURCES_FACTORY_CREATE(type,id,filename,scope);
+            pRes = pRes->NextSiblingElement("resource");
         }
     }
 

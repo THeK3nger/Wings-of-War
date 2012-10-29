@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "resources/ResourcesManager.h"
 #include "wowcommon.h"
 
 /*!
@@ -24,11 +25,13 @@ Game::Game(int h, int w, int d) {
  */
 void Game::init() {
     LOGMESSAGE_NO_ENDL("Initializing Game...");
+    ResourcesManager::getSingleton().loadResourcesFromXML("./assets/assets.xml");
     if (_gameState != Game::Uninitialized) return;
 
     _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
     _gameState = Game::ShowingSplash;
     splashscreen = new SplashScreen(&_mainWindow);
+
     OK;
 }
 

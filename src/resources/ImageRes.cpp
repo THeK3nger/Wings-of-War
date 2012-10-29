@@ -24,3 +24,6 @@ Resource* ImageRes::ImageResCreator(std::string id, std::string filename, UInt s
     return output;
 }
 
+sf::Image& ImageRes::getSFMLImage() {
+    return _sfmlimage;
+}

@@ -1,5 +1,7 @@
 #include "stdlib.h"
 
+#include "wowcommon.h"
+
 #include "resources/ResourcesFactory.h"
 
 using namespace std;
@@ -44,5 +46,6 @@ Resource* ResourcesFactory::createResource(const string &type,
         theMaker = it->second;
         return theMaker(id,filename,scope);
     }
+    LOGMESSAGE_PARAM("There is no resource of type",type);
     return 0;
 }

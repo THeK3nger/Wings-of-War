@@ -1,6 +1,7 @@
 #include "SplashScreen.h"
 #include "wowcommon.h"
-
+#include "resources/ResourcesManager.h"
+#include "resources/ImageRes.h"
 #include "Dialog.h"
 
 /*!
@@ -27,7 +28,8 @@ void SplashScreen::init(){
     _menuSound.SetVolume(100.0f);
 
     //Loading the splashscreen image from file
-    _image1.LoadFromFile("assets/splashscreen.png");
+    ImageRes* splash = (ImageRes*) (ResourcesManager::getSingleton().findByID("splashscreen"));
+    _image1 = splash->getSFMLImage();
     //Loading the fighter image from file
     _image2.LoadFromFile("assets/fighter.png");
     //Setting the background sprite

@@ -14,7 +14,7 @@ class ResourcesFactory;
  */
 class Resource {
 public:
-    Resource() : _id(0), _scope(0) {}
+    Resource() {}
     virtual ~Resource();
     virtual void Load() = 0;
     virtual void Unload() = 0;
