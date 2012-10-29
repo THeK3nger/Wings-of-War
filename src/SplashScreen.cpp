@@ -28,8 +28,7 @@ void SplashScreen::init(){
     _menuSound.SetVolume(100.0f);
 
     //Loading the splashscreen image from file
-    ImageRes* splash = (ImageRes*) (ResourcesManager::getSingleton().findByID("splashscreen"));
-    _image1 = splash->getSFMLImage();
+    _image1 = GET_IMAGE_FROM_MANAGER("splashscreen")->getSFMLImage();
     //Loading the fighter image from file
     _image2.LoadFromFile("assets/fighter.png");
     //Setting the background sprite

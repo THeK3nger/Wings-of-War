@@ -1,5 +1,7 @@
 #include "resources/ImageRes.h"
 
+// This declaration is needed to perform an automatic registration.
+// Unfortunately in C++ < C++11 I cannot define a static member in the definition.
 ResourcesFactory::Registerer ImageRes::_register_trick("image",ImageRes::ImageResCreator);
 
 ImageRes::ImageRes() : Resource() {

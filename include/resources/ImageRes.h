@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "resources/Resource.h"
+#include "resources/ResourcesManager.h"
 #include "resources/ResourcesFactory.h"
 
 class ImageRes : public Resource {
@@ -20,5 +21,11 @@ private:
     sf::Image _sfmlimage;
     static ResourcesFactory::Registerer _register_trick;
 };
+
+//////////////////////////////////////////////////
+///// INLINE SHORTCUT FUNCTION
+inline ImageRes* GET_IMAGE_FROM_MANAGER(const std::string& id) {
+    return (ImageRes*) (ResourcesManager::getSingleton().findByID(id));
+}
 
 #endif
