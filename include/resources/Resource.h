@@ -7,6 +7,7 @@
 
 #include "resources/ResourcesFactory.h"
 
+// Forward Declaration
 class ResourcesFactory;
 
 /*!
@@ -16,9 +17,18 @@ class Resource {
 public:
     Resource() {}
     virtual ~Resource();
+
+    /*!
+     * \brief Load load the represented resource.
+     */
     virtual void Load() = 0;
+
+    /*!
+     * \brief Unload load the represented resource.
+     */
     virtual void Unload() = 0;
 
+    // SET AND GET
     void setID(std::string);
     std::string getID();
 
