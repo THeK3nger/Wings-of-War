@@ -57,6 +57,7 @@ void ResourcesManager::clear() {
         }
     }
     _resources.clear();
+    _resources_count = 0;
 }
 
 void ResourcesManager::loadResourcesFromXML(string filename) {
@@ -83,6 +84,7 @@ void ResourcesManager::loadResourcesFromXML(string filename) {
 
             filename = pRes->GetText();
             _resources[scope][id] = RESOURCES_FACTORY_CREATE(type,id,filename,scope);
+            _resources_count++;
             pRes = pRes->NextSiblingElement("resource");
         }
     }

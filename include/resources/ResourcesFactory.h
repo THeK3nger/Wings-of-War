@@ -8,6 +8,14 @@
 
 class Resource;
 
+/*!
+ * \brief The ResourcesFactory class is a factory object that can be used
+ * to create any specific instance of `Resource` subclass.
+ *
+ * Before you can use ResourcesFactory to build your instance you have to
+ * register your concrete class. This can be done in a semi-automatic way
+ * defining a static member of type `Registerer`.
+ */
 class ResourcesFactory {
 public:
     /*!
