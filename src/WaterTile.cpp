@@ -6,6 +6,8 @@
  */
 
 #include "WaterTile.h"
+#include "resources/ResourcesManager.h"
+#include "resources/ImageRes.h"
 
 WaterTile::WaterTile(sf::RenderWindow *refWindow) :
     _window(refWindow), _frame_step(20), _frame_count(0)
@@ -14,7 +16,7 @@ WaterTile::WaterTile(sf::RenderWindow *refWindow) :
     xpos=100;
     ypos=100;
     
-    _spritesheet.LoadFromFile("assets/watertile2.png");
+    _spritesheet = GET_SFML_IMAGE_FROM_MANAGER("watertile");
     _sprite.SetImage(_spritesheet);
     
     frame1=sf::IntRect(16,144,48,176);

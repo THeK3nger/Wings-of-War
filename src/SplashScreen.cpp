@@ -28,9 +28,9 @@ void SplashScreen::init(){
     _menuSound.SetVolume(100.0f);
 
     //Loading the splashscreen image from file
-    _image1 = GET_IMAGE_FROM_MANAGER("splashscreen")->getSFMLImage();
+    _image1 = GET_SFML_IMAGE_FROM_MANAGER("splashscreen");
     //Loading the fighter image from file
-    _image2.LoadFromFile("assets/fighter.png");
+    _image2 = GET_SFML_IMAGE_FROM_MANAGER("fighter");
     //Setting the background sprite
     _background.SetImage(_image1);
     //Setting the fighter sprite
@@ -175,6 +175,7 @@ bool SplashScreen::handleEvents() {
             }
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
+                ResourcesManager::getSingleton().setScope(1);
                 _field->init();
                 _splashState = InGame;
             }

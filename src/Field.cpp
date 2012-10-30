@@ -1,5 +1,6 @@
 #include <vector>
 
+#include "resources/ResourcesManager.h"
 #include "wowcommon.h"
 #include "Field.h"
 

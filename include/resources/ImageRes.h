@@ -28,4 +28,8 @@ inline ImageRes* GET_IMAGE_FROM_MANAGER(const std::string& id) {
     return (ImageRes*) (ResourcesManager::getSingleton().findByID(id));
 }
 
+inline sf::Image& GET_SFML_IMAGE_FROM_MANAGER(const std::string& id) {
+    return GET_IMAGE_FROM_MANAGER(id)->getSFMLImage();
+}
+
 #endif

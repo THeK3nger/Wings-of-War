@@ -40,12 +40,23 @@ Resource* ResourcesManager::findByID(string id) {
     if (it!=_resources[GLOBAL_SCOPE].end()) return it->second;
     it = _resources[_current_scope].find(id);
     if (it!=_resources[_current_scope].end()) return it->second;
-    LOGMESSAGE("RESOURCE NOT FOUND");
+    FAIL;
+    LOGMESSAGE_PARAM("ERROR loading resources in scope",_current_scope);
+    LOGMESSAGE_PARAM("Resource not found in the current scope!",id);
     return 0;
 }
 
 void ResourcesManager::clear() {
-    // TODO: Fill clear function!
+    // Map clear always call destructon on its contents but if they are pointers.
+    // We have to manually delete all this pointers.
+    ResourceTable::iterator scope_it;
+    for (scope_it = _resources.begin(); scope_it != _resources.end();scope_it++) {
+        map<string,Resource*>::iterator it;
+        for (it = (*scope_it).second.begin();it != (*scope_it).second.end();it++) {
+            delete (*it).second;
+        }
+    }
+    _resources.clear();
 }
 
 void ResourcesManager::loadResourcesFromXML(string filename) {
@@ -91,4 +102,17 @@ void ResourcesManager::unloadScope(UInt scope) {
     for (it = _resources[scope].begin();it != _resources[scope].end();it++) {
         (*it).second->Unload();
     }
+}
+
+void ResourcesManager::setScope(UInt scope) {
+    UInt prev_scope = _current_scope;
+    if (!prev_scope) {
+        unloadScope(prev_scope);
+    }
+    _current_scope = scope;
+    loadScope(scope);
+}
+
+UInt ResourcesManager::getScope() {
+    return _current_scope;
 }

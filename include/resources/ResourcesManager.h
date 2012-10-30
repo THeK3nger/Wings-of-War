@@ -42,8 +42,11 @@ public:
 
     /*!
      * \brief clear Destroy every resource in the ResourcesManager.
+     * claear function DESTROY every pointer in the resource manager so
+     * pay attention! It should be used only on program shutdown.
      */
     void clear();
+    // TODO: make clear private and integrate it in a shutdown function?
 
     /*!
      * \brief setScope set the current scope.

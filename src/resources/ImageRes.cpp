@@ -12,10 +12,12 @@ ImageRes::~ImageRes() {}
 
 void ImageRes::Load() {
     _sfmlimage.LoadFromFile(_filename);
+    _loaded = true;
 }
 
 void ImageRes::Unload() {
-
+    _sfmlimage = sf::Image();
+    _loaded = false;
 }
 
 Resource* ImageRes::ImageResCreator(std::string id, std::string filename, UInt scope) {
