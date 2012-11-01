@@ -186,10 +186,19 @@ void Field::update() {
 		if(!something_moved){
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
-			this->_internal_state = Field::COMPUTE_DAMAGES;
+            this->_internal_state = Field::BULLET_ANIM;
+            this->_bullet = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1],_window);
 		}
 
 		break;
+
+    case Field::BULLET_ANIM:
+        this->_bullet->update();
+        if (!_bullet->isVisible()) {
+            this->_internal_state = Field::COMPUTE_DAMAGES;
+            delete _bullet;
+        }
+        break;
 
 	case Field::COMPUTE_DAMAGES:
 
@@ -371,6 +380,10 @@ void Field::draw() {
 		_window->Draw(_preview_plane_a->plane_sprite);
 		_window->Draw(_preview_plane_b->plane_sprite);
 	}
+
+    if(_internal_state == Field::BULLET_ANIM) {
+        _bullet->draw();
+    }
 
 	// Now draw things of fixed size
 	_window->SetView(_window->GetDefaultView());

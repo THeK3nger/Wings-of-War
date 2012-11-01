@@ -68,6 +68,14 @@ public:
 
     /*!
      * \brief loadResourcesFromXML load resources from XML file.
+     *
+     * The XML format is:
+     *
+     *    <assets>
+     *        <resource id="resid" type="restype" scope="rescope">RESOURCE_PATH</resource>
+     *        ....
+     *    </assets>
+     *
      * \param filename the resource filename.
      */
     void loadResourcesFromXML(std::string filename);

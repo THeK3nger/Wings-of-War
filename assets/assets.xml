@@ -3,11 +3,15 @@
 <resource id="splashscreen" type="image" scope="0">./assets/splashscreen.png</resource>
 <resource id="fighter" type="image" scope="0">./assets/fighter.png</resource>
 <!--************************  LEVEL SCOPE ************************-->
+<!-- == CARDS == -->
 <resource id="card_left_long" type="image" scope="1">./assets/arrows/left_long.png</resource>
 <resource id="card_left_short" type="image" scope="1">./assets/arrows/left_short.png</resource>
 <resource id="card_right_long" type="image" scope="1">./assets/arrows/right_long.png</resource>
 <resource id="card_right_short" type="image" scope="1">./assets/arrows/right_short.png</resource>
 <resource id="card_straight_long" type="image" scope="1">./assets/arrows/straight_long.png</resource>
 <resource id="card_straight_short" type="image" scope="1">./assets/arrows/straight_short.png</resource>
+<!-- == WATER == -->
 <resource id="watertile" type="image" scope="1">./assets/watertile2.png</resource>
+<!-- == BULLET and EXPLOSION == -->
+<resource id="firebullet" type="image" scope="1">./assets/firebullet.png</resource>
 </assets>

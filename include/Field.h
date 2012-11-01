@@ -18,6 +18,7 @@
 #include "Animation.h"
 #include "CardImage.h"
 #include "LifeBar.h"
+#include "FireBullet.h"
 
 class Field {
 public:
@@ -131,7 +132,7 @@ private:
 	 * \brief The States enum represent the game internal status.
 	 */
 	enum States {
-		INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
+        INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, BULLET_ANIM, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
 	};
 
 	/*!
@@ -214,6 +215,8 @@ private:
 
 	sf::Image gameover_image;
 	sf::Sprite gameover_sprite;
+
+    FireBullet* _bullet;
 };
 
 #endif	/* FIELD_H */
