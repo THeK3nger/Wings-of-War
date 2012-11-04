@@ -11,6 +11,9 @@ public:
 
     void setBulletVelocity(float t);
     bool isVisible();
+    bool hasArrived();
+
+    void setVisible(bool value);
 
     void draw();
     void update();
@@ -27,6 +30,7 @@ private:
     sf::Sprite _bullet_sprite;
 
     bool _visible;
+    bool _finished;
 
     sf::RenderWindow* _refwindow;
 };

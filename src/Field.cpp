@@ -187,16 +187,25 @@ void Field::update() {
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
             this->_internal_state = Field::BULLET_ANIM;
-            this->_bullet = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1],_window);
+            this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1],_window);
+            this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1],_window);
+            if(!_plane1->canShootTo(_plane2)){
+            	_bullet1->setVisible(false);
+            }
+            if(!_plane2->canShootTo(_plane1)){
+            	_bullet2->setVisible(false);
+            }
 		}
 
 		break;
 
     case Field::BULLET_ANIM:
-        this->_bullet->update();
-        if (!_bullet->isVisible()) {
+        this->_bullet1->update();
+        this->_bullet2->update();
+        if (_bullet1->hasArrived() && _bullet2->hasArrived()) {
             this->_internal_state = Field::COMPUTE_DAMAGES;
-            delete _bullet;
+            delete _bullet1;
+            delete _bullet2;
         }
         break;
 
@@ -382,7 +391,8 @@ void Field::draw() {
 	}
 
     if(_internal_state == Field::BULLET_ANIM) {
-        _bullet->draw();
+        _bullet1->draw();
+        _bullet2->draw();
     }
 
 	// Now draw things of fixed size

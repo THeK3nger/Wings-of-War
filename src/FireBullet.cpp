@@ -5,7 +5,7 @@
 #include "resources/ResourcesManager.h"
 
 FireBullet::FireBullet(float start_x, float start_y, float final_x, float final_y, sf::RenderWindow *refwindow) :
-    _xi(start_x), _yi(start_y), _visible(true),
+    _xi(start_x), _yi(start_y), _visible(true), _finished(false),
     _xf(final_x), _yf(final_y), _step(0), _bullet_velocity(10)
 {
     _bullet_image = GET_SFML_IMAGE_FROM_MANAGER("firebullet");
@@ -24,7 +24,19 @@ void FireBullet::setBulletVelocity(float v) { _bullet_velocity = v; }
 
 bool FireBullet::isVisible() { return _visible; }
 
+bool FireBullet::hasArrived() { return _finished; }
+
+void FireBullet::setVisible(bool value){
+	_visible=value;
+}
+
 void FireBullet::update() {
+
+	if (!_visible){
+		_finished = true;
+		return;
+	}
+
     _step += _bullet_velocity;
 
     _current_x += cos(_angle)*_bullet_velocity;
@@ -34,7 +46,7 @@ void FireBullet::update() {
     _bullet_sprite.SetRotation(radiants2degrees(_angle));
 
     // TODO: We need a more accurate check...
-    if (abs(_current_x - _xf) < 10 || abs(_current_y -_yf) < 10) _visible = false;
+    if (abs(_current_x - _xf) < 10 && abs(_current_y -_yf) < 10) _finished = true;
 }
 
 void FireBullet::draw() {

@@ -216,7 +216,8 @@ private:
 	sf::Image gameover_image;
 	sf::Sprite gameover_sprite;
 
-    FireBullet* _bullet;
+    FireBullet* _bullet1;
+    FireBullet* _bullet2;
 };
 
 #endif	/* FIELD_H */
