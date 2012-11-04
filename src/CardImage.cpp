@@ -6,6 +6,7 @@
  */
 
 #include "CardImage.h"
+#include "Game.h"
 
 std::string CardsFile[6]={
 		"assets/arrows/right_long.png",
@@ -18,7 +19,8 @@ std::string CardsFile[6]={
 
 
 
-CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster,int file)
+CardImage::CardImage(int theId,float xpos, float ypos,std::map<int,int>* cardmaster,int file) :
+    _window(Game::getMainWindow())
 {
     _id=theId;
     _cardImage.LoadFromFile(CardsFile[file]);
@@ -27,7 +29,6 @@ CardImage::CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindo
     cardSprite.SetScale(SCALE,SCALE);
     activated=0;
     
-    _window=refwindow;
     _cardmaster=cardmaster;
     _timer=0;
     anim=0;
@@ -82,7 +83,7 @@ void CardImage::getPos()
 
 void CardImage::draw()
 {
-    _window->Draw(cardSprite);
+    _window.Draw(cardSprite);
 }
 
 void CardImage::update()

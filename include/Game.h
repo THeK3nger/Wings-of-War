@@ -45,6 +45,8 @@ public:
      */
     void mainGameLoop();
 
+    static sf::RenderWindow& getMainWindow();
+
 private:
     /*!
      * Window height*width*color_depth + name
@@ -71,7 +73,7 @@ private:
     /*!
      * Render window
      */
-    sf::RenderWindow _mainWindow;
+    static sf::RenderWindow _mainWindow;
 
     /*!
      * \brief _clock represent the internal clock of the game.

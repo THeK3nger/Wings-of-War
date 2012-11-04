@@ -3,10 +3,9 @@
 #include "resources/ResourcesManager.h"
 #include "wowcommon.h"
 #include "Field.h"
+#include "Game.h"
 
-Field::Field(sf::RenderWindow *refwindow) {
-	_window = refwindow;
-
+Field::Field() : _window(Game::getMainWindow()) {
 	//Loading the bgmusic file
 	_bgmusic.OpenFromFile("assets/field.ogg");
 	//Setting the bgmusic volume
@@ -44,10 +43,10 @@ void Field::init() {
 	_preview_plane_b->plane_sprite.SetColor(col);
 
 	LOGMESSAGE("Init enemy lifebar");
-	_enemyLifebar= new LifeBar(0,10,590,10,_window);
+    _enemyLifebar= new LifeBar(0,10,590,10);
 
 	LOGMESSAGE("Init player lifebar");
-	_playerLifebar= new LifeBar(1,10,10,10,_window);
+    _playerLifebar= new LifeBar(1,10,10,10);
 
 	LOGMESSAGE("Create Game World");
 	_theWorld = new World(800, 600);
@@ -62,21 +61,21 @@ void Field::init() {
 
 	_mouse_down = false;
 
-	_water = new WaterTile(_window);
+    _water = new WaterTile();
 	sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
 	_camera.SetFromRect(frect);
 
 
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
-	CardImage* card = new CardImage(0,0,450,_window,&_cardmaster,0);
+    CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
 	//setting the clickable area
 	card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 	//adding the cardImage to the cards vector
 	_cards.push_back(card);
 	for(int i=1;i<6;i++)
 	{
-		card = new CardImage(1,91*i,450,_window,&_cardmaster,i);
+        card = new CardImage(1,91*i,450,&_cardmaster,i);
 		card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 		_cards.push_back(card);
 	}
@@ -187,8 +186,8 @@ void Field::update() {
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
             this->_internal_state = Field::BULLET_ANIM;
-            this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1],_window);
-            this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1],_window);
+            this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1]);
+            this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1]);
             if(!_plane1->canShootTo(_plane2)){
             	_bullet1->setVisible(false);
             }
@@ -357,7 +356,7 @@ void Field::update() {
 
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
-		_window->Draw(gameover_sprite);
+        _window.Draw(gameover_sprite);
 		return;
 	}
 
@@ -366,18 +365,18 @@ void Field::draw() {
 		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
 		{
 			_water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
-			_window->Draw(_water->getSprite());
+            _window.Draw(_water->getSprite());
 		}
 	}
 
 	// Set the camera according to the zoom
-	_window->SetView(this->_camera);
+    _window.SetView(this->_camera);
 
 	// Now draw things that must be affected by the zoom...
-	_window->Draw(plane1_shadow);
-	_window->Draw(plane2_shadow);
-	_window->Draw(_plane1->plane_sprite);
-	_window->Draw(_plane2->plane_sprite);
+    _window.Draw(plane1_shadow);
+    _window.Draw(plane2_shadow);
+    _window.Draw(_plane1->plane_sprite);
+    _window.Draw(_plane2->plane_sprite);
 
 	if(this->_internal_state == Field::PREVIEW_MOVES){
 		_preview_plane_a->getPosition(preview_plane_a_pos);
@@ -386,8 +385,8 @@ void Field::draw() {
 		_preview_plane_a->plane_sprite.SetRotation(-radiants2degrees(preview_plane_a_pos[2]));
 		_preview_plane_b->plane_sprite.SetPosition(preview_plane_b_pos[0] + _xdisplacement, preview_plane_b_pos[1] + _ydisplacement);
 		_preview_plane_b->plane_sprite.SetRotation(-radiants2degrees(preview_plane_b_pos[2]));
-		_window->Draw(_preview_plane_a->plane_sprite);
-		_window->Draw(_preview_plane_b->plane_sprite);
+        _window.Draw(_preview_plane_a->plane_sprite);
+        _window.Draw(_preview_plane_b->plane_sprite);
 	}
 
     if(_internal_state == Field::BULLET_ANIM) {
@@ -396,7 +395,7 @@ void Field::draw() {
     }
 
 	// Now draw things of fixed size
-	_window->SetView(_window->GetDefaultView());
+    _window.SetView(_window.GetDefaultView());
 
 	// KICKER
 
@@ -522,7 +521,7 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
 	//note GetEvent ALWAYS in if() or while()
-	while(_window->GetEvent(_lastEvent))
+    while(_window.GetEvent(_lastEvent))
 	{
 		switch(_lastEvent.Type){
 		case sf::Event::KeyPressed:

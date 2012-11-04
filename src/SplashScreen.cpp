@@ -1,15 +1,18 @@
+#include "SFML/Window.hpp"
+#include "SFML/Graphics.hpp"
+
 #include "SplashScreen.h"
 #include "wowcommon.h"
 #include "resources/ResourcesManager.h"
 #include "resources/ImageRes.h"
 #include "Dialog.h"
+#include "Game.h"
 
 /*!
  * Constructor
  */
-SplashScreen::SplashScreen(sf::RenderWindow *refwindow) {
+SplashScreen::SplashScreen() {
     //Storing the address of the mainwindow to the current window
-    _window = refwindow;
     _splashState = OnSplash;
     this->init();
 }
@@ -48,7 +51,7 @@ void SplashScreen::init(){
     _bgmusic.Play();
 
     // Create an empty Field.
-    _field = new Field(_window);
+    _field = new Field();
 }
 
 /*!
@@ -64,10 +67,10 @@ void SplashScreen::draw() {
         break;
     case OnSplash :
         //drawing the background
-        _window->Draw(_background);
+        Game::getMainWindow().Draw(_background);
 
         //drawing the fighter
-        _window->Draw(_fighter);
+        Game::getMainWindow().Draw(_fighter);
         break;
     case Exit :
         break;
@@ -113,7 +116,8 @@ bool SplashScreen::isExiting() {
  */
 bool SplashScreen::handleEvents() {
     sf::Event Event;
-    if (_window->GetEvent(Event)) {
+    sf::RenderWindow& window = Game::getMainWindow();
+    if (window.GetEvent(Event)) {
         //PRESSING KEY UP
         if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Up)) {
 
@@ -159,17 +163,17 @@ bool SplashScreen::handleEvents() {
                 sf::String Titolo; Titolo.SetText("Bello le opzioni vero?");
                 Titolo.SetPosition(180,180);
                 sf::String sottoTitolo; sottoTitolo.SetText("");
-                Dialog myDialog(_window,Titolo,sottoTitolo);
+                Dialog myDialog(Titolo,sottoTitolo);
                      
                 sf::PostFX Effect;
                 Effect.LoadFromFile("shaders/blur.sfx");
                 Effect.SetTexture("framebuffer", NULL);
                 Effect.SetParameter("offset", 0.008f);
                 
-                _window->Clear();
-                _window->Draw(_background);
-                _window->Draw(Effect);
-                _window->Display();
+                window.Clear();
+                window.Draw(_background);
+                window.Draw(Effect);
+                window.Display();
 
                 myDialog.run();
             }

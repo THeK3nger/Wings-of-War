@@ -17,7 +17,7 @@
 
 class WaterTile {
 public:
-    WaterTile(sf::RenderWindow *refWindow);
+    WaterTile();
 
     void update();
     virtual ~WaterTile();
@@ -41,7 +41,7 @@ private:
     
     sf::Image _spritesheet;
     sf::Sprite _sprite;
-    sf::RenderWindow* _window;
+    sf::RenderWindow& _window;
     
 };
 

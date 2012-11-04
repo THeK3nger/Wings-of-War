@@ -13,7 +13,7 @@ public:
      * \brief SplashScreen constructor
      * \param refwindow Reference to the original windows.
      */
-    SplashScreen(sf::RenderWindow *refwindow);
+    SplashScreen();
 
     virtual ~SplashScreen();
 
@@ -51,11 +51,6 @@ private:
      * Actual state of SplashScreen
      */
     SplashState _splashState;
-
-    /*!
-     * The render window
-     */
-    sf::RenderWindow* _window;
 
     /*!
      * Image files, needed for the sprites

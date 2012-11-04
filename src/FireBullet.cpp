@@ -1,17 +1,18 @@
 #include "wowcommon.h"
 #include "FireBullet.h"
+#include "Game.h"
 
 #include "resources/ImageRes.h"
 #include "resources/ResourcesManager.h"
 
-FireBullet::FireBullet(float start_x, float start_y, float final_x, float final_y, sf::RenderWindow *refwindow) :
+FireBullet::FireBullet(float start_x, float start_y, float final_x, float final_y) :
     _xi(start_x), _yi(start_y), _visible(true), _finished(false),
-    _xf(final_x), _yf(final_y), _step(0), _bullet_velocity(10)
+    _xf(final_x), _yf(final_y), _step(0), _bullet_velocity(10),
+    _refwindow(Game::getMainWindow())
 {
     _bullet_image = GET_SFML_IMAGE_FROM_MANAGER("firebullet");
     _bullet_sprite.SetImage(_bullet_image);
     _angle = atan2(-(_yf - _yi),(_xf - _xi));
-    _refwindow = refwindow;
     _current_x = _xi;
     _current_y =_yi;
     _bullet_sprite.SetPosition(_current_x,_current_y);
@@ -51,6 +52,6 @@ void FireBullet::update() {
 
 void FireBullet::draw() {
     if (_visible) {
-        _refwindow->Draw(_bullet_sprite);
+        _refwindow.Draw(_bullet_sprite);
     }
 }

@@ -2,9 +2,10 @@
 #include <stdio.h>
 
 #include "Dialog.h"
+#include "Game.h"
 
-Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessage) :
-    _window(refwindow), _title(rTitle), _message(rMessage)
+Dialog::Dialog(sf::String rTitle, sf::String rMessage) :
+    _title(rTitle), _message(rMessage)
 {
     _dialog_image.LoadFromFile("assets/option.png");
     _dialog_sprite.SetImage(_dialog_image);
@@ -19,14 +20,15 @@ Dialog::Dialog(sf::RenderWindow *refwindow, sf::String rTitle, sf::String rMessa
 
 int Dialog::run() {
     sf::Event Event;
-    _window->GetEvent(Event);
+    sf::RenderWindow& window = Game::getMainWindow();
+    window.GetEvent(Event);
 
     while (Event.Type != sf::Event::KeyPressed) {
-        _window->Draw(_dialog_sprite);
-        _window->Draw(_title);
-        _window->Draw(_message);
-        _window->Display();
-        _window->GetEvent(Event);
+        window.Draw(_dialog_sprite);
+        window.Draw(_title);
+        window.Draw(_message);
+        window.Display();
+        window.GetEvent(Event);
     }
 
     return Event.Key.Code;

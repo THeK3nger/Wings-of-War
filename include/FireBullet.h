@@ -6,7 +6,7 @@
 
 class FireBullet {
 public:
-    FireBullet(float start_x, float start_y, float final_x, float final_y, sf::RenderWindow *refwindow);
+    FireBullet(float start_x, float start_y, float final_x, float final_y);
     ~FireBullet();
 
     void setBulletVelocity(float t);
@@ -32,7 +32,7 @@ private:
     bool _visible;
     bool _finished;
 
-    sf::RenderWindow* _refwindow;
+    sf::RenderWindow& _refwindow;
 };
 
 #endif

@@ -13,7 +13,7 @@
 class LifeBar {
 public:
 
-	LifeBar(int type, int hp, int posx, int posy,sf::RenderWindow *refwindow);
+    LifeBar(int type, int hp, int posx, int posy);
 	virtual ~LifeBar();
 	void setLife(int hp);
 	void draw();
@@ -27,7 +27,7 @@ private:
 	int _life;
 	int _maxlife;
 
-	sf::RenderWindow* _window;
+    sf::RenderWindow& _window;
 
 	sf::Image _hud;
 	sf::Image _bar;

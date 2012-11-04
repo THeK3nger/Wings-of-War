@@ -1,11 +1,12 @@
 
 
 #include "LifeBar.h"
+#include "Game.h"
 
 
-LifeBar::LifeBar(int type, int hp, int posx, int posy,sf::RenderWindow *refwindow) {
-
-	_window = refwindow;
+LifeBar::LifeBar(int type, int hp, int posx, int posy) :
+    _window(Game::getMainWindow())
+{
 
 	this->_posx=posx;
 	this->_posy=posy;
@@ -36,8 +37,8 @@ LifeBar::~LifeBar() {
 }
 
 void LifeBar::draw(){
-	_window->Draw(this->_bar_sprite);
-	_window->Draw(this->_hud_sprite);
+    _window.Draw(this->_bar_sprite);
+    _window.Draw(this->_hud_sprite);
 }
 
 void LifeBar::setLife(int hp)

@@ -15,7 +15,7 @@
 
 class CardImage {
 public:
-    CardImage(int theId,float xpos, float ypos,sf::RenderWindow *refwindow,std::map<int,int>* cardmaster,int file=0);
+    CardImage(int theId, float xpos, float ypos, std::map<int,int>* cardmaster, int file=0);
     virtual ~CardImage();
     
     int getId();
@@ -37,7 +37,7 @@ private:
 
     sf::Image _cardImage;
     sf::String _cardName;
-    sf::RenderWindow* _window;
+    sf::RenderWindow& _window;
     
     int _id;
     float _timer;

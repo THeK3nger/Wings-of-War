@@ -6,11 +6,12 @@
  */
 
 #include "WaterTile.h"
+#include "Game.h"
 #include "resources/ResourcesManager.h"
 #include "resources/ImageRes.h"
 
-WaterTile::WaterTile(sf::RenderWindow *refWindow) :
-    _window(refWindow), _frame_step(20), _frame_count(0)
+WaterTile::WaterTile() :
+    _window(Game::getMainWindow()), _frame_step(20), _frame_count(0)
 {
     
     xpos=100;

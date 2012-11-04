@@ -2,6 +2,8 @@
 #include "resources/ResourcesManager.h"
 #include "wowcommon.h"
 
+sf::RenderWindow Game::_mainWindow;
+
 /*!
  * Constructor:
  * sets the size and the depth of the window
@@ -28,11 +30,15 @@ void Game::init() {
     ResourcesManager::getSingleton().loadResourcesFromXML("./assets/assets.xml");
     if (_gameState != Game::Uninitialized) return;
 
-    _mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
+    Game::_mainWindow.Create(sf::VideoMode(width, height, depth), "Wings of War");
     _gameState = Game::ShowingSplash;
-    splashscreen = new SplashScreen(&_mainWindow);
+    splashscreen = new SplashScreen();
 
     OK;
+}
+
+sf::RenderWindow& Game::getMainWindow() {
+    return _mainWindow;
 }
 
 /*!

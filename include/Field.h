@@ -22,7 +22,7 @@
 
 class Field {
 public:
-	Field(sf::RenderWindow *refwindow);
+    Field();
 	~Field();
 	int handleEvents();
 
@@ -140,10 +140,10 @@ private:
 	 */
 	States _internal_state;
 
-	/*!
-	 * \brief _window stores a reference to main window.
-	 */
-	sf::RenderWindow* _window;
+    /*!
+     * \brief _window stores a reference to main window.
+     */
+    sf::RenderWindow& _window;
 
 	/*!
 	 * \brief _camera stores the game camera.
