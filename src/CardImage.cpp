@@ -7,23 +7,23 @@
 
 #include "CardImage.h"
 #include "Game.h"
+#include "resources/ResourcesManager.h"
+#include "resources/ImageRes.h"
 
 std::string CardsFile[6]={
-		"assets/arrows/right_long.png",
-		"assets/arrows/left_long.png",
-		"assets/arrows/straight_long.png",
-		"assets/arrows/right_short.png",
-		"assets/arrows/left_short.png",
-		"assets/arrows/straight_short.png"
+        "card_right_long",
+        "card_left_long",
+        "card_straight_long",
+        "card_right_short",
+        "card_left_short",
+        "card_straight_short"
 };
-
-
 
 CardImage::CardImage(int theId,float xpos, float ypos,std::map<int,int>* cardmaster,int file) :
     _window(Game::getMainWindow())
 {
     _id=theId;
-    _cardImage.LoadFromFile(CardsFile[file]);
+    _cardImage = GET_SFML_IMAGE_FROM_MANAGER(CardsFile[file]);
     cardSprite.SetImage(_cardImage);
     cardSprite.SetPosition(xpos,ypos);
     cardSprite.SetScale(SCALE,SCALE);
