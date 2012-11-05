@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "resources/ResourcesManager.h"
+#include "resources/ImageRes.h"
 #include "wowcommon.h"
 #include "Field.h"
 #include "Game.h"
@@ -22,8 +23,7 @@ Field::~Field() {
 void Field::init() {
 	_bgmusic.Play();
 
-	LOGMESSAGE("Loading gameover image");
-	gameover_image.LoadFromFile("assets/gameover.png");
+    gameover_image = GET_SFML_IMAGE_FROM_MANAGER("gameover");
 	gameover_sprite.SetImage(gameover_image);
 
 	LOGMESSAGE("Initialize Plane 1");
@@ -430,7 +430,6 @@ bool Field::isTerminated()
 
 void Field::mouseLeftPressed(float x, float y)
 {
-	LOGMESSAGE("L PRESSED");
 	this->_mouse_down = true;
 	this->_xstart = x;
 	this->_ystart = y;
@@ -438,7 +437,6 @@ void Field::mouseLeftPressed(float x, float y)
 
 void Field::mouseLeftReleased(float x, float y)
 {
-	LOGMESSAGE("L RELEASED");
 	this->_mouse_down = false;
 	this->_xstart = 0;
 	this->_ystart = 0;
@@ -458,50 +456,6 @@ void Field::mouseLeftReleased(float x, float y)
 	if(clicked_card != -1){
 		player_choices.push_back(this->_plane1->getCardSet()->cards + clicked_card);
 	}
-
-	//	/* TODO: ClickableAreas method? */
-	//	for(int i=0;i<_cards.size();i++)
-	//	{
-	//		//check if the click is inside for EACH clickableAreas rectangle
-	//		//note: rect has a "contains" methods, unluckily... doesn't works -_-"
-	//		double active_offset = 0;
-	//		if(_cards[i]->activated==1) active_offset = 50;
-	//		if(
-	//				x>=_cards[i]->clickableArea->Left &&
-	//				y>=_cards[i]->clickableArea->Top - active_offset &&
-	//				x<=_cards[i]->clickableArea->Left+_cards[0]->clickableArea->Right &&
-	//				y<=_cards[i]->clickableArea->Top - active_offset + _cards[0]->clickableArea->Bottom)
-	//
-	//		{
-	//			//the clicked card isn't active
-	//			if(_cards[i]->activated==0)
-	//			{
-	//				//deactivate each card of the deck
-	//				//for(int j=0;j<clickableAreas.size();j++) cards[j]->deActivateCard();
-	//				//activate the "i" card
-	//				_cardmaster.insert(std::pair<int,int>(i,cardCounter));
-	//				_cards[i]->activateCard();
-	//				cardCounter++;
-	//			}
-	//			//the "i" card is already activated, so deactivate it
-	//			else if(_cards[i]->activated)
-	//			{
-	//				for(int j=0;j<_cards.size();j++)
-	//				{
-	//					_it=_cardmaster.find(j);
-	//					if(_it!=_cardmaster.end())
-	//					{
-	//						_cardmaster.erase(_it);
-	//						cardCounter--;
-	//					}
-	//					_cards[j]->deActivateCard();
-	//
-	//				}
-	//			}
-	//			//note:
-	//			//this basic mechanism will be useful for a selectable sequence of card (i.e card1, card2.... cardN then confim!)
-	//		}
-	//	}
 }
 
 void Field::mouseMoved(float x, float y)
@@ -534,30 +488,6 @@ int Field::handleEvents() {
 				break;
 			case sf::Key::Escape:
 				stop();
-				break;
-			case sf::Key::Right:
-				if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
-					player_choices.push_back(this->_plane1->getCardSet()->cards);
-#if DEBUG
-					LOGMESSAGE("You have chosen Right");
-#endif
-				}
-				break;
-			case sf::Key::Left:
-				if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
-					player_choices.push_back(this->_plane1->getCardSet()->cards+1);
-#if DEBUG
-					LOGMESSAGE("You have chosen Left");
-#endif
-				}
-				break;
-			case sf::Key::Up:
-				if(player_choices.size() < CHOICES_PER_TURN && this->_internal_state == Field::PLAYER_SELECT){
-					player_choices.push_back(this->_plane1->getCardSet()->cards+2);
-#if DEBUG
-					LOGMESSAGE("You have chosen Up");
-#endif
-				}
 				break;
 			case sf::Key::Return:
 				if(this->_internal_state == Field::PREVIEW_MOVES){
