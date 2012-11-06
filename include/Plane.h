@@ -9,7 +9,7 @@
 #include "SFML/Audio.hpp"
 
 #define SHOOTING_RADIUS 250
-#define SHOOTING_ANGLE  M_PI/4 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
+#define SHOOTING_ANGLE  M_PI/6 // this expresses the randiants in ONE direction, so the actual shooting angle is twice this number
 
 struct CardSet {
     Card * cards;

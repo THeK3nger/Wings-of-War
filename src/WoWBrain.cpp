@@ -75,7 +75,11 @@ std::vector<Card *> WoWBrain::returnBestCards(int howmany, float maxtime) {
     
     // TODO: this should use the "maxtime" given
     
-    alphaBetaPruningStep(0, true, -MAX_HEURISTIC, MAX_HEURISTIC, &actual_sequence, &best_sequence, this->_opponent);
+    int alpha = -MAX_HEURISTIC;
+    int beta = MAX_HEURISTIC;
+
+    int best_heur = alphaBetaPruningStep(0, true, alpha, beta, &actual_sequence, &best_sequence, this->_opponent);
+    std::cout << "THE BEST HEURISTIC IS: " << best_heur << std::endl;
 
     while (best_sequence.size() > howmany) best_sequence.pop_back();
 
@@ -84,7 +88,7 @@ std::vector<Card *> WoWBrain::returnBestCards(int howmany, float maxtime) {
 
 // TODO: this is still depth based, not time based
 
-int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent) {
+int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int &alpha, int &beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent) {
     if (depth == Game::conf.search_depth) { // leaf node
         int heur = this->computeHeuristic();
         if (heur > beta) return heur;
@@ -93,6 +97,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             for (int i = 0; i < actual_sequence->size(); i++) {
                 best_sequence->push_back((*actual_sequence)[i]);
             }
+            std::cout << "best heuristic: " << heur << std::endl;
+            alpha = heur;
         }
         return heur;
     }

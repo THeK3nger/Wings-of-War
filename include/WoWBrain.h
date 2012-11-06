@@ -72,7 +72,7 @@ private:
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * _opponent);
+    int alphaBetaPruningStep(int depth, bool maximizing, int &alpha, int &beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * _opponent);
 
     World *_current_world;
     Plane *_aiplane;
