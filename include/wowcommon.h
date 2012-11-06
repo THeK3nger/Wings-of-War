@@ -49,7 +49,7 @@
 #define BLACK "\033[22;30m"
 #define RESET "\033[0m"
 
-#define LOGMESSAGE(X) std::cout << (X) << std::endl
+#define LOGMESSAGE(X) std::cout << X << std::endl
 
 #define LOGMESSAGE_NO_ENDL(X) std::cout << (X)
 
