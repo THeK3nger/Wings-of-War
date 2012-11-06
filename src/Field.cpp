@@ -86,6 +86,8 @@ void Field::init() {
 	plane2_size = this->_plane2->plane_sprite.GetSize();
 	_plane1->plane_sprite.SetCenter(plane1_size.x/2,plane1_size.y/2);
 	_plane2->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
+	_preview_plane_a->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
+	_preview_plane_b->plane_sprite.SetCenter(plane2_size.x/2,plane2_size.y/2);
 
 	// planes shadows sprites (they could be different)
 	plane1_shadow = _plane1->plane_sprite;

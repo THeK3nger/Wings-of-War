@@ -214,11 +214,11 @@ int WoWBrain::computeHeuristic() {
     // RamainingLife, instead, is just the amount of remaining life points
     // of the Plane X.
     //
-    if (this->_aiplane->remainingHealth() <= 0) {
+    if (this->_aiplane->remainingHealth() <= 0 || !this->_current_world->isInside(this->_aiplane)) {
         return -MAX_HEURISTIC;
     }
 
-    if (this->_opponent->remainingHealth() <= 0) {
+    if (this->_opponent->remainingHealth() <= 0 || !this->_current_world->isInside(this->_opponent)) {
         return MAX_HEURISTIC;
     }
 
@@ -233,21 +233,21 @@ int WoWBrain::computeHeuristic() {
     //manhattan += (int) abs(aipos[1] - opponentpos[1]);
 
     // Compute ShotValue
-    int aivalue = 0;
-    int opponentvalue = 0;
+    int aivalue = _aiplane->evalueatePlanePosition(_opponent);
+    int opponentvalue = _opponent->evalueatePlanePosition(_aiplane);
 
-    if (_aiplane->canSee(_opponent)) {
-        aivalue++;
-    }
-    if (_opponent->canSee(_aiplane)) {
-        opponentvalue++;
-    }
-    if (_aiplane->canShootTo(_opponent)) {
-        aivalue++;
-    }
-    if (_opponent->canShootTo(_aiplane)) {
-        opponentvalue++;
-    }
+//    if (_aiplane->canSee(_opponent)) {
+//        aivalue++;
+//    }
+//    if (_opponent->canSee(_aiplane)) {
+//        opponentvalue++;
+//    }
+//    if (_aiplane->canShootTo(_opponent)) {
+//        aivalue++;
+//    }
+//    if (_opponent->canShootTo(_aiplane)) {
+//        opponentvalue++;
+//    }
 
     int aiscore = _weights[1] * aivalue + _weights[2]*(_aiplane->remainingHealth());
     int opponentscore = _weights[1] * opponentvalue + _weights[2]*(_opponent->remainingHealth());

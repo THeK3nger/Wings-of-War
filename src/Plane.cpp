@@ -28,6 +28,24 @@ float normalizeAngle(float angle) {
     return angle;
 }
 
+// computes the 'distance' between two angles.
+// angles are supposed to be expressed in radians, and included in [-π, π].
+// this manages the jump between π and -π
+// the returned value is positive if the first angle is "on the left" of the second angle (counterclockwise)
+float computeAnglesDifference(double ang1, double ang2){
+	float absdiff = ang1-ang2;
+	absdiff = (absdiff > 0 ? absdiff : -absdiff);
+	if(absdiff > M_PI){	// this passes through the discontinuous point π
+		if(ang1 > 0){	// ang2 is negative
+			return -(2*M_PI - (ang1-ang2));
+		}
+		else{	// ang1 negative, ang2 positive
+			return (2*M_PI - (ang2-ang1));
+		}
+	}
+	return (ang1-ang2);
+}
+
 Plane::Plane(int id, int health, float x, float y, float theta) {
     this->id = id;
     this->health = health;
@@ -167,6 +185,31 @@ bool Plane::canShootTo(Plane *target) {
 
     // if the check arrives here, the plane is within both shooting range and shooting angle
     return true;
+}
+
+int Plane::evalueatePlanePosition(Plane * target){
+	if(this->canShootTo(target)){	// best position
+		return 3;
+	}
+	if(this->canSee(target)){	// cannot shoot, but the target is in the shooting cone (I.E. target is out of range)
+		return 2;
+	}
+
+	// TODO: consider certain combinations of angles/distances relations (E.G: on the back but "very" far)
+
+	float target_pos [3];
+	target->getPosition(target_pos);
+	float dx = target_pos[0] - this->posx;
+	float dy = target_pos[1] - this->posy;
+	float pure_angle = atan2(dy,dx);
+
+//	float distance = sqrt(pow(dx,2) + pow(dy,2));
+	float angle = computeAnglesDifference(pure_angle, this->theta);
+	angle = (angle >= 0 ? angle : -angle);	// absolute value of the angles difference
+
+	if (angle < M_PI_2) return 1;	// target is out of the shooting cone, but it is still not on the back of this plane
+
+	return 0;	// other (bad) situations
 }
 
 void Plane::setX(float x)

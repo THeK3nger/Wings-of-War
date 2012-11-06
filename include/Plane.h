@@ -129,6 +129,13 @@ public:
      */
     bool canSee(Plane *target); // I added this because sometimes (heuristic) we want to know something about the angle, even if it is not possible to shoot
 
+    /*!
+     * Gives a "score" according to the position of this plane wrt the target plane
+     * The highest score is given when this plane can shoot to the target plane
+     * The lowest score (0) is given when the target plane is behind this plane
+     */
+    int evalueatePlanePosition(Plane * target);
+
     void setX(float x);
     void setY(float y);
     void setT(float t);
