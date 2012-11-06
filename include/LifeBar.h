@@ -1,11 +1,13 @@
-#include "wowcommon.h"
 
+
+#ifndef LIFEBAR_H_
+#define LIFEBAR_H_
+
+#include "wowcommon.h"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 
-#ifndef LIFEBAR_H_
-#define LIFEBAR_H_
 
 #define ENEMYBAR 	0
 #define PLAYERBAR 	1
@@ -23,16 +25,13 @@ private:
 
 	int _posx;
 	int _posy;
-
 	int _life;
 	int _maxlife;
-
-    sf::RenderWindow& _window;
-
+	sf::RenderWindow& _window;
 	sf::Image _hud;
 	sf::Image _bar;
-    sf::Sprite _hud_sprite;
-    sf::Sprite _bar_sprite;
+	sf::Sprite _hud_sprite;
+        sf::Sprite _bar_sprite;
 
 };
 

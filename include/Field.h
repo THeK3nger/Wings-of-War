@@ -18,6 +18,7 @@
 #include "Animation.h"
 #include "CardImage.h"
 #include "LifeBar.h"
+#include "guiButton.h"
 #include "FireBullet.h"
 
 class Field {
@@ -122,6 +123,8 @@ private:
 	LifeBar * _enemyLifebar;
 	LifeBar * _playerLifebar;
 
+	guiButton * _okButton;
+	guiButton * _cancelButton;
 
 	/*!
 	 * \brief _bgmusic BG music.

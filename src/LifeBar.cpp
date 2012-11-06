@@ -1,5 +1,3 @@
-
-
 #include "LifeBar.h"
 #include "Game.h"
 

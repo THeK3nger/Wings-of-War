@@ -23,7 +23,7 @@ Field::~Field() {
 void Field::init() {
 	_bgmusic.Play();
 
-    gameover_image = GET_SFML_IMAGE_FROM_MANAGER("gameover");
+	gameover_image = GET_SFML_IMAGE_FROM_MANAGER("gameover");
 	gameover_sprite.SetImage(gameover_image);
 
 	LOGMESSAGE("Initialize Plane 1");
@@ -43,10 +43,16 @@ void Field::init() {
 	_preview_plane_b->plane_sprite.SetColor(col);
 
 	LOGMESSAGE("Init enemy lifebar");
-    _enemyLifebar= new LifeBar(0,10,590,10);
+	_enemyLifebar= new LifeBar(0,10,590,10);
 
 	LOGMESSAGE("Init player lifebar");
-    _playerLifebar= new LifeBar(1,10,10,10);
+	_playerLifebar= new LifeBar(1,10,10,10);
+
+	LOGMESSAGE("Init buttons");
+	_okButton= new guiButton(0,560,460);
+	_okButton->clickableArea=new sf::Rect<int>(_okButton->_button_sprite.GetPosition().x,_okButton->_button_sprite.GetPosition().y,_okButton->_button_sprite.GetSize().x,_okButton->_button_sprite.GetSize().y);
+	_cancelButton= new guiButton(1,560,512);
+	_cancelButton->clickableArea=new sf::Rect<int>(_cancelButton->_button_sprite.GetPosition().x,_cancelButton->_button_sprite.GetPosition().y,_cancelButton->_button_sprite.GetSize().x,_cancelButton->_button_sprite.GetSize().y);
 
 	LOGMESSAGE("Create Game World");
 	_theWorld = new World(800, 600);
@@ -61,21 +67,21 @@ void Field::init() {
 
 	_mouse_down = false;
 
-    _water = new WaterTile();
+	_water = new WaterTile();
 	sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
 	_camera.SetFromRect(frect);
 
 
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
-    CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
+	CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
 	//setting the clickable area
 	card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 	//adding the cardImage to the cards vector
 	_cards.push_back(card);
 	for(int i=1;i<6;i++)
 	{
-        card = new CardImage(1,91*i,450,&_cardmaster,i);
+		card = new CardImage(1,91*i,450,&_cardmaster,i);
 		card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 		_cards.push_back(card);
 	}
@@ -181,28 +187,28 @@ void Field::update() {
 		if(!something_moved){
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
-            this->_internal_state = Field::BULLET_ANIM;
-            this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1]);
-            this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1]);
-            if(!_plane1->canShootTo(_plane2)){
-            	_bullet1->setVisible(false);
-            }
-            if(!_plane2->canShootTo(_plane1)){
-            	_bullet2->setVisible(false);
-            }
+			this->_internal_state = Field::BULLET_ANIM;
+			this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1]);
+			this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1]);
+			if(!_plane1->canShootTo(_plane2)){
+				_bullet1->setVisible(false);
+			}
+			if(!_plane2->canShootTo(_plane1)){
+				_bullet2->setVisible(false);
+			}
 		}
 
 		break;
 
-    case Field::BULLET_ANIM:
-        this->_bullet1->update();
-        this->_bullet2->update();
-        if (_bullet1->hasArrived() && _bullet2->hasArrived()) {
-            this->_internal_state = Field::COMPUTE_DAMAGES;
-            delete _bullet1;
-            delete _bullet2;
-        }
-        break;
+	case Field::BULLET_ANIM:
+		this->_bullet1->update();
+		this->_bullet2->update();
+		if (_bullet1->hasArrived() && _bullet2->hasArrived()) {
+			this->_internal_state = Field::COMPUTE_DAMAGES;
+			delete _bullet1;
+			delete _bullet2;
+		}
+		break;
 
 	case Field::COMPUTE_DAMAGES:
 
@@ -352,7 +358,7 @@ void Field::update() {
 
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
-        _window.Draw(gameover_sprite);
+		_window.Draw(gameover_sprite);
 		return;
 	}
 
@@ -361,18 +367,18 @@ void Field::draw() {
 		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
 		{
 			_water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
-            _window.Draw(_water->getSprite());
+			_window.Draw(_water->getSprite());
 		}
 	}
 
 	// Set the camera according to the zoom
-    _window.SetView(this->_camera);
+	_window.SetView(this->_camera);
 
 	// Now draw things that must be affected by the zoom...
-    _window.Draw(plane1_shadow);
-    _window.Draw(plane2_shadow);
-    _window.Draw(_plane1->plane_sprite);
-    _window.Draw(_plane2->plane_sprite);
+	_window.Draw(plane1_shadow);
+	_window.Draw(plane2_shadow);
+	_window.Draw(_plane1->plane_sprite);
+	_window.Draw(_plane2->plane_sprite);
 
 	if(this->_internal_state == Field::PREVIEW_MOVES){
 		_preview_plane_a->getPosition(preview_plane_a_pos);
@@ -381,17 +387,17 @@ void Field::draw() {
 		_preview_plane_a->plane_sprite.SetRotation(-radiants2degrees(preview_plane_a_pos[2]));
 		_preview_plane_b->plane_sprite.SetPosition(preview_plane_b_pos[0] + _xdisplacement, preview_plane_b_pos[1] + _ydisplacement);
 		_preview_plane_b->plane_sprite.SetRotation(-radiants2degrees(preview_plane_b_pos[2]));
-        _window.Draw(_preview_plane_a->plane_sprite);
-        _window.Draw(_preview_plane_b->plane_sprite);
+		_window.Draw(_preview_plane_a->plane_sprite);
+		_window.Draw(_preview_plane_b->plane_sprite);
 	}
 
-    if(_internal_state == Field::BULLET_ANIM) {
-        _bullet1->draw();
-        _bullet2->draw();
-    }
+	if(_internal_state == Field::BULLET_ANIM) {
+		_bullet1->draw();
+		_bullet2->draw();
+	}
 
 	// Now draw things of fixed size
-    _window.SetView(_window.GetDefaultView());
+	_window.SetView(_window.GetDefaultView());
 
 	// KICKER
 
@@ -399,6 +405,8 @@ void Field::draw() {
 	//HUD
 	_enemyLifebar->draw();
 	_playerLifebar->draw();
+	_okButton->draw();
+	_cancelButton->draw();
 
 	if(display_cards){
 		for(int i=0;i< _cards.size();i++)
@@ -438,6 +446,8 @@ void Field::mouseLeftReleased(float x, float y)
 	this->_ystart = 0;
 
 	int clicked_card = -1;
+
+	//check for click on cards area
 	for(int i=0; i<this->_plane1->getCardSet()->cards_number; i++){
 		if(		x>=_cards[i]->clickableArea->Left &&
 				y>=_cards[i]->clickableArea->Top &&
@@ -449,9 +459,33 @@ void Field::mouseLeftReleased(float x, float y)
 		}
 	}
 
+	if(		x>=_okButton->clickableArea->Left &&
+			y>=_okButton->clickableArea->Top &&
+			x<=_okButton->clickableArea->Left+_okButton->clickableArea->Right &&
+			y<=_okButton->clickableArea->Top + _okButton->clickableArea->Bottom)
+	{
+		if(this->_internal_state == Field::PREVIEW_MOVES){
+			this->_internal_state = Field::BRAIN_SELECT;}
+		std::cout << "OK clicked"<<std::endl;
+	}
+
+	if(		x>=_cancelButton->clickableArea->Left &&
+			y>=_cancelButton->clickableArea->Top &&
+			x<=_cancelButton->clickableArea->Left+_cancelButton->clickableArea->Right &&
+			y<=_cancelButton->clickableArea->Top + _cancelButton->clickableArea->Bottom)
+	{
+		if(this->_internal_state == Field::PREVIEW_MOVES){
+			player_choices.clear();
+			this->_internal_state = Field::PLAYER_SELECT;}
+		std::cout << "Cancel clicked"<<std::endl;
+	}
+
 	if(clicked_card != -1){
 		player_choices.push_back(this->_plane1->getCardSet()->cards + clicked_card);
 	}
+
+	//check for click in buttons area
+
 }
 
 void Field::mouseMoved(float x, float y)
@@ -470,7 +504,7 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
 	//note GetEvent ALWAYS in if() or while()
-    while(_window.GetEvent(_lastEvent))
+	while(_window.GetEvent(_lastEvent))
 	{
 		switch(_lastEvent.Type){
 		case sf::Event::KeyPressed:
