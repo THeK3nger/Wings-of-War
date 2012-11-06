@@ -101,7 +101,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         possible_moves_number = this->nextValidMoves(this->_aiplane, possible_moves);
 
         if (possible_moves_number == 0) {
-            delete possible_moves;
+            delete[] possible_moves;
             return -MAX_HEURISTIC;
         }
 
@@ -115,7 +115,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
             if (beta <= child_value) {
                 actual_sequence->pop_back();
-                delete possible_moves;
+                delete[] possible_moves;
                 return child_value;
             }
 
@@ -128,7 +128,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         previous_move = this->_opponent->getLastMove();
         possible_moves_number = this->nextValidMoves(this->_opponent, possible_moves);
         if (possible_moves_number == 0) {
-            delete possible_moves;
+            delete[] possible_moves;
             return MAX_HEURISTIC;
         }
         int child_value = MAX_HEURISTIC;
@@ -159,7 +159,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             if (ai_damaged) _aiplane->heal_damage(this->expectedDamage());
 
             if (child_value <= alpha) {
-                delete possible_moves;
+                delete[] possible_moves;
                 return child_value;
             }
 

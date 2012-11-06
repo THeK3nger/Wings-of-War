@@ -100,14 +100,10 @@ void Field::init() {
 void Field::update() {
 	this->handleEvents();
 
-
 	// Game Turns Switch
 	switch(this->_internal_state){
 	case Field::INIT:
 		// HERE WE INITIALIZE THINGS
-
-
-
 		// planes positions
 		this->_plane1->getPosition(p1pos);
 		this->_plane2->getPosition(p2pos);
@@ -117,7 +113,6 @@ void Field::update() {
 
 	case Field::PLAYER_SELECT:
 		display_cards = true;
-
 
 		// WARNING: EVENT HANDLING CANNOT BE DONE HERE!!
 		if(player_choices.size() >= CHOICES_PER_TURN){
@@ -153,7 +148,6 @@ void Field::update() {
 		break;
 
 	case Field::APPLY_MOVES:
-
 
 		// store positions before moving
 		this->_plane1->getPosition(plane1_prev_pos);
@@ -471,7 +465,6 @@ void Field::mouseMoved(float x, float y)
 		_ystart = y;
 	}
 }
-
 
 int Field::handleEvents() {
 	//note GetEvent ALWAYS in if() or while()
