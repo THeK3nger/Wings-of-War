@@ -93,6 +93,7 @@ void ResourcesManager::loadResourcesFromXML(string filename) {
 }
 
 void ResourcesManager::loadScope(UInt scope) {
+    LOGMESSAGE_PARAM("Loading scope: ",scope);
     map<string,Resource*>::iterator it;
     for (it = _resources[scope].begin();it != _resources[scope].end();it++) {
         (*it).second->Load();
@@ -108,7 +109,7 @@ void ResourcesManager::unloadScope(UInt scope) {
 
 void ResourcesManager::setScope(UInt scope) {
     UInt prev_scope = _current_scope;
-    if (!prev_scope) {
+    if (prev_scope) {
         unloadScope(prev_scope);
     }
     _current_scope = scope;
