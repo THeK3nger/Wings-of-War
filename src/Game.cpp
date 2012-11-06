@@ -3,6 +3,7 @@
 #include "wowcommon.h"
 
 sf::RenderWindow Game::_mainWindow;
+GAME_configuration Game::conf={0,0,0,0};
 
 /*!
  * Constructor:
@@ -13,7 +14,6 @@ Game::Game(int h, int w, int d) {
     width = w;
     height = h;
     depth = d;
-
     _clock = sf::Clock();
     _gameState = Game::Uninitialized;
 }

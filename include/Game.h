@@ -3,6 +3,14 @@
 
 #include "SplashScreen.h"
 
+struct GAME_configuration
+{
+	int search_depth;
+	int E_distance;
+	int E_visibility;
+	int E_health;
+};
+
 /*!
  * \brief This class is the core class of the Game.
  * 
@@ -26,6 +34,8 @@ public:
      */
     static const double MAX_FRAME_SKIP = 10;
 
+    static GAME_configuration conf;
+
     /*!
      * Costructor for the class Game.
      * Basically here we define all the parameters to instantiate a window 
@@ -46,6 +56,7 @@ public:
     void mainGameLoop();
 
     static sf::RenderWindow& getMainWindow();
+
 
 private:
     /*!
@@ -100,6 +111,8 @@ private:
      */
     void init();
 };
+
+
 
 #endif	/* GAME_H */
 

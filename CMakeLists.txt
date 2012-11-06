@@ -18,9 +18,12 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 # Search for required libraries 
 find_package(SFML 1.6 COMPONENTS system window graphics network audio REQUIRED)
 find_package(TinyXML REQUIRED)
+find_package(LibConfig++ REQUIRED)
 
 # Include all include directories
 include_directories(${SFML_INCLUDE_DIR})
+include_directories(${LIBCONFIG_INCLUDE_DIR})
+include_directories(${TCLAP_INCLUDE_DIR})
 include_directories(${TINYXML_INCLUDE_DIR})
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
@@ -28,7 +31,7 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 add_executable(wingsofwar ${WOWSOURCES})
 
 # Link all the libraries!
-target_link_libraries(wingsofwar ${SFML_LIBRARIES} ${TINYXML_LIBRARIES})
+target_link_libraries(wingsofwar ${SFML_LIBRARIES} ${TINYXML_LIBRARIES} ${LIBCONFIGPP_LIBRARIES})
 
 # Post build operation.
 # Copy required assets and shader from source to build.
@@ -40,6 +43,11 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
 execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/shaders
     ${CMAKE_BINARY_DIR}/shaders
+)
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/src/conf
+    ${CMAKE_BINARY_DIR}/conf
 )
 
 # TODO: Experimental: CPack Support!
