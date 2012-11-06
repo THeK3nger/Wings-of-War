@@ -1,7 +1,7 @@
 #include "World.h"
 
 World::World(float w, float h) :
-    width(w), height(w)
+    width(w), height(h)
 {}
 
 World::~World() {

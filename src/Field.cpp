@@ -71,6 +71,15 @@ void Field::init() {
 	sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
 	_camera.SetFromRect(frect);
 
+	// set the vertices of the world boudaries
+	this->_boundaries.AddPoint(0.f,0.f, sf::Color(0,0,0), sf::Color(0,0,0));
+	this->_boundaries.AddPoint(0.f,600.f, sf::Color(0,0,0), sf::Color(0,0,0));
+	this->_boundaries.AddPoint(800.f,600.f, sf::Color(0,0,0), sf::Color(0,0,0));
+	this->_boundaries.AddPoint(800.f,0.f, sf::Color(0,0,0), sf::Color(0,0,0));
+	this->_boundaries.EnableFill(false);
+	this->_boundaries.EnableOutline(true);
+	this->_boundaries.SetOutlineWidth(2);
+
 
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
@@ -380,6 +389,9 @@ void Field::draw() {
 	_window.Draw(_plane1->plane_sprite);
 	_window.Draw(_plane2->plane_sprite);
 
+	// FIELD BORDERS
+	_window.Draw(this->_boundaries);
+
 	if(this->_internal_state == Field::PREVIEW_MOVES){
 		_preview_plane_a->getPosition(preview_plane_a_pos);
 		_preview_plane_b->getPosition(preview_plane_b_pos);
@@ -405,8 +417,10 @@ void Field::draw() {
 	//HUD
 	_enemyLifebar->draw();
 	_playerLifebar->draw();
-	_okButton->draw();
-	_cancelButton->draw();
+	if(_internal_state == Field::PREVIEW_MOVES){
+		_okButton->draw();
+		_cancelButton->draw();
+	}
 
 	if(display_cards){
 		for(int i=0;i< _cards.size();i++)

@@ -23,7 +23,7 @@
 
 class Field {
 public:
-    Field();
+	Field();
 	~Field();
 	int handleEvents();
 
@@ -83,6 +83,7 @@ public:
 
 
 private:
+
 	/*!
 	 * \brief The FieldStatus enum represents external global status for Field.
 	 */
@@ -112,6 +113,11 @@ private:
 	World* _theWorld;
 
 	/*!
+	 * \brief boundaries is a rectangle for graphically showing the world boundaries
+	 */
+	sf::Shape _boundaries;
+
+	/*!
 	 * \brief lastEvent stores the last event
 	 */
 	sf::Event _lastEvent;
@@ -135,7 +141,7 @@ private:
 	 * \brief The States enum represent the game internal status.
 	 */
 	enum States {
-        INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, BULLET_ANIM, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
+		INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, BULLET_ANIM, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
 	};
 
 	/*!
@@ -143,10 +149,10 @@ private:
 	 */
 	States _internal_state;
 
-    /*!
-     * \brief _window stores a reference to main window.
-     */
-    sf::RenderWindow& _window;
+	/*!
+	 * \brief _window stores a reference to main window.
+	 */
+	sf::RenderWindow& _window;
 
 	/*!
 	 * \brief _camera stores the game camera.
@@ -219,8 +225,8 @@ private:
 	sf::Image gameover_image;
 	sf::Sprite gameover_sprite;
 
-    FireBullet* _bullet1;
-    FireBullet* _bullet2;
+	FireBullet* _bullet1;
+	FireBullet* _bullet2;
 };
 
 #endif	/* FIELD_H */
