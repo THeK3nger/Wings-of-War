@@ -2,6 +2,7 @@
 #define _H_IMAGERES_
 
 #include <SFML/Graphics.hpp>
+#include "wowcommon.h"
 #include "resources/Resource.h"
 #include "resources/ResourcesManager.h"
 #include "resources/ResourcesFactory.h"
@@ -29,7 +30,11 @@ inline ImageRes* GET_IMAGE_FROM_MANAGER(const std::string& id) {
 }
 
 inline sf::Image& GET_SFML_IMAGE_FROM_MANAGER(const std::string& id) {
-    return GET_IMAGE_FROM_MANAGER(id)->getSFMLImage();
+    ImageRes* desired = GET_IMAGE_FROM_MANAGER(id);
+    if (!desired->isLoaded()) {
+        FAIL; LOGMESSAGE("Resource " << id << " not loaded.");
+    }
+    return desired->getSFMLImage();
 }
 
 #endif
