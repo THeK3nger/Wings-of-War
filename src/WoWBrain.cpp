@@ -108,10 +108,15 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
         int child_value = -MAX_HEURISTIC;
 
         for (int i = 0; i < possible_moves_number; i++) {
+        	float restore_pos[3];
+        	this->_aiplane->getPosition(restore_pos);
             this->_aiplane->move(possible_moves[i]); // applies a move card
             actual_sequence->push_back(possible_moves[i]); // adds this manoeuvre to the actual sequence
             child_value = std::max(child_value, alphaBetaPruningStep(depth + 1, !maximizing, alpha, beta, actual_sequence, best_sequence, opponent));
-            this->_aiplane->revertMove(possible_moves[i], previous_move);
+//            this->_aiplane->revertMove(possible_moves[i], previous_move);
+            this->_aiplane->setX(restore_pos[0]);
+            this->_aiplane->setY(restore_pos[1]);
+            this->_aiplane->setT(restore_pos[2]);
 
             if (beta <= child_value) {
                 actual_sequence->pop_back();
@@ -139,6 +144,9 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             ai_damaged = false;
             opponent_damaged = false;
             
+            float restore_pos[3];
+            this->_opponent->getPosition(restore_pos);
+
             this->_opponent->move(possible_moves[i]); // applies a move card
 
             if (_aiplane->canShootTo(opponent)) { // if there are damages to be inflicted, inflict them
@@ -153,7 +161,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
             child_value = std::min(child_value, alphaBetaPruningStep(depth + 1, !maximizing, alpha, beta, actual_sequence, best_sequence, opponent)); // recursive call on the child
 
             // now restore previous state
-            this->_opponent->revertMove(possible_moves[i], previous_move); // reverts the move
+//            this->_opponent->revertMove(possible_moves[i], previous_move); // reverts the move
+            this->_opponent->setX(restore_pos[0]);
+            this->_opponent->setY(restore_pos[1]);
+            this->_opponent->setT(restore_pos[2]);
 
             if (opponent_damaged) opponent->heal_damage(this->expectedDamage()); // restores the damages
             if (ai_damaged) _aiplane->heal_damage(this->expectedDamage());
