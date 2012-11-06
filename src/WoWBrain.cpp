@@ -3,6 +3,7 @@
 #include "WoWBrain.h"
 #include "Plane.h"
 #include "World.h"
+#include "Game.h"
 
 WoWBrain::WoWBrain(Plane* plane, World * world) :
     _aiplane(plane), _current_world(world)
@@ -15,9 +16,15 @@ WoWBrain::WoWBrain(Plane* plane, World * world) :
         }
     }
     this->_weights = new int[3];
+    /*
     this->_weights[0] = 1; // Distance
     this->_weights[1] = 10; // CanShoot? CanSee?
     this->_weights[2] = 5; // HitPoint
+    */
+    this->_weights[0] = Game::conf.E_distance;
+    this->_weights[1] = Game::conf.E_visibility;
+    this->_weights[2] = Game::conf.E_health;
+
 }
 
 WoWBrain::WoWBrain(const WoWBrain& orig) {
@@ -78,7 +85,7 @@ std::vector<Card *> WoWBrain::returnBestCards(int howmany, float maxtime) {
 // TODO: this is still depth based, not time based
 
 int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent) {
-    if (depth == SEARCH_DEPTH) { // leaf node
+    if (depth == Game::conf.search_depth) { // leaf node
         int heur = this->computeHeuristic();
         if (heur > beta) return heur;
         if (heur > alpha) {

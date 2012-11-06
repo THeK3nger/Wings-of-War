@@ -7,7 +7,7 @@
 #include <limits.h>
 #include <vector>
 
-#define SEARCH_DEPTH 14 // must be an EVEN number
+//#define SEARCH_DEPTH 14 // must be an EVEN number
 #define CHOICES_PER_TURN 2 // can be at most 1/2 * SEARCH_DEPTH
 #define MAX_HEURISTIC INT_MAX
 #define MAX_THINK_TIME 10 // seconds limit for the AI to choose a move
