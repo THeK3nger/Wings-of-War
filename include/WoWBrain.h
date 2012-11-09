@@ -12,6 +12,17 @@
 #define MAX_HEURISTIC INT_MAX
 #define MAX_THINK_TIME 10 // seconds limit for the AI to choose a move
 
+class Sequence{
+public:
+	std::vector<Card*> cards;
+	int heuristic_value;
+
+	Sequence();
+	Sequence(Sequence * to_be_copied);
+	~Sequence();
+	void copy(Sequence * to_be_copied);
+};
+
 class WoWBrain {
 public:
     WoWBrain(Plane* plane, World * world);
@@ -46,6 +57,8 @@ public:
      */
     std::vector<Card *> returnBestCards(int howmany, float maxtime);
 
+    std::vector<Card *> returnBestCards_neogen(int howmany);
+
     /*!
      * Return a pointer to a list of Cards representing all the possible
      * moves available to the given plane in the current state.
@@ -73,6 +86,12 @@ private:
      * \param depth the reached depth
      */
     int alphaBetaPruningStep(int depth, bool maximizing, int &alpha, int &beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * _opponent);
+
+    /*!
+     * Implements the alphaBetaPruning algorithm
+     * \param depth the reached depth
+     */
+    Sequence * alphaBetaPruningStep_neogen(int depth, bool maximizing, Sequence * alpha, Sequence * beta, std::vector<Card *> * actual_sequence);
 
     World *_current_world;
     Plane *_aiplane;
