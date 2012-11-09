@@ -245,6 +245,8 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
+			delete local_alpha;
+			delete local_beta;
 			ret = new Sequence();
 			ret->heuristic_value = -MAX_HEURISTIC;
 			return ret;
@@ -278,8 +280,10 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 			if (local_beta->heuristic_value <= local_alpha->heuristic_value) {	// beta cut-off (MIN player can do better with different choices, so we can avoid further searching)
 				delete[] possible_moves;
+//				delete local_alpha;
+//				delete local_beta;
 				ret = local_alpha;
-				break;
+				return ret;
 			}
 		}
 		ret = local_alpha;
@@ -290,6 +294,8 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
+			delete local_alpha;
+			delete local_beta;
 			ret = new Sequence();
 			ret->heuristic_value = MAX_HEURISTIC;
 			return ret;
@@ -336,8 +342,10 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 			if (local_beta->heuristic_value <= local_alpha->heuristic_value) {	// alpha cut-off (MAX player can do better with different choices, so we can avoid further searching)
 				delete[] possible_moves;
+//				delete local_alpha;
+//				delete local_beta;
 				ret = local_beta;
-				break;
+				return ret;
 			}
 		}
 
