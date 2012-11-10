@@ -84,6 +84,8 @@ public:
 
 private:
 
+	int outcome;	// outcome will be positive if the AI wins, negative if PLAYER wins, and zero on a DRAW
+
 	/*!
 	 * \brief The FieldStatus enum represents external global status for Field.
 	 */
@@ -222,8 +224,12 @@ private:
 	sf::Sprite plane1_shadow;
 	sf::Sprite plane2_shadow;
 
+	sf::Sprite * winner_plane_sprite;
+
 	sf::Image gameover_image;
 	sf::Sprite gameover_sprite;
+	sf::Image the_winner_is_image;
+	sf::Sprite the_winner_is_sprite;
 
 	FireBullet* _bullet1;
 	FireBullet* _bullet2;

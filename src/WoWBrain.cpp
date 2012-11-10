@@ -79,7 +79,6 @@ std::vector<Card *> WoWBrain::returnBestCards() {
 	int choice_lenght;
 	int choice_heur = alphaBetaPruningStep(0, true, alpha, beta, &actual_sequence, best_choice, choice_lenght);
 
-//	std::cout << "computed choice: "; best_choice->print(); std::cout << std::endl;
 	std::cout << "computed heur:\t" << choice_heur << ",\tseq_lenght:\t" << choice_lenght << std::endl;
 	std::vector<Card *> ret;
 	for(int i=0; i<CHOICES_PER_TURN; i++){
@@ -112,10 +111,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-//			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
-//				choice[i] = (*actual_sequence)[i];
-//				choice_lenght = i+1;
-//			}
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
 			return this->computeHeuristic();
 		}
 
@@ -161,10 +160,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-//			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
-//				choice[i] = (*actual_sequence)[i];
-//				choice_lenght = i+1;
-//			}
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
 			return this->computeHeuristic();
 		}
 

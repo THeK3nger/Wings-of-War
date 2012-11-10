@@ -23,8 +23,13 @@ Field::~Field() {
 void Field::init() {
 	_bgmusic.Play();
 
+	this->outcome = 0;
+
 	gameover_image = GET_SFML_IMAGE_FROM_MANAGER("gameover");
 	gameover_sprite.SetImage(gameover_image);
+
+	the_winner_is_image = GET_SFML_IMAGE_FROM_MANAGER("the_winner_is");
+	the_winner_is_sprite.SetImage(the_winner_is_image);
 
 	LOGMESSAGE("Initialize Plane 1");
 	_plane1 = new Plane(0, 10, 400, 300, 0);
@@ -266,12 +271,14 @@ void Field::update() {
 		if (plane1_out){ // opponent plane is out of bounds
 			game_finished = true;
 			if (plane2_out){ // BOTH planes out of bounds
+				this->outcome = 0;
 #if DEBUG
 				LOGMESSAGE("both planes out of bounds!");
 #endif
 
 			}
 			else{ // ONLY OPPONENT is out of bounds
+				this->outcome = 1;
 #if DEBUG
 				LOGMESSAGE("PLAYER out of bounds!");
 #endif
@@ -280,6 +287,7 @@ void Field::update() {
 		}
 		else if (plane2_out){   // ONLY AI plane out of bounds
 			game_finished = true;
+			this->outcome = -1;
 #if DEBUG
 			LOGMESSAGE("AI PLANE out of bounds!");
 #endif
@@ -290,12 +298,14 @@ void Field::update() {
 			if (_plane1->remainingHealth() <= 0){ // PLAYER DIED
 				game_finished = true;
 				if (_plane2->remainingHealth() <= 0){ // AI DIED TOO
+					this->outcome = 0;
 #if DEBUG
 					LOGMESSAGE("BOTH PLANES destroyed!");
 #endif
 
 				}
 				else{
+					this->outcome = 1;
 #if DEBUG
 					LOGMESSAGE("OPPONENT destroyed!");
 #endif
@@ -304,6 +314,7 @@ void Field::update() {
 			}
 			else if(_plane2->remainingHealth() <= 0){ // ONLY AI DIED
 				game_finished = true;
+				this->outcome = -1;
 #if DEBUG
 				LOGMESSAGE("AI plane destroyed!");
 #endif
@@ -369,6 +380,19 @@ void Field::update() {
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
 		_window.Draw(gameover_sprite);
+		if(this->outcome != 0){
+			the_winner_is_sprite.SetPosition(250,100);
+			_window.Draw(the_winner_is_sprite);
+			if(this->outcome > 0){
+				this->winner_plane_sprite = &(this->_plane2->plane_sprite);
+			}
+			else{
+				this->winner_plane_sprite = &(this->_plane1->plane_sprite);
+			}
+			winner_plane_sprite->SetPosition(the_winner_is_sprite.GetPosition().x+the_winner_is_sprite.GetSize().x + winner_plane_sprite->GetSize().x/2 + 30,	the_winner_is_sprite.GetPosition().y + the_winner_is_sprite.GetSize().y/2);
+			winner_plane_sprite->SetRotation(0);
+			_window.Draw(*winner_plane_sprite);
+		}
 		return;
 	}
 

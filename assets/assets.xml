@@ -3,6 +3,7 @@
 <resource id="splashscreen" type="image" scope="0">./assets/splashscreen.png</resource>
 <resource id="fighter" type="image" scope="0">./assets/fighter.png</resource>
 <resource id="gameover" type="image" scope="0">./assets/gameover.png</resource>
+<resource id="the_winner_is" type="image" scope="0">./assets/the_winner_is.png</resource>
 <!--************************  LEVEL SCOPE ************************-->
 <!-- == CARDS == -->
 <resource id="card_left_long" type="image" scope="1">./assets/arrows/left_long.png</resource>
