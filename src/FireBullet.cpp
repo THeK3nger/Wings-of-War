@@ -17,6 +17,8 @@ FireBullet::FireBullet(float start_x, float start_y, float final_x, float final_
     _current_y =_yi;
     _bullet_sprite.SetPosition(_current_x,_current_y);
     _bullet_sprite.SetRotation(radiants2degrees(_angle));
+    sf::Vector2f sprite_size = this->_bullet_sprite.GetSize();
+    this->_bullet_sprite.SetCenter(sprite_size.x/2, sprite_size.y/2);
 }
 
 FireBullet::~FireBullet() {}

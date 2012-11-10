@@ -567,7 +567,7 @@ int Field::handleEvents() {
 				break;
 
 			case sf::Event::MouseMoved:
-				mouseMoved(_lastEvent.MouseMove.X,_lastEvent.MouseMove.Y);
+//				mouseMoved(_lastEvent.MouseMove.X,_lastEvent.MouseMove.Y);
 				break;
 
 			default:
