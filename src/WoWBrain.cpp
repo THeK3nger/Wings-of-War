@@ -130,8 +130,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 			// recursive call
 			Card ** child_seq;
-			int child_lenght;
-			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_lenght);
+			int child_length;
+			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
 			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
 
 			// restore the status
@@ -143,11 +143,9 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			// analyze this child
 			if(alpha < child_heur){
 				alpha = child_heur;
-				for(int i=0; i<child_lenght; i++){
-					choice[i] = child_seq[i];
-					choice_lenght = i+1;
-				}
-				delete[] child_seq;
+				delete[] choice;
+				choice = child_seq;
+				choice_lenght = child_length;
 			}
 			else{	// it's just a fluffy son, let's get rid of it (alpha is greater, hence MAX player has a better chance)
 				delete[] child_seq;
@@ -193,8 +191,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 			// recursive call
 			Card ** child_seq;
-			int child_lenght;
-			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_lenght);
+			int child_length;
+			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
 
 			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
 
@@ -209,11 +207,9 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 			if(beta > child_heur){
 				beta = child_heur;
-				for(int i=0; i<child_lenght; i++){
-					choice[i] = child_seq[i];
-					choice_lenght = i+1;
-				}
-				delete[] child_seq;
+				delete[] choice;
+				choice = child_seq;
+				choice_lenght = child_length;
 			}
 			else{	// it's just a fluffy son, let's get rid of it (beta is lower, hence MIN player has a better chance)
 				delete child_seq;
