@@ -158,7 +158,7 @@ void Field::update() {
 		break;
 	case Field::BRAIN_SELECT:
 //		ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
-		ai_choices = this->_theBrain->returnBestCards_neogen(CHOICES_PER_TURN);
+		ai_choices = this->_theBrain->returnBestCards();
 #if DEBUG
 		LOGMESSAGE("AI has chosen!");
 #endif

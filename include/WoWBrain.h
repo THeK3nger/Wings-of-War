@@ -10,17 +10,24 @@
 //#define SEARCH_DEPTH 14 // must be an EVEN number
 #define CHOICES_PER_TURN 2 // can be at most 1/2 * SEARCH_DEPTH
 #define MAX_HEURISTIC INT_MAX
+#define MIN_HEURISTIC INT_MIN
+//#define MAX_PLAYER_OUT_HEUR (MIN_HEURISTIC+1)
+//#define MIN_PLAYER_OUT_HEUR (MAX_HEURISTIC-1)
 #define MAX_THINK_TIME 10 // seconds limit for the AI to choose a move
 
 class Sequence{
+	bool cards_initialized;
 public:
-	std::vector<Card*> cards;
+	std::vector<Card*> *cards;
 	int heuristic_value;
 
 	Sequence();
 	Sequence(Sequence * to_be_copied);
 	~Sequence();
+	void initCards();
+	bool cardsExist();
 	void copy(Sequence * to_be_copied);
+	void print();
 };
 
 class WoWBrain {
@@ -50,14 +57,12 @@ public:
      * 
      * Implemented with Iterative-Deepening-Search with Alpha-Beta Pruning.
      * 
-     * \param maxtime Time limit (NOW UNUSED).
      * \param howmany number of cards that must be returned
      * 
      * \return A pointer to the best available move. (FUTURE: best 3-moves).
      */
-    std::vector<Card *> returnBestCards(int howmany, float maxtime);
 
-    std::vector<Card *> returnBestCards_neogen(int howmany);
+    std::vector<Card *> returnBestCards();
 
     /*!
      * Return a pointer to a list of Cards representing all the possible
@@ -84,14 +89,9 @@ private:
     /*!
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
+     * \return True if in choice has been put a valid Sequence
      */
-    int alphaBetaPruningStep(int depth, bool maximizing, int &alpha, int &beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * _opponent);
-
-    /*!
-     * Implements the alphaBetaPruning algorithm
-     * \param depth the reached depth
-     */
-    Sequence * alphaBetaPruningStep_neogen(int depth, bool maximizing, Sequence * alpha, Sequence * beta, std::vector<Card *> * actual_sequence);
+    int alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, Card** &choice, int &choice_lenght);
 
     World *_current_world;
     Plane *_aiplane;

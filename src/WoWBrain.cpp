@@ -68,176 +68,43 @@ int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) { // WARNING: th
 	return count;
 }
 
-std::vector<Card *> WoWBrain::returnBestCards(int howmany, float maxtime) {
-
-	std::vector<Card *> actual_sequence;
-	std::vector<Card *> best_sequence;
-
-	// TODO: this should use the "maxtime" given
-
-	int alpha = -MAX_HEURISTIC;
+std::vector<Card *> WoWBrain::returnBestCards() {
+	int alpha = MIN_HEURISTIC;
 	int beta = MAX_HEURISTIC;
-
-	int best_heur = alphaBetaPruningStep(0, true, alpha, beta, &actual_sequence, &best_sequence, this->_opponent);
-	std::cout << "THE BEST HEURISTIC IS: " << best_heur << std::endl;
-
-	while (best_sequence.size() > howmany) best_sequence.pop_back();
-
-	return best_sequence;
-}
-
-// TODO: this is still depth based, not time based
-
-int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int &alpha, int &beta, std::vector<Card *> * actual_sequence, std::vector<Card *> * best_sequence, Plane * opponent) {
-	if (depth == Game::conf.search_depth) { // leaf node
-		int heur = this->computeHeuristic();
-		if (heur > beta) return heur;
-		if (heur > alpha) {
-			best_sequence->clear();
-			for (int i = 0; i < actual_sequence->size(); i++) {
-				best_sequence->push_back((*actual_sequence)[i]);
-			}
-			std::cout << "best heuristic: " << heur << std::endl;
-			alpha = heur;
-		}
-		return heur;
-	}
-
-	Card ** possible_moves;
-	int possible_moves_number = 0;
-
-	Card::CType previous_move;
-
-	if (maximizing) { // AI PLAYER
-		possible_moves = new Card*[_aiplane->getCardSet()->cards_number];
-		previous_move = this->_aiplane->getLastMove();
-		possible_moves_number = this->nextValidMoves(this->_aiplane, possible_moves);
-
-		if (possible_moves_number == 0) {
-			delete[] possible_moves;
-			return -MAX_HEURISTIC;
-		}
-
-		int child_value = -MAX_HEURISTIC;
-
-		for (int i = 0; i < possible_moves_number; i++) {
-			float restore_pos[3];
-			this->_aiplane->getPosition(restore_pos);
-			this->_aiplane->move(possible_moves[i]); // applies a move card
-			actual_sequence->push_back(possible_moves[i]); // adds this manoeuvre to the actual sequence
-			child_value = std::max(child_value, alphaBetaPruningStep(depth + 1, !maximizing, alpha, beta, actual_sequence, best_sequence, opponent));
-			//            this->_aiplane->revertMove(possible_moves[i], previous_move);
-			this->_aiplane->setX(restore_pos[0]);
-			this->_aiplane->setY(restore_pos[1]);
-			this->_aiplane->setT(restore_pos[2]);
-
-			if (beta <= child_value) {
-				actual_sequence->pop_back();
-				delete[] possible_moves;
-				return child_value;
-			}
-
-			alpha = std::max(alpha, child_value);
-
-			actual_sequence->pop_back();
-		}
-	} else { // OPPONENT PLAYER
-		possible_moves = new Card*[_opponent->getCardSet()->cards_number];
-		previous_move = this->_opponent->getLastMove();
-		possible_moves_number = this->nextValidMoves(this->_opponent, possible_moves);
-		if (possible_moves_number == 0) {
-			delete[] possible_moves;
-			return MAX_HEURISTIC;
-		}
-		int child_value = MAX_HEURISTIC;
-		bool ai_damaged = false;
-		bool opponent_damaged = false;
-
-		for (int i = 0; i < possible_moves_number; i++) {
-			ai_damaged = false;
-			opponent_damaged = false;
-
-			float restore_pos[3];
-			this->_opponent->getPosition(restore_pos);
-
-			this->_opponent->move(possible_moves[i]); // applies a move card
-
-			if (_aiplane->canShootTo(opponent)) { // if there are damages to be inflicted, inflict them
-				opponent_damaged = true;
-				opponent->inflictDamage(this->expectedDamage());
-			}
-			if (opponent->canShootTo(_aiplane)) {
-				ai_damaged = true;
-				_aiplane->inflictDamage(this->expectedDamage());
-			}
-
-			child_value = std::min(child_value, alphaBetaPruningStep(depth + 1, !maximizing, alpha, beta, actual_sequence, best_sequence, opponent)); // recursive call on the child
-
-			// now restore previous state
-			//            this->_opponent->revertMove(possible_moves[i], previous_move); // reverts the move
-			this->_opponent->setX(restore_pos[0]);
-			this->_opponent->setY(restore_pos[1]);
-			this->_opponent->setT(restore_pos[2]);
-
-			if (opponent_damaged) opponent->heal_damage(this->expectedDamage()); // restores the damages
-			if (ai_damaged) _aiplane->heal_damage(this->expectedDamage());
-
-			if (child_value <= alpha) {
-				delete[] possible_moves;
-				return child_value;
-			}
-
-			beta = std::min(beta, child_value);
-		}
-	}
-
-	delete possible_moves;
-	return (maximizing ? alpha : beta);
-}
-
-std::vector<Card *> WoWBrain::returnBestCards_neogen(int howmany) {
-	Sequence alpha;
-	Sequence beta;
-	alpha.heuristic_value = -MAX_HEURISTIC;
-	beta.heuristic_value = MAX_HEURISTIC;
 
 	std::vector<Card *> actual_sequence;
 
 	std::cout << "launching the alpha-beta pruning algorithm" << std::endl;
-	Sequence * best_choice = alphaBetaPruningStep_neogen(0, true, &alpha, &beta, &actual_sequence);
+	Card ** best_choice;
+	int choice_lenght;
+	int choice_heur = alphaBetaPruningStep(0, true, alpha, beta, &actual_sequence, best_choice, choice_lenght);
 
-	std::cout << "computed heuristic: " << best_choice->heuristic_value << std::endl;
-
+//	std::cout << "computed choice: "; best_choice->print(); std::cout << std::endl;
+	std::cout << "computed heur:\t" << choice_heur << ",\tseq_lenght:\t" << choice_lenght << std::endl;
 	std::vector<Card *> ret;
-	for(unsigned int i = 0; i<howmany; i++){
-		ret.push_back((best_choice->cards)[i]);
+	for(int i=0; i<CHOICES_PER_TURN; i++){
+		ret.push_back(best_choice[i]);
 	}
 
-	delete best_choice;
+	delete[] best_choice;
 
 	return ret;
 }
 
-Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Sequence * alpha, Sequence * beta, std::vector<Card *> * actual_sequence) {
-	Sequence * ret;	// this will be the returned sequence
+int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int beta, std::vector<Card *> * actual_sequence, Card** &choice, int &choice_lenght) {
+	choice = new Card*[CHOICES_PER_TURN];	// this is the returned pointer
+	choice_lenght = -1;
 
 	if(depth == Game::conf.search_depth) { // leaf node
-		ret = new Sequence();
-		for(unsigned int i=0; i<actual_sequence->size(); i++){
-			ret->cards.push_back((*actual_sequence)[i]);
+		for(unsigned int i=0; i<CHOICES_PER_TURN; i++){
+			choice[i] = (*actual_sequence)[i];
 		}
-		ret->heuristic_value = this->computeHeuristic();
-
-		return ret;
+		choice_lenght = CHOICES_PER_TURN;
+		return this->computeHeuristic();
 	}
 
 	Card ** possible_moves;
 	int possible_moves_number = 0;
-
-	Sequence * local_alpha = new Sequence(alpha);
-	Sequence * local_beta = new Sequence(beta);
-
-	Sequence * child_sequence;
 
 	if (maximizing) { // AI PLAYER
 		possible_moves = new Card*[_aiplane->getCardSet()->cards_number];
@@ -245,11 +112,12 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-			delete local_alpha;
-			delete local_beta;
-			ret = new Sequence();
-			ret->heuristic_value = -MAX_HEURISTIC;
-			return ret;
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
+			//			std::cout << "returning: "; ret->print(); std::cout << std::endl;
+			return this->computeHeuristic();
 		}
 
 		for (int i = 0; i < possible_moves_number; i++) {
@@ -261,7 +129,10 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 			actual_sequence->push_back(possible_moves[i]); // adds this manoeuvre to the actual sequence
 
 			// recursive call
-			child_sequence = alphaBetaPruningStep_neogen(depth + 1, !maximizing, local_alpha, local_beta, actual_sequence);
+			Card ** child_seq;
+			int child_lenght;
+			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_lenght);
+			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
 
 			// restore the status
 			actual_sequence->pop_back();
@@ -270,23 +141,22 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 			this->_aiplane->setT(restore_pos[2]);
 
 			// analyze this child
-			if(local_alpha->heuristic_value < child_sequence->heuristic_value){
-				delete local_alpha;
-				local_alpha = child_sequence;
+			if(alpha < child_heur){
+				alpha = child_heur;
+				for(int i=0; i<child_lenght; i++){
+					choice[i] = child_seq[i];
+					choice_lenght = i+1;
+				}
+				delete[] child_seq;
 			}
 			else{	// it's just a fluffy son, let's get rid of it (alpha is greater, hence MAX player has a better chance)
-				delete child_sequence;
+				delete[] child_seq;
 			}
 
-			if (local_beta->heuristic_value <= local_alpha->heuristic_value) {	// beta cut-off (MIN player can do better with different choices, so we can avoid further searching)
-				delete[] possible_moves;
-//				delete local_alpha;
-//				delete local_beta;
-				ret = local_alpha;
-				return ret;
+			if (beta <= alpha) {	// beta cut-off (MIN player can do better with different choices, so we can avoid further searching)
+				break;
 			}
 		}
-		ret = local_alpha;
 	}
 	else{	// OPPONENT PLAYER
 		possible_moves = new Card*[_opponent->getCardSet()->cards_number];
@@ -294,11 +164,12 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-			delete local_alpha;
-			delete local_beta;
-			ret = new Sequence();
-			ret->heuristic_value = MAX_HEURISTIC;
-			return ret;
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
+			//			std::cout << "returning: "; ret->print(); std::cout << std::endl;
+			return this->computeHeuristic();
 		}
 
 		bool opponent_damaged = false, ai_damaged = false;
@@ -321,7 +192,11 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 			}
 
 			// recursive call
-			child_sequence = alphaBetaPruningStep_neogen(depth + 1, !maximizing, alpha, beta, actual_sequence);
+			Card ** child_seq;
+			int child_lenght;
+			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_lenght);
+
+			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
 
 			// restore the status
 			this->_opponent->setX(restore_pos[0]);
@@ -331,28 +206,29 @@ Sequence * WoWBrain::alphaBetaPruningStep_neogen(int depth, bool maximizing, Seq
 			if (ai_damaged) _aiplane->heal_damage(this->expectedDamage());
 
 			// analyze this child
-			if(local_beta->heuristic_value > child_sequence->heuristic_value){
-				delete local_beta;
-				local_beta = child_sequence;
 
+			if(beta > child_heur){
+				beta = child_heur;
+				for(int i=0; i<child_lenght; i++){
+					choice[i] = child_seq[i];
+					choice_lenght = i+1;
+				}
+				delete[] child_seq;
 			}
 			else{	// it's just a fluffy son, let's get rid of it (beta is lower, hence MIN player has a better chance)
-				delete child_sequence;
+				delete child_seq;
 			}
 
-			if (local_beta->heuristic_value <= local_alpha->heuristic_value) {	// alpha cut-off (MAX player can do better with different choices, so we can avoid further searching)
-				delete[] possible_moves;
-//				delete local_alpha;
-//				delete local_beta;
-				ret = local_beta;
-				return ret;
+			if (beta <= alpha) {	// alpha cut-off (MAX player can do better with different choices, so we can avoid further searching)
+				break;
 			}
+
 		}
-
-		ret = local_beta;
 	}
 
-	return ret;
+	delete[] possible_moves;
+	//	std::cout << "returning: "; ret->print(); std::cout << std::endl;
+	return (maximizing? alpha : beta);
 }
 
 int WoWBrain::computeHeuristic() {
@@ -366,48 +242,26 @@ int WoWBrain::computeHeuristic() {
 	//
 	// Score(X,s) = w1*ShotValue(X,s) + w2*RemainingLife(X,s)
 	//
-	// ShotValue is a function that can assume the following values:
-	//          * 0 if Plane X CANNOT see Y
-	//          * 1 if Plane X can see Y but CANNOT shoot it (out of range)
-	//          * 2 if Plane X can see and shoot on Y
+	// The values that ShotValue can assume are specified in the Plane::evalueatePlanePosition method
 	//
 	// RamainingLife, instead, is just the amount of remaining life points
 	// of the Plane X.
 	//
-	if (this->_aiplane->remainingHealth() <= 0 || !this->_current_world->isInside(this->_aiplane)) {
-		return -MAX_HEURISTIC+1;
-	}
 
-	if (this->_opponent->remainingHealth() <= 0 || !this->_current_world->isInside(this->_opponent)) {
-		return MAX_HEURISTIC-1;
-	}
-
-	float aipos[3];
-	float opponentpos[3];
-	this->_aiplane->getPosition(aipos);
-	this->_opponent->getPosition(opponentpos);
-
-	// Compute Manhattan Distance
-	// I don't use this for now. It's a tricky part...
-	//int manhattan = (int) abs(aipos[0] - opponentpos[0]);
-	//manhattan += (int) abs(aipos[1] - opponentpos[1]);
+	//	float aipos[3];
+	//	float opponentpos[3];
+	//	this->_aiplane->getPosition(aipos);
+	//	this->_opponent->getPosition(opponentpos);
 
 	// Compute ShotValue
 	int aivalue = _aiplane->evalueatePlanePosition(_opponent);
+	if (this->_aiplane->remainingHealth() <= 0 || !this->_current_world->isInside(this->_aiplane)) {
+		aivalue = aivalue - 10000;
+	}
 	int opponentvalue = _opponent->evalueatePlanePosition(_aiplane);
-
-	//    if (_aiplane->canSee(_opponent)) {
-	//        aivalue++;
-	//    }
-	//    if (_opponent->canSee(_aiplane)) {
-	//        opponentvalue++;
-	//    }
-	//    if (_aiplane->canShootTo(_opponent)) {
-	//        aivalue++;
-	//    }
-	//    if (_opponent->canShootTo(_aiplane)) {
-	//        opponentvalue++;
-	//    }
+	if (this->_opponent->remainingHealth() <= 0 || !this->_current_world->isInside(this->_opponent)) {
+		opponentvalue = opponentvalue - 10000;
+	}
 
 	int aiscore = _weights[1] * aivalue + _weights[2]*(_aiplane->remainingHealth());
 	int opponentscore = _weights[1] * opponentvalue + _weights[2]*(_opponent->remainingHealth());
@@ -420,21 +274,53 @@ int WoWBrain::expectedDamage() {
 }
 
 Sequence::Sequence(){
+	this->cards_initialized = false;
 }
 
 Sequence::Sequence(Sequence * to_be_copied){
+	this->cards = new std::vector<Card*>();
+	this->cards_initialized = true;
 	this->heuristic_value = to_be_copied->heuristic_value;
-	for(unsigned int i=0; i<to_be_copied->cards.size(); i++){
-		this->cards.push_back(to_be_copied->cards[i]);
+	for(unsigned int i=0; i<to_be_copied->cards->size(); i++){
+		this->cards->push_back((*to_be_copied->cards)[i]);
 	}
 }
 
 Sequence::~Sequence(){
+	if(this->cards_initialized){
+		delete this->cards;
+	}
+}
+
+void Sequence::initCards(){
+	this->cards = new std::vector<Card*>();
+	this->cards_initialized = true;
+}
+
+bool Sequence::cardsExist(){
+	return this->cards_initialized;
 }
 
 void Sequence::copy(Sequence * to_be_copied){
-	this->heuristic_value = to_be_copied->heuristic_value;
-	for(unsigned int i=0; i<to_be_copied->cards.size(); i++){
-		this->cards.push_back(to_be_copied->cards[i]);
+	if(this->cards_initialized){
+		delete this->cards;
 	}
+	this->heuristic_value = to_be_copied->heuristic_value;
+	if(to_be_copied->cardsExist()){
+		this->cards_initialized = true;
+		this->cards = to_be_copied->cards;
+	}
+	else{
+		this->cards_initialized = false;
+	}
+}
+
+void Sequence::print(){
+	if(cards_initialized){
+		std::cout << "seq_length = " << this->cards->size();
+	}
+	else{
+		std::cout << "no_cards";
+	}
+	std::cout << ", heurValue = " << this->heuristic_value;
 }
