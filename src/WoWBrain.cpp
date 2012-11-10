@@ -112,11 +112,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
-				choice[i] = (*actual_sequence)[i];
-				choice_lenght = i+1;
-			}
-			//			std::cout << "returning: "; ret->print(); std::cout << std::endl;
+//			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+//				choice[i] = (*actual_sequence)[i];
+//				choice_lenght = i+1;
+//			}
 			return this->computeHeuristic();
 		}
 
@@ -162,11 +161,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 
 		if (possible_moves_number == 0) {	// From here, there are no moves (the plane is going out)
 			delete[] possible_moves;
-			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
-				choice[i] = (*actual_sequence)[i];
-				choice_lenght = i+1;
-			}
-			//			std::cout << "returning: "; ret->print(); std::cout << std::endl;
+//			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+//				choice[i] = (*actual_sequence)[i];
+//				choice_lenght = i+1;
+//			}
 			return this->computeHeuristic();
 		}
 
