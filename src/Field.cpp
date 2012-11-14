@@ -515,10 +515,6 @@ void Field::mouseMoved(float x, float y)
 	if(_mouse_down){
 		_xdisplacement += x - _xstart;
 		_ydisplacement += y - _ystart;
-		if (_xdisplacement > 0) _xdisplacement = 0;
-		if (-_xdisplacement > this->_theWorld->getWidth()) _xdisplacement = -this->_theWorld->getWidth();
-		if (_ydisplacement > 0) _ydisplacement = 0;
-		if (-_ydisplacement > this->_theWorld->getHeight()) _ydisplacement = -this->_theWorld->getHeight();
 		_xstart = x;
 		_ystart = y;
 	}
