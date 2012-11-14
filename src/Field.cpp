@@ -76,16 +76,6 @@ void Field::init() {
 	sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
 	_camera.SetFromRect(frect);
 
-	// set the vertices of the world boudaries
-	this->_boundaries.AddPoint(0.f,0.f, sf::Color(0,0,0), sf::Color(0,0,0));
-	this->_boundaries.AddPoint(0.f,600.f, sf::Color(0,0,0), sf::Color(0,0,0));
-	this->_boundaries.AddPoint(800.f,600.f, sf::Color(0,0,0), sf::Color(0,0,0));
-	this->_boundaries.AddPoint(800.f,0.f, sf::Color(0,0,0), sf::Color(0,0,0));
-	this->_boundaries.EnableFill(false);
-	this->_boundaries.EnableOutline(true);
-	this->_boundaries.SetOutlineWidth(2);
-
-
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
 	CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
@@ -396,6 +386,9 @@ void Field::draw() {
 		return;
 	}
 
+    // Set the camera according to the zoom
+    _window.SetView(this->_camera);
+
 	// TODO: adjust this, it is just for testing
 	for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
 		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
@@ -405,17 +398,11 @@ void Field::draw() {
 		}
 	}
 
-	// Set the camera according to the zoom
-	_window.SetView(this->_camera);
-
 	// Now draw things that must be affected by the zoom...
 	_window.Draw(plane1_shadow);
 	_window.Draw(plane2_shadow);
 	_window.Draw(_plane1->plane_sprite);
 	_window.Draw(_plane2->plane_sprite);
-
-	// FIELD BORDERS
-	_window.Draw(this->_boundaries);
 
 	if(this->_internal_state == Field::PREVIEW_MOVES){
 		_preview_plane_a->getPosition(preview_plane_a_pos);
@@ -455,11 +442,6 @@ void Field::draw() {
 }
 
 /************ EVENT HANDLER **********/
-void Field::zoom(float z)
-{
-	this->_camera.Zoom(z);
-}
-
 void Field::stop()
 {
 	this->_status = TERMINATED;
@@ -486,12 +468,14 @@ void Field::mouseLeftReleased(float x, float y)
 
 	int clicked_card = -1;
 
+
 	//check for click on cards area
 	for(int i=0; i<this->_plane1->getCardSet()->cards_number; i++){
-		if(		x>=_cards[i]->clickableArea->Left &&
-				y>=_cards[i]->clickableArea->Top &&
-				x<=_cards[i]->clickableArea->Left+_cards[0]->clickableArea->Right &&
-				y<=_cards[i]->clickableArea->Top + _cards[0]->clickableArea->Bottom)
+        sf::Rect<int>* clickableArea = _cards[i]->clickableArea;
+        if(		x>=clickableArea->Left &&
+                y>=clickableArea->Top &&
+                x<=clickableArea->Left+_cards[0]->clickableArea->Right &&
+                y<=clickableArea->Top +_cards[0]->clickableArea->Bottom)
 		{
 			clicked_card = i;
 			break;
@@ -524,7 +508,6 @@ void Field::mouseLeftReleased(float x, float y)
 	}
 
 	//check for click in buttons area
-
 }
 
 void Field::mouseMoved(float x, float y)
@@ -543,64 +526,57 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
 	//note GetEvent ALWAYS in if() or while()
-	while(_window.GetEvent(_lastEvent))
-	{
-		switch(_lastEvent.Type){
-		case sf::Event::KeyPressed:
-			switch(_lastEvent.Key.Code){
-			case sf::Key::Num1:
-				zoom(1.1f);
-				break;
-			case sf::Key::Num2:
-				zoom(0.9f);
-				break;
-			case sf::Key::Escape:
-				stop();
-				break;
-			case sf::Key::Return:
-				if(this->_internal_state == Field::PREVIEW_MOVES){
-					this->_internal_state = Field::BRAIN_SELECT;
-				}
-				break;
-			case sf::Key::Delete:
-				if(this->_internal_state == Field::PREVIEW_MOVES){
-					player_choices.clear();
-					this->_internal_state = Field::PLAYER_SELECT;
-				}
-				break;
-			default:
-				break;
-			} // END OF KEY.CODE SWITCH
-			break;
+    sf::Event event;
+    while(_window.GetEvent(event))
+    {
 
-			case sf::Event::MouseWheelMoved:
-				if(_lastEvent.MouseWheel.Delta<0) zoom(1.1f);
-				else zoom(0.9f);
-				break;
+        switch(event.Type){
+        case sf::Event::KeyPressed:
+            switch(event.Key.Code){
+            case sf::Key::Escape:
+                stop();
+                break;
+            case sf::Key::Return:
+                if(this->_internal_state == Field::PREVIEW_MOVES){
+                    this->_internal_state = Field::BRAIN_SELECT;
+                }
+                break;
+            case sf::Key::Delete:
+                if(this->_internal_state == Field::PREVIEW_MOVES){
+                    player_choices.clear();
+                    this->_internal_state = Field::PLAYER_SELECT;
+                }
+                break;
+            default:
+                break;
+            } // END OF KEY.CODE SWITCH
+            break;
 
-			case sf::Event::MouseButtonPressed:
-				if (_lastEvent.MouseButton.Button == sf::Mouse::Left){
-					mouseLeftPressed(_lastEvent.MouseButton.X,_lastEvent.MouseButton.Y);
-				}
-				break;
+        case sf::Event::MouseMoved:
+            mouseMoved(event.MouseMove.X,event.MouseMove.Y);
+            break;
 
-			case sf::Event::MouseButtonReleased:
-				if(_lastEvent.MouseButton.Button == sf::Mouse::Left){
-					mouseLeftReleased(_lastEvent.MouseButton.X,_lastEvent.MouseButton.Y);
-				}
-				break;
+        case sf::Event::MouseWheelMoved:
+            if(event.MouseWheel.Delta<0) this->_camera.Zoom(1.1f);
+            else this->_camera.Zoom(0.9f);
+            break;
 
-			case sf::Event::MouseMoved:
-//				mouseMoved(_lastEvent.MouseMove.X,_lastEvent.MouseMove.Y);
-				break;
+        case sf::Event::MouseButtonPressed:
+            if (event.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftPressed(event.MouseButton.X,event.MouseButton.Y);
+            }
+            break;
 
-			default:
-				break;
-		}// END OF LASTEVENT.TYPE SWITCH
-
-		return 1;
-	}
-	return 1;
+        case sf::Event::MouseButtonReleased:
+            if(event.MouseButton.Button == sf::Mouse::Left){
+                mouseLeftReleased(event.MouseButton.X,event.MouseButton.Y);
+            }
+            break;
+        default:
+            break;
+        }// END OF LASTEVENT.TYPE SWITCH
+    }
+    return 1;
 }
 
 

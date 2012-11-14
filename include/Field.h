@@ -44,12 +44,6 @@ public:
 
 	/* EVENTS HANDLER */
 	/*!
-	 * \brief Zoom windows view.
-	 * \param z Zoom amount!
-	 */
-	void zoom(float z);
-
-	/*!
 	 * \brief Stop the execution of Field.
 	 */
 	void stop();
@@ -113,17 +107,6 @@ private:
 	 * \brief theWorld stores a reference to Game World.
 	 */
 	World* _theWorld;
-
-	/*!
-	 * \brief boundaries is a rectangle for graphically showing the world boundaries
-	 */
-	sf::Shape _boundaries;
-
-	/*!
-	 * \brief lastEvent stores the last event
-	 */
-	sf::Event _lastEvent;
-
 
 	/*!
 	 * \brief lifebar stores a lifebar reference
