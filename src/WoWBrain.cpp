@@ -69,8 +69,8 @@ int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) { // WARNING: th
 }
 
 std::vector<Card *> WoWBrain::returnBestCards() {
-	int alpha = MIN_HEURISTIC;
-	int beta = MAX_HEURISTIC;
+	int alpha = INT_MIN;
+	int beta = INT_MAX;
 
 	std::vector<Card *> actual_sequence;
 
@@ -115,7 +115,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 				choice[i] = (*actual_sequence)[i];
 				choice_lenght = i+1;
 			}
-			return this->computeHeuristic();
+			return (MIN_HEURISTIC + 1);
 		}
 
 		for (int i = 0; i < possible_moves_number; i++) {
@@ -164,7 +164,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 				choice[i] = (*actual_sequence)[i];
 				choice_lenght = i+1;
 			}
-			return this->computeHeuristic();
+			return (MAX_HEURISTIC-1);
 		}
 
 		bool opponent_damaged = false, ai_damaged = false;

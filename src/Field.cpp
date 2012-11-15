@@ -106,11 +106,22 @@ void Field::init() {
 	plane2_shadow = _plane2->plane_sprite;
 	plane2_shadow.SetColor(sf::Color(0,0,0,128));
 
+	// init various booleans
+	game_finished = false;
+	plane1_out = false;
+	plane2_out = false;
+
+
 	LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
 	this->_status = INGAME;
 }
 
 void Field::reset(){
+	_xstart = 0;
+	_ystart = 0;
+	_xdisplacement = 16;
+	_ydisplacement = 12;
+
 	// restart the music
 	_bgmusic.Play();
 
@@ -119,7 +130,7 @@ void Field::reset(){
 
 	// heal the planes
 	_plane1->heal_damage(_plane1->getMaxHealth() - _plane1->remainingHealth());
-	_plane1->heal_damage(_plane2->getMaxHealth() - _plane2->remainingHealth());
+	_plane2->heal_damage(_plane2->getMaxHealth() - _plane2->remainingHealth());
 
 	// reset planes positions
 	_plane1->setX(400); _plane1->setY(300); _plane1->setT(0);
@@ -132,6 +143,11 @@ void Field::reset(){
 	delete _playerLifebar;
 	_enemyLifebar= new LifeBar(0,10,590,10);
 	_playerLifebar= new LifeBar(1,10,10,10);
+
+	game_finished = false;
+	this->outcome = 0;
+	plane1_out = false;
+	plane2_out = false;
 
 	this->_internal_state = INIT;
 
