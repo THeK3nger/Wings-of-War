@@ -31,7 +31,7 @@ private:
 	sf::Image _hud;
 	sf::Image _bar;
 	sf::Sprite _hud_sprite;
-        sf::Sprite _bar_sprite;
+    sf::Sprite _bar_sprite;
 
 };
 

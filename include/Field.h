@@ -42,6 +42,11 @@ public:
 	 */
 	void init();
 
+	/*!
+	 * \brief Reset Much Like init
+	 */
+	void reset();
+
 	/* EVENTS HANDLER */
 	/*!
 	 * \brief Stop the execution of Field.

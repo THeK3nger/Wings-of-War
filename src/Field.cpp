@@ -110,6 +110,35 @@ void Field::init() {
 	this->_status = INGAME;
 }
 
+void Field::reset(){
+	// restart the music
+	_bgmusic.Play();
+
+	// clear player choices
+	player_choices.clear();
+
+	// heal the planes
+	_plane1->heal_damage(_plane1->getMaxHealth() - _plane1->remainingHealth());
+	_plane1->heal_damage(_plane2->getMaxHealth() - _plane2->remainingHealth());
+
+	// reset planes positions
+	_plane1->setX(400); _plane1->setY(300); _plane1->setT(0);
+	_preview_plane_a->setX(400); _preview_plane_a->setY(300); _preview_plane_a->setT(0);
+	_preview_plane_b->setX(400); _preview_plane_b->setY(300); _preview_plane_b->setT(0);
+	_plane2->setX(50); _plane2->setY(50); _plane2->setT(0);
+
+	// destroy old lifebars and create new ones
+	delete _enemyLifebar;
+	delete _playerLifebar;
+	_enemyLifebar= new LifeBar(0,10,590,10);
+	_playerLifebar= new LifeBar(1,10,10,10);
+
+	this->_internal_state = INIT;
+
+	this->_status = INGAME;
+	LOGMESSAGE_NO_ENDL("Field Resetted!"); OK;
+}
+
 void Field::update() {
 	this->handleEvents();
 
