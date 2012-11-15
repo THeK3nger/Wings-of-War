@@ -22,7 +22,7 @@ WaterTile::WaterTile() :
     
     frame1=sf::IntRect(16,144,48,176);
     frame2=sf::IntRect(74,144,106,176);
-    frame3=sf::IntRect(122,144,164,176);
+    frame3=sf::IntRect(122,144,154,176);
     
     currentFrame=WaterTile::one;
            

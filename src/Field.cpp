@@ -60,15 +60,15 @@ void Field::init() {
 	_cancelButton->clickableArea=new sf::Rect<int>(_cancelButton->_button_sprite.GetPosition().x,_cancelButton->_button_sprite.GetPosition().y,_cancelButton->_button_sprite.GetSize().x,_cancelButton->_button_sprite.GetSize().y);
 
 	LOGMESSAGE("Create Game World");
-	_theWorld = new World(800, 600);
+	_theWorld = new World(768, 576);
 	_theWorld->addPlane(_plane1);
 	_theWorld->addPlane(_plane2);
 	_theBrain = new WoWBrain(_plane2, _theWorld);
 
 	_xstart = 0;
 	_ystart = 0;
-	_xdisplacement = 0;
-	_ydisplacement = 0;
+	_xdisplacement = 16;
+	_ydisplacement = 12;
 
 	_mouse_down = false;
 
@@ -78,14 +78,15 @@ void Field::init() {
 
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
-	CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
+	int cards_left_padding = 120;
+	CardImage* card = new CardImage(0,cards_left_padding,450,&_cardmaster,0);
 	//setting the clickable area
 	card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 	//adding the cardImage to the cards vector
 	_cards.push_back(card);
 	for(int i=1;i<6;i++)
 	{
-		card = new CardImage(1,91*i,450,&_cardmaster,i);
+		card = new CardImage(1,cards_left_padding + 91*i,450,&_cardmaster,i);
 		card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 		_cards.push_back(card);
 	}
@@ -193,8 +194,8 @@ void Field::update() {
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
 			this->_internal_state = Field::BULLET_ANIM;
-			this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1]);
-			this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1]);
+			this->_bullet1 = new FireBullet(p1pos[0]+_xdisplacement,p1pos[1]+_ydisplacement,p2pos[0]+_xdisplacement,p2pos[1]+_ydisplacement);
+			this->_bullet2 = new FireBullet(p2pos[0]+_xdisplacement,p2pos[1]+_ydisplacement,p1pos[0]+_xdisplacement,p1pos[1]+_ydisplacement);
 			if(!_plane1->canShootTo(_plane2)){
 				_bullet1->setVisible(false);
 			}
@@ -390,11 +391,12 @@ void Field::draw() {
     _window.SetView(this->_camera);
 
 	// TODO: adjust this, it is just for testing
-	for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
-		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
+	for(int i=0;i<(int)(_theWorld->getWidth()/(2*water_size.x));i++){
+		for(int j=0;j<(int)(_theWorld->getHeight()/(2*water_size.y));j++)
 		{
 			_water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
 			_window.Draw(_water->getSprite());
+//			std::cout
 		}
 	}
 
