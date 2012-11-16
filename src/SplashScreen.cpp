@@ -52,7 +52,6 @@ void SplashScreen::init(){
 
     // Create an empty Field.
     _field = new Field();
-    _field_initiated = false;
 }
 
 /*!
@@ -181,13 +180,7 @@ bool SplashScreen::handleEvents() {
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
                 ResourcesManager::getSingleton().setScope(1);
-                if(!_field_initiated){
-                	_field->init();
-                	_field_initiated = true;
-                }
-                else{
-                	_field->reset();
-                }
+                _field->initialize();
                 _splashState = InGame;
             }
             return 1;

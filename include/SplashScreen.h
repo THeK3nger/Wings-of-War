@@ -97,12 +97,6 @@ private:
     Field* _field;
 
     /*!
-     * \brief tells whether _field->init() has already been called
-     * this is used to decide if it is the case of calling init() or reset() on ENTER KEY PRESSED
-     */
-    bool _field_initiated;
-
-    /*!
      * \brief Initialize SplashScreen class.
      */
     void init();

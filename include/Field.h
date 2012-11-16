@@ -38,14 +38,9 @@ public:
 	void update();
 
 	/*!
-	 * \brief Initialize Field Class
+	 * \brief launches init() the first time it is called, reset() the next times
 	 */
-	void init();
-
-	/*!
-	 * \brief Reset Much Like init
-	 */
-	void reset();
+	void initialize();
 
 	/* EVENTS HANDLER */
 	/*!
@@ -83,7 +78,22 @@ public:
 
 private:
 
-	int outcome;	// outcome will be positive if the AI wins, negative if PLAYER wins, and zero on a DRAW
+	/*!
+	 * \brief Initialize Field Class
+	 */
+	void init();
+
+	/*!
+	 * \brief Reset Much Like init
+	 */
+	void reset();
+
+	/*!
+	 * \brief tells whether the init() method has already been called
+	 */
+	bool _already_initialized;
+
+	int _outcome;	// outcome will be positive if the AI wins, negative if PLAYER wins, and zero on a DRAW
 
 	/*!
 	 * \brief The FieldStatus enum represents external global status for Field.
@@ -195,7 +205,7 @@ private:
 	float plane2_prev_pos[3];
 	float plane2_final_pos [3];
 
-//	bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
+	//	bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
 	bool display_cards;
 
 	// these will keep track of planes shadows positions

@@ -14,16 +14,30 @@ Field::Field() : _window(Game::getMainWindow()) {
 	//PLaying the bgmusic
 	_bgmusic.SetLoop(true);
 
+	_already_initialized = false;
+
 	_internal_state = Field::INIT;
 }
 
 Field::~Field() {
 }
 
+void Field::initialize(){
+	if(!_already_initialized){
+		this->init();
+	}
+	else{
+		this->reset();
+	}
+}
+
 void Field::init() {
+
+	_already_initialized = true;
+
 	_bgmusic.Play();
 
-	this->outcome = 0;
+	this->_outcome = 0;
 
 	gameover_image = GET_SFML_IMAGE_FROM_MANAGER("gameover");
 	gameover_sprite.SetImage(gameover_image);
@@ -32,11 +46,11 @@ void Field::init() {
 	the_winner_is_sprite.SetImage(the_winner_is_image);
 
 	LOGMESSAGE("Initialize Plane 1");
-	_plane1 = new Plane(0, 10, 400, 300, 0);
+	_plane1 = new Plane(0, 10, 700, 300, M_PI);
 	_plane1->plane_sprite.SetColor(sf::Color(255, 0, 0));        // PLANE 1 IS RED
 
 	LOGMESSAGE("Initialize Plane 2");
-	_plane2 = new Plane(1, 10, 50, 50, 0);
+	_plane2 = new Plane(1, 10, 50, 300, 0);
 	_plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
 
 	LOGMESSAGE("Initialize Preview Planes");
@@ -135,10 +149,10 @@ void Field::reset(){
 	_plane2->heal_damage(_plane2->getMaxHealth() - _plane2->remainingHealth());
 
 	// reset planes positions
-	_plane1->setX(400); _plane1->setY(300); _plane1->setT(0);
-	_preview_plane_a->setX(400); _preview_plane_a->setY(300); _preview_plane_a->setT(0);
-	_preview_plane_b->setX(400); _preview_plane_b->setY(300); _preview_plane_b->setT(0);
-	_plane2->setX(50); _plane2->setY(50); _plane2->setT(0);
+	_plane1->setX(700); _plane1->setY(300); _plane1->setT(M_PI);
+	_preview_plane_a->setX(700); _preview_plane_a->setY(300); _preview_plane_a->setT(M_PI);
+	_preview_plane_b->setX(700); _preview_plane_b->setY(300); _preview_plane_b->setT(M_PI);
+	_plane2->setX(50); _plane2->setY(300); _plane2->setT(0);
 
 	// destroy old lifebars and create new ones
 	delete _enemyLifebar;
@@ -147,7 +161,7 @@ void Field::reset(){
 	_playerLifebar= new LifeBar(1,10,10,10);
 
 	game_finished = false;
-	this->outcome = 0;
+	this->_outcome = 0;
 	plane1_out = false;
 	plane2_out = false;
 	moves_counter = 0;
@@ -310,14 +324,14 @@ void Field::update() {
 		if (plane1_out){ // opponent plane is out of bounds
 			game_finished = true;
 			if (plane2_out){ // BOTH planes out of bounds
-				this->outcome = 0;
+				this->_outcome = 0;
 #if DEBUG
 				LOGMESSAGE("both planes out of bounds!");
 #endif
 
 			}
 			else{ // ONLY OPPONENT is out of bounds
-				this->outcome = 1;
+				this->_outcome = 1;
 #if DEBUG
 				LOGMESSAGE("PLAYER out of bounds!");
 #endif
@@ -326,7 +340,7 @@ void Field::update() {
 		}
 		else if (plane2_out){   // ONLY AI plane out of bounds
 			game_finished = true;
-			this->outcome = -1;
+			this->_outcome = -1;
 #if DEBUG
 			LOGMESSAGE("AI PLANE out of bounds!");
 #endif
@@ -337,14 +351,14 @@ void Field::update() {
 			if (_plane1->remainingHealth() <= 0){ // PLAYER DIED
 				game_finished = true;
 				if (_plane2->remainingHealth() <= 0){ // AI DIED TOO
-					this->outcome = 0;
+					this->_outcome = 0;
 #if DEBUG
 					LOGMESSAGE("BOTH PLANES destroyed!");
 #endif
 
 				}
 				else{
-					this->outcome = 1;
+					this->_outcome = 1;
 #if DEBUG
 					LOGMESSAGE("OPPONENT destroyed!");
 #endif
@@ -353,7 +367,7 @@ void Field::update() {
 			}
 			else if(_plane2->remainingHealth() <= 0){ // ONLY AI DIED
 				game_finished = true;
-				this->outcome = -1;
+				this->_outcome = -1;
 #if DEBUG
 				LOGMESSAGE("AI plane destroyed!");
 #endif
@@ -419,10 +433,10 @@ void Field::update() {
 void Field::draw() {
 	if(this->_internal_state == Field::SHOW_INFOS){
 		_window.Draw(gameover_sprite);
-		if(this->outcome != 0){
+		if(this->_outcome != 0){
 			the_winner_is_sprite.SetPosition(250,100);
 			_window.Draw(the_winner_is_sprite);
-			if(this->outcome > 0){
+			if(this->_outcome > 0){
 				this->winner_plane_sprite = &(this->_plane2->plane_sprite);
 			}
 			else{
