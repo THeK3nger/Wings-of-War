@@ -51,9 +51,9 @@ void WoWBrain::setWeights(int* weights) {
 
 int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) { // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
 
-//	if (plane->remainingHealth() <= 0) {
-//		return 0;
-//	}
+	//	if (plane->remainingHealth() <= 0) {
+	//		return 0;
+	//	}
 	if (!this->_current_world->isInside(plane)) return 0;
 
 	int count = 0; // will count how many moves are valid
@@ -86,13 +86,22 @@ std::vector<Card *> WoWBrain::returnBestCards() {
 			ret.push_back(best_choice[i]);
 		}
 	}
-	else{	// the plane is doomed to die
-		for(unsigned int i = 0; i<CHOICES_PER_TURN; i++){
-			if(i<choice_lenght){
-				ret.push_back(best_choice[i]);
-			}
-			else{
-				ret.push_back(_aiplane->getCardSet()->cards);	// just take the first card
+	else{	// the plane thinks it will go out of bounds in few moves for avoiding shots
+		std::cout << "doomed to die in less than " << CHOICES_PER_TURN << " moves, trying desperate moves!" << std::endl;
+		bool found;
+		found = this->chooseSafeSequence(&ret);
+
+		if(found){
+
+		}
+		else{	// the plane is doomed to die
+			for(unsigned int i = 0; i<CHOICES_PER_TURN; i++){
+				if(i<choice_lenght){
+					ret.push_back(best_choice[i]);
+				}
+				else{
+					ret.push_back(_aiplane->getCardSet()->cards);	// just take the first card
+				}
 			}
 		}
 	}
@@ -250,6 +259,31 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 	delete[] possible_moves;
 	//	std::cout << "returning: "; ret->print(); std::cout << std::endl;
 	return (maximizing? alpha : beta);
+}
+
+bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq){
+	if(!_current_world->isInside(_aiplane)){	// the plane can't be out of the world at any level
+		return false;
+	}
+
+	if(seq->size() == CHOICES_PER_TURN){	// leaf node
+		return true;	// already checked isInside before
+	}
+	else{	// common node
+		float restorepos[3];
+		_aiplane->getPosition(restorepos);
+		for(int i=0; i<_aiplane->getCardSet()->cards_number; i++){
+			seq->push_back((_aiplane->getCardSet()->cards)+i);
+			_aiplane->move((_aiplane->getCardSet()->cards)+i);
+			bool found = this->chooseSafeSequence(seq);
+			_aiplane->setX(restorepos[0]);
+			_aiplane->setY(restorepos[1]);
+			_aiplane->setT(restorepos[2]);
+			if(found) return true;
+			seq->pop_back();
+		}
+	}
+
 }
 
 int WoWBrain::computeHeuristic() {

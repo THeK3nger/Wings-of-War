@@ -87,6 +87,11 @@ public:
 private:
 
     /*!
+     * \brief chooses a moves sequence just to stay inside the field
+     */
+    bool chooseSafeSequence(std::vector<Card *> * seq);
+
+    /*!
      * Implements the alphaBetaPruning algorithm
      * \param depth the reached depth
      * \return True if in choice has been put a valid Sequence
