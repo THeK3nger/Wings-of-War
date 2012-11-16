@@ -28,5 +28,6 @@ In order to compile _Wings of War_ you have to install the following dependencie
 
 * tinyxml
 * SFML
-
+* libtclap
+* libconfig++
 
