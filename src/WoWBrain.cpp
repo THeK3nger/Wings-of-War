@@ -51,9 +51,9 @@ void WoWBrain::setWeights(int* weights) {
 
 int WoWBrain::nextValidMoves(Plane * plane, Card** valid_moves) { // WARNING: this dinamically allocates memory for a list of cards, remember to destroy it in the caller function
 
-	if (plane->remainingHealth() <= 0) {
-		return 0;
-	}
+//	if (plane->remainingHealth() <= 0) {
+//		return 0;
+//	}
 	if (!this->_current_world->isInside(plane)) return 0;
 
 	int count = 0; // will count how many moves are valid
@@ -81,8 +81,20 @@ std::vector<Card *> WoWBrain::returnBestCards() {
 
 	std::cout << "computed heur:\t" << choice_heur << ",\tseq_lenght:\t" << choice_lenght << std::endl;
 	std::vector<Card *> ret;
-	for(int i=0; i<CHOICES_PER_TURN; i++){
-		ret.push_back(best_choice[i]);
+	if(choice_lenght >= CHOICES_PER_TURN){
+		for(int i=0; i<CHOICES_PER_TURN; i++){
+			ret.push_back(best_choice[i]);
+		}
+	}
+	else{	// the plane is doomed to die
+		for(unsigned int i = 0; i<CHOICES_PER_TURN; i++){
+			if(i<choice_lenght){
+				ret.push_back(best_choice[i]);
+			}
+			else{
+				ret.push_back(_aiplane->getCardSet()->cards);	// just take the first card
+			}
+		}
 	}
 
 	delete[] best_choice;
@@ -106,6 +118,14 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 	int possible_moves_number = 0;
 
 	if (maximizing) { // AI PLAYER
+		if (this->_aiplane->remainingHealth() <= 0){	// AIPLANE will already be dead
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
+			return MIN_HEURISTIC + 10;
+		}
+
 		possible_moves = new Card*[_aiplane->getCardSet()->cards_number];
 		possible_moves_number = this->nextValidMoves(this->_aiplane, possible_moves);
 
@@ -115,7 +135,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 				choice[i] = (*actual_sequence)[i];
 				choice_lenght = i+1;
 			}
-			return (MIN_HEURISTIC + 1);
+			return MIN_HEURISTIC;
 		}
 
 		for (int i = 0; i < possible_moves_number; i++) {
@@ -155,6 +175,14 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 		}
 	}
 	else{	// OPPONENT PLAYER
+		if (this->_aiplane->remainingHealth() <= 0){	// AIPLANE will already be dead
+			for(int i=0; i<CHOICES_PER_TURN && i<actual_sequence->size(); i++){
+				choice[i] = (*actual_sequence)[i];
+				choice_lenght = i+1;
+			}
+			return MIN_HEURISTIC + 10;
+		}
+
 		possible_moves = new Card*[_opponent->getCardSet()->cards_number];
 		possible_moves_number = this->nextValidMoves(this->_opponent, possible_moves);
 
@@ -164,7 +192,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 				choice[i] = (*actual_sequence)[i];
 				choice_lenght = i+1;
 			}
-			return (MAX_HEURISTIC-1);
+			return (MAX_HEURISTIC);
 		}
 
 		bool opponent_damaged = false, ai_damaged = false;
