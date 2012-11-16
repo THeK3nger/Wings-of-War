@@ -54,8 +54,8 @@ void Field::init() {
 	_plane2->plane_sprite.SetColor(sf::Color(0, 255, 0));        // PLANE 2 IS GREEN
 
 	LOGMESSAGE("Initialize Preview Planes");
-	_preview_plane_a = new Plane(10,10,400,300,0);
-	_preview_plane_b = new Plane(11,10,400,300,0);
+    _preview_plane_a = new Plane(10,10,400,300,0,true);
+    _preview_plane_b = new Plane(11,10,400,300,0,true);
 	sf::Color col = _plane1->plane_sprite.GetColor();
 	col.a = 128;
 	_preview_plane_a->plane_sprite.SetColor(col);

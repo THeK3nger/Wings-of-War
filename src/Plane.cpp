@@ -46,7 +46,7 @@ float computeAnglesDifference(double ang1, double ang2){
 	return (ang1-ang2);
 }
 
-Plane::Plane(int id, int health, float x, float y, float theta) {
+Plane::Plane(int id, int health, float x, float y, float theta, bool preview) {
     this->id = id;
     this->health = health;
     this->posx = x;
@@ -58,8 +58,9 @@ Plane::Plane(int id, int health, float x, float y, float theta) {
     plane_image.LoadFromFile("assets/fighter.png");
     plane_sprite.SetImage(plane_image);
 
-    //this->cardset= CardSetLoader::LoadFromFile("assets/cardset/3card.xml");
-    this->cardset= CardSetLoader::LoadFromFile("assets/cardset/default_deck.xml");
+    if (!preview) {
+        this->cardset= CardSetLoader::LoadFromFile("assets/cardset/default_deck.xml");
+    }
 }
 
 Plane::~Plane() {

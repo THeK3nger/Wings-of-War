@@ -24,7 +24,7 @@ struct CardSet {
 class Plane {
 public:
 
-    Plane(int id, int health, float x, float y, float theta);
+    Plane(int id, int health, float x, float y, float theta, bool preview = false);
     virtual ~Plane();
 
     sf::Image plane_image;
