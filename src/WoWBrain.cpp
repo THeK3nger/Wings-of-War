@@ -92,7 +92,7 @@ std::vector<Card *> WoWBrain::returnBestCards() {
 		found = this->chooseSafeSequence(&ret);
 
 		if(found){
-
+			// do nothing, ret contains the desired sequence
 		}
 		else{	// the plane is doomed to die
 			for(unsigned int i = 0; i<CHOICES_PER_TURN; i++){
@@ -261,12 +261,14 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 	return (maximizing? alpha : beta);
 }
 
+// this finds a sequence of moves that brings the airplane inside the field, and ensures that from that position the plane will be able to do some manoeuvre to remain inside the field
 bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq){
 	if(!_current_world->isInside(_aiplane)){	// the plane can't be out of the world at any level
 		return false;
 	}
 
-	if(seq->size() == CHOICES_PER_TURN){	// leaf node
+	if(seq->size() == CHOICES_PER_TURN+1){	// leaf node
+		seq->pop_back(); // we only want the first CHOICHES_PER_TURN cards
 		return true;	// already checked isInside before
 	}
 	else{	// common node
@@ -282,8 +284,8 @@ bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq){
 			if(found) return true;
 			seq->pop_back();
 		}
+		return false;
 	}
-
 }
 
 int WoWBrain::computeHeuristic() {
