@@ -110,6 +110,7 @@ void Field::init() {
 	game_finished = false;
 	plane1_out = false;
 	plane2_out = false;
+	moves_counter = 0;
 
 
 	LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
@@ -125,8 +126,9 @@ void Field::reset(){
 	// restart the music
 	_bgmusic.Play();
 
-	// clear player choices
+	// clear moves choices
 	player_choices.clear();
+	ai_choices.clear();
 
 	// heal the planes
 	_plane1->heal_damage(_plane1->getMaxHealth() - _plane1->remainingHealth());
@@ -148,6 +150,7 @@ void Field::reset(){
 	this->outcome = 0;
 	plane1_out = false;
 	plane2_out = false;
+	moves_counter = 0;
 
 	this->_internal_state = INIT;
 
