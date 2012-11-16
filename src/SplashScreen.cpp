@@ -52,6 +52,7 @@ void SplashScreen::init(){
 
     // Create an empty Field.
     _field = new Field();
+    _field_initiated = false;
 }
 
 /*!
@@ -160,7 +161,7 @@ bool SplashScreen::handleEvents() {
        {
             if(FighterState==SplashScreen::Option)
             {
-                sf::String Titolo; Titolo.SetText("Bello le opzioni vero?");
+                sf::String Titolo; Titolo.SetText("Sorry, this was a joke...");
                 Titolo.SetPosition(180,180);
                 sf::String sottoTitolo; sottoTitolo.SetText("");
                 Dialog myDialog(Titolo,sottoTitolo);
@@ -180,7 +181,13 @@ bool SplashScreen::handleEvents() {
             if (FighterState == SplashScreen::StartGame) {
                 _bgmusic.Stop();
                 ResourcesManager::getSingleton().setScope(1);
-                _field->init();
+                if(!_field_initiated){
+                	_field->init();
+                	_field_initiated = true;
+                }
+                else{
+                	_field->reset();
+                }
                 _splashState = InGame;
             }
             return 1;

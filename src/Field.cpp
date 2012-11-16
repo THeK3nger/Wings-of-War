@@ -60,15 +60,15 @@ void Field::init() {
 	_cancelButton->clickableArea=new sf::Rect<int>(_cancelButton->_button_sprite.GetPosition().x,_cancelButton->_button_sprite.GetPosition().y,_cancelButton->_button_sprite.GetSize().x,_cancelButton->_button_sprite.GetSize().y);
 
 	LOGMESSAGE("Create Game World");
-	_theWorld = new World(800, 600);
+	_theWorld = new World(768, 576);
 	_theWorld->addPlane(_plane1);
 	_theWorld->addPlane(_plane2);
 	_theBrain = new WoWBrain(_plane2, _theWorld);
 
 	_xstart = 0;
 	_ystart = 0;
-	_xdisplacement = 0;
-	_ydisplacement = 0;
+	_xdisplacement = 16;
+	_ydisplacement = 12;
 
 	_mouse_down = false;
 
@@ -78,14 +78,15 @@ void Field::init() {
 
 	cardCounter=0;
 	//pointer to card image, instance to a generic cardImage with id=0
-	CardImage* card = new CardImage(0,0,450,&_cardmaster,0);
+	int cards_left_padding = 120;
+	CardImage* card = new CardImage(0,cards_left_padding,450,&_cardmaster,0);
 	//setting the clickable area
 	card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 	//adding the cardImage to the cards vector
 	_cards.push_back(card);
 	for(int i=1;i<6;i++)
 	{
-		card = new CardImage(1,91*i,450,&_cardmaster,i);
+		card = new CardImage(1,cards_left_padding + 91*i,450,&_cardmaster,i);
 		card->clickableArea = new sf::Rect<int>(card->cardSprite.GetPosition().x,card->cardSprite.GetPosition().y,card->cardSprite.GetSize().x,card->cardSprite.GetSize().y);
 		_cards.push_back(card);
 	}
@@ -105,8 +106,53 @@ void Field::init() {
 	plane2_shadow = _plane2->plane_sprite;
 	plane2_shadow.SetColor(sf::Color(0,0,0,128));
 
+	// init various booleans
+	game_finished = false;
+	plane1_out = false;
+	plane2_out = false;
+
+
 	LOGMESSAGE_NO_ENDL("Field Loaded!"); OK;
 	this->_status = INGAME;
+}
+
+void Field::reset(){
+	_xstart = 0;
+	_ystart = 0;
+	_xdisplacement = 16;
+	_ydisplacement = 12;
+
+	// restart the music
+	_bgmusic.Play();
+
+	// clear player choices
+	player_choices.clear();
+
+	// heal the planes
+	_plane1->heal_damage(_plane1->getMaxHealth() - _plane1->remainingHealth());
+	_plane2->heal_damage(_plane2->getMaxHealth() - _plane2->remainingHealth());
+
+	// reset planes positions
+	_plane1->setX(400); _plane1->setY(300); _plane1->setT(0);
+	_preview_plane_a->setX(400); _preview_plane_a->setY(300); _preview_plane_a->setT(0);
+	_preview_plane_b->setX(400); _preview_plane_b->setY(300); _preview_plane_b->setT(0);
+	_plane2->setX(50); _plane2->setY(50); _plane2->setT(0);
+
+	// destroy old lifebars and create new ones
+	delete _enemyLifebar;
+	delete _playerLifebar;
+	_enemyLifebar= new LifeBar(0,10,590,10);
+	_playerLifebar= new LifeBar(1,10,10,10);
+
+	game_finished = false;
+	this->outcome = 0;
+	plane1_out = false;
+	plane2_out = false;
+
+	this->_internal_state = INIT;
+
+	this->_status = INGAME;
+	LOGMESSAGE_NO_ENDL("Field Resetted!"); OK;
 }
 
 void Field::update() {
@@ -152,7 +198,7 @@ void Field::update() {
 		}
 		break;
 	case Field::BRAIN_SELECT:
-//		ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
+		//		ai_choices = _theBrain->returnBestCards(CHOICES_PER_TURN,MAX_THINK_TIME);     // for the moment, this chooses 1 card
 		ai_choices = this->_theBrain->returnBestCards();
 #if DEBUG
 		LOGMESSAGE("AI has chosen!");
@@ -193,8 +239,8 @@ void Field::update() {
 			this->_plane1->getPosition(p1pos);
 			this->_plane2->getPosition(p2pos);
 			this->_internal_state = Field::BULLET_ANIM;
-			this->_bullet1 = new FireBullet(p1pos[0],p1pos[1],p2pos[0],p2pos[1]);
-			this->_bullet2 = new FireBullet(p2pos[0],p2pos[1],p1pos[0],p1pos[1]);
+			this->_bullet1 = new FireBullet(p1pos[0]+_xdisplacement,p1pos[1]+_ydisplacement,p2pos[0]+_xdisplacement,p2pos[1]+_ydisplacement);
+			this->_bullet2 = new FireBullet(p2pos[0]+_xdisplacement,p2pos[1]+_ydisplacement,p1pos[0]+_xdisplacement,p1pos[1]+_ydisplacement);
 			if(!_plane1->canShootTo(_plane2)){
 				_bullet1->setVisible(false);
 			}
@@ -386,15 +432,16 @@ void Field::draw() {
 		return;
 	}
 
-    // Set the camera according to the zoom
-    _window.SetView(this->_camera);
+	// Set the camera according to the zoom
+	_window.SetView(this->_camera);
 
 	// TODO: adjust this, it is just for testing
-	for(int i=0;i<=(int)(_theWorld->getWidth()/(2*water_size.x));i++){
-		for(int j=0;j<=(int)(_theWorld->getHeight()/(2*water_size.y));j++)
+	for(int i=0;i<(int)(_theWorld->getWidth()/(2*water_size.x));i++){
+		for(int j=0;j<(int)(_theWorld->getHeight()/(2*water_size.y));j++)
 		{
 			_water->setPos(i*water_size.x*2+_xdisplacement,j*water_size.y*2+_ydisplacement);
 			_window.Draw(_water->getSprite());
+			//			std::cout
 		}
 	}
 
@@ -468,47 +515,45 @@ void Field::mouseLeftReleased(float x, float y)
 
 	int clicked_card = -1;
 
-
-	//check for click on cards area
-	for(int i=0; i<this->_plane1->getCardSet()->cards_number; i++){
-        sf::Rect<int>* clickableArea = _cards[i]->clickableArea;
-        if(		x>=clickableArea->Left &&
-                y>=clickableArea->Top &&
-                x<=clickableArea->Left+_cards[0]->clickableArea->Right &&
-                y<=clickableArea->Top +_cards[0]->clickableArea->Bottom)
-		{
-			clicked_card = i;
-			break;
+	if(this->_internal_state == PLAYER_SELECT){
+		//check for click on cards area
+		for(int i=0; i<this->_plane1->getCardSet()->cards_number; i++){
+			sf::Rect<int>* clickableArea = _cards[i]->clickableArea;
+			if(		x>=clickableArea->Left &&
+					y>=clickableArea->Top &&
+					x<=clickableArea->Left+_cards[0]->clickableArea->Right &&
+					y<=clickableArea->Top +_cards[0]->clickableArea->Bottom)
+			{
+				clicked_card = i;
+				break;
+			}
+		}
+		if(clicked_card != -1){
+			player_choices.push_back(this->_plane1->getCardSet()->cards + clicked_card);
 		}
 	}
 
-	if(		x>=_okButton->clickableArea->Left &&
-			y>=_okButton->clickableArea->Top &&
-			x<=_okButton->clickableArea->Left+_okButton->clickableArea->Right &&
-			y<=_okButton->clickableArea->Top + _okButton->clickableArea->Bottom)
-	{
-		if(this->_internal_state == Field::PREVIEW_MOVES){
-			this->_internal_state = Field::BRAIN_SELECT;}
-		std::cout << "OK clicked"<<std::endl;
-	}
+	// check for click on OK/CANCEL button
+	if(this->_internal_state == PREVIEW_MOVES){
+		if(		x>=_okButton->clickableArea->Left &&
+				y>=_okButton->clickableArea->Top &&
+				x<=_okButton->clickableArea->Left+_okButton->clickableArea->Right &&
+				y<=_okButton->clickableArea->Top + _okButton->clickableArea->Bottom)
+		{
+			this->_internal_state = Field::BRAIN_SELECT;	// proceed to the AI moves choice phase
+		}
 
-	if(		x>=_cancelButton->clickableArea->Left &&
-			y>=_cancelButton->clickableArea->Top &&
-			x<=_cancelButton->clickableArea->Left+_cancelButton->clickableArea->Right &&
-			y<=_cancelButton->clickableArea->Top + _cancelButton->clickableArea->Bottom)
-	{
-		if(this->_internal_state == Field::PREVIEW_MOVES){
-			player_choices.clear();
-			this->_internal_state = Field::PLAYER_SELECT;}
-		std::cout << "Cancel clicked"<<std::endl;
+		if(		x>=_cancelButton->clickableArea->Left &&
+				y>=_cancelButton->clickableArea->Top &&
+				x<=_cancelButton->clickableArea->Left+_cancelButton->clickableArea->Right &&
+				y<=_cancelButton->clickableArea->Top + _cancelButton->clickableArea->Bottom)
+		{
+			player_choices.clear();		// revert choices
+			this->_internal_state = Field::PLAYER_SELECT;	// ask the player again
+		}
 	}
-
-	if(clicked_card != -1){
-		player_choices.push_back(this->_plane1->getCardSet()->cards + clicked_card);
-	}
-
-	//check for click in buttons area
 }
+
 
 void Field::mouseMoved(float x, float y)
 {
@@ -522,57 +567,57 @@ void Field::mouseMoved(float x, float y)
 
 int Field::handleEvents() {
 	//note GetEvent ALWAYS in if() or while()
-    sf::Event event;
-    while(_window.GetEvent(event))
-    {
+	sf::Event event;
+	while(_window.GetEvent(event))
+	{
 
-        switch(event.Type){
-        case sf::Event::KeyPressed:
-            switch(event.Key.Code){
-            case sf::Key::Escape:
-                stop();
-                break;
-            case sf::Key::Return:
-                if(this->_internal_state == Field::PREVIEW_MOVES){
-                    this->_internal_state = Field::BRAIN_SELECT;
-                }
-                break;
-            case sf::Key::Delete:
-                if(this->_internal_state == Field::PREVIEW_MOVES){
-                    player_choices.clear();
-                    this->_internal_state = Field::PLAYER_SELECT;
-                }
-                break;
-            default:
-                break;
-            } // END OF KEY.CODE SWITCH
-            break;
+		switch(event.Type){
+		case sf::Event::KeyPressed:
+			switch(event.Key.Code){
+			case sf::Key::Escape:
+				stop();
+				break;
+			case sf::Key::Return:
+				if(this->_internal_state == Field::PREVIEW_MOVES){
+					this->_internal_state = Field::BRAIN_SELECT;
+				}
+				break;
+			case sf::Key::Delete:
+				if(this->_internal_state == Field::PREVIEW_MOVES){
+					player_choices.clear();
+					this->_internal_state = Field::PLAYER_SELECT;
+				}
+				break;
+			default:
+				break;
+			} // END OF KEY.CODE SWITCH
+			break;
 
-        case sf::Event::MouseMoved:
-            mouseMoved(event.MouseMove.X,event.MouseMove.Y);
-            break;
+			case sf::Event::MouseMoved:
+				mouseMoved(event.MouseMove.X,event.MouseMove.Y);
+				break;
 
-        case sf::Event::MouseWheelMoved:
-            if(event.MouseWheel.Delta<0) this->_camera.Zoom(1.1f);
-            else this->_camera.Zoom(0.9f);
-            break;
+			case sf::Event::MouseWheelMoved:
+				if(event.MouseWheel.Delta<0) this->_camera.Zoom(1.1f);
+				else this->_camera.Zoom(0.9f);
+				break;
 
-        case sf::Event::MouseButtonPressed:
-            if (event.MouseButton.Button == sf::Mouse::Left){
-                mouseLeftPressed(event.MouseButton.X,event.MouseButton.Y);
-            }
-            break;
+			case sf::Event::MouseButtonPressed:
+				if (event.MouseButton.Button == sf::Mouse::Left){
+					mouseLeftPressed(event.MouseButton.X,event.MouseButton.Y);
+				}
+				break;
 
-        case sf::Event::MouseButtonReleased:
-            if(event.MouseButton.Button == sf::Mouse::Left){
-                mouseLeftReleased(event.MouseButton.X,event.MouseButton.Y);
-            }
-            break;
-        default:
-            break;
-        }// END OF LASTEVENT.TYPE SWITCH
-    }
-    return 1;
+			case sf::Event::MouseButtonReleased:
+				if(event.MouseButton.Button == sf::Mouse::Left){
+					mouseLeftReleased(event.MouseButton.X,event.MouseButton.Y);
+				}
+				break;
+			default:
+				break;
+		}// END OF LASTEVENT.TYPE SWITCH
+	}
+	return 1;
 }
 
 

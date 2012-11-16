@@ -42,6 +42,11 @@ public:
 	 */
 	void init();
 
+	/*!
+	 * \brief Reset Much Like init
+	 */
+	void reset();
+
 	/* EVENTS HANDLER */
 	/*!
 	 * \brief Stop the execution of Field.
@@ -190,7 +195,7 @@ private:
 	float plane2_prev_pos[3];
 	float plane2_final_pos [3];
 
-	bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
+//	bool kicker_was_changed; // this is used to avoid continuous replacement of the kicker content
 	bool display_cards;
 
 	// these will keep track of planes shadows positions
