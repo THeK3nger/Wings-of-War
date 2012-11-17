@@ -84,7 +84,8 @@ void Field::init() {
 	_xdisplacement = 16;
 	_ydisplacement = 12;
 
-	_mouse_down = false;
+	_mouse_left_down = false;
+	_mouse_right_down = false;
 
 	_water = new WaterTile();
 	sf::Rect<float> frect= sf::Rect<float>(0,0,800,600);
@@ -519,16 +520,12 @@ bool Field::isTerminated()
 
 void Field::mouseLeftPressed(float x, float y)
 {
-	this->_mouse_down = true;
-	this->_xstart = x;
-	this->_ystart = y;
+	this->_mouse_left_down = true;
 }
 
 void Field::mouseLeftReleased(float x, float y)
 {
-	this->_mouse_down = false;
-	this->_xstart = 0;
-	this->_ystart = 0;
+	this->_mouse_left_down = false;
 
 	int clicked_card = -1;
 
@@ -571,10 +568,24 @@ void Field::mouseLeftReleased(float x, float y)
 	}
 }
 
+void Field::mouseRightPressed(float x, float y)
+{
+	this->_mouse_right_down = true;
+	this->_xstart = x;
+	this->_ystart = y;
+}
+
+void Field::mouseRightReleased(float x, float y)
+{
+	this->_mouse_right_down = false;
+	this->_xstart = 0;
+	this->_ystart = 0;
+
+}
 
 void Field::mouseMoved(float x, float y)
 {
-	if(_mouse_down){
+	if(_mouse_right_down){
 		_xdisplacement += x - _xstart;
 		_ydisplacement += y - _ystart;
 		_xstart = x;
@@ -623,11 +634,17 @@ int Field::handleEvents() {
 				if (event.MouseButton.Button == sf::Mouse::Left){
 					mouseLeftPressed(event.MouseButton.X,event.MouseButton.Y);
 				}
+				else{	// mouse right button pressed
+					mouseRightPressed(event.MouseButton.X,event.MouseButton.Y);
+				}
 				break;
 
 			case sf::Event::MouseButtonReleased:
 				if(event.MouseButton.Button == sf::Mouse::Left){
 					mouseLeftReleased(event.MouseButton.X,event.MouseButton.Y);
+				}
+				else{	// mouse right button released
+					mouseRightReleased(event.MouseButton.X,event.MouseButton.Y);
 				}
 				break;
 			default:

@@ -63,6 +63,20 @@ public:
 	void mouseLeftReleased(float x, float y);
 
 	/*!
+	 * \brief Perform events on RightMouse click.
+	 * \param x
+	 * \param y
+	 */
+	void mouseRightPressed(float x,float y);
+
+	/*!
+	 * \brief Perform events on RightMouse release.
+	 * \param x
+	 * \param y
+	 */
+	void mouseRightReleased(float x, float y);
+
+	/*!
 	 * \brief Perform events on mouse movement.
 	 * \param x
 	 * \param y
@@ -160,9 +174,14 @@ private:
 	sf::View _camera;
 
 	/*!
-	 * \brief _mouse_down is true if and only if mouse left-button is down.
+	 * \brief _mouse_left_down is true if and only if mouse left-button is down.
 	 */
-	bool _mouse_down;
+	bool _mouse_left_down;
+
+	/*!
+	 * _mouse_right_down is true if and only if mouse right-button is down.
+	 */
+	bool _mouse_right_down;
 
 	/*!
 	 * \brief _cards stores the cards.
