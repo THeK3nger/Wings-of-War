@@ -87,7 +87,7 @@ private:
     /*!
      * \brief chooses a moves sequence just to stay inside the field
      */
-    bool chooseSafeSequence(std::vector<Card *> * seq);
+    bool chooseSafeSequence(std::vector<Card *> * seq, int next_move_to_try);
 
     /*!
      * Implements the alphaBetaPruning algorithm

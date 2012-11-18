@@ -98,7 +98,7 @@ std::vector<Card *> WoWBrain::returnBestCards() {
 	else{	// the plane thinks it will go out of bounds in few moves for avoiding shots
 		std::cout << "doomed to die in less than " << CHOICES_PER_TURN << " moves, trying desperate moves!" << std::endl;
 		bool found;
-		found = this->chooseSafeSequence(&ret);
+		found = this->chooseSafeSequence(&ret, rand()%_aiplane->getCardSet()->cards_number);
 
 		if(found){
 			// do nothing, ret contains the desired sequence
@@ -302,7 +302,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 }
 
 // this finds a sequence of moves that brings the airplane inside the field, and ensures that from that position the plane will be able to do some manoeuvre to remain inside the field
-bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq){
+bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq, int next_move_to_try){
 	if(!_current_world->isInside(_aiplane)){	// the plane can't be out of the world at any level
 		return false;
 	}
@@ -315,9 +315,10 @@ bool WoWBrain::chooseSafeSequence(std::vector<Card *> * seq){
 		float restorepos[3];
 		_aiplane->getPosition(restorepos);
 		for(int i=0; i<_aiplane->getCardSet()->cards_number; i++){
-			seq->push_back((_aiplane->getCardSet()->cards)+i);
-			_aiplane->move((_aiplane->getCardSet()->cards)+i);
-			bool found = this->chooseSafeSequence(seq);
+			seq->push_back((_aiplane->getCardSet()->cards)+next_move_to_try);
+			_aiplane->move((_aiplane->getCardSet()->cards)+next_move_to_try);
+			next_move_to_try = (next_move_to_try + 1) % _aiplane->getCardSet()->cards_number;
+			bool found = this->chooseSafeSequence(seq, next_move_to_try);
 			_aiplane->setX(restorepos[0]);
 			_aiplane->setY(restorepos[1]);
 			_aiplane->setT(restorepos[2]);
