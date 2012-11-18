@@ -51,12 +51,16 @@ int main(int argc, char** argv) {
 	int distance=cfg.lookup("enemy.distance");
 	int visibility=cfg.lookup("enemy.visibility");
 	int health=cfg.lookup("enemy.health");
+	int moves_change=cfg.lookup("enemy.moves_change");
+	moves_change = max(moves_change, 0);
+	moves_change = min(moves_change, 100);
 	cout << "Enemy weights D[" <<distance<<"] V["<<visibility<<"] H["<<health<<"]" <<endl;
-
+	cout << "Enemy moves variety: " << moves_change << std::endl;
 
 	Game* gioco = new Game(600, 800, 32);
 
 	gioco->conf.search_depth=search_depth;
+	gioco->conf.moves_change = moves_change;
 	gioco->conf.E_distance=distance;
 	gioco->conf.E_visibility=visibility;
 	gioco->conf.E_health=health;

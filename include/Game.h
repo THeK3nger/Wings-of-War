@@ -6,6 +6,7 @@
 struct GAME_configuration
 {
 	int search_depth;
+	int moves_change; // the higher this (int) number is, the more likely the AI will change a move for another one with the same heuristic value. See trueOrFalse() function for details.
 	int E_distance;
 	int E_visibility;
 	int E_health;

@@ -5,6 +5,15 @@
 #include "World.h"
 #include "Game.h"
 
+bool trueOrFalse(){
+	int rnd = (rand()%100) + 1;	// rnd goes from 1 to 100
+
+	if((rnd <= Game::conf.moves_change)){	// probability = (moves_variety)/100
+		return true;
+	}
+	return false;
+}
+
 WoWBrain::WoWBrain(Plane* plane, World * world) :
 _aiplane(plane), _current_world(world)
 {
@@ -123,6 +132,8 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 		return this->computeHeuristic();
 	}
 
+	bool there_have_been_improvements = false;
+
 	Card ** possible_moves;
 	int possible_moves_number = 0;
 
@@ -147,19 +158,23 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			return MIN_HEURISTIC;
 		}
 
+		// instantiate some useful variables, in order to avoid reinstantiating it for every child
+		bool new_record;	// 'new_record' and 'fate' are used for adding some indeterminity to the moves choice
+		bool fate;
+		float restore_pos[3];	// used to revert plane position after children analysis
+		Card ** child_seq;	// child_seq, child_length and child heur are used to store results of the research in the children
+		int child_length;
+		int child_heur;
+
 		for (int i = 0; i < possible_moves_number; i++) {
 
 			// modify the status
-			float restore_pos[3];
 			this->_aiplane->getPosition(restore_pos);
 			this->_aiplane->move(possible_moves[i]); // applies a move card
 			actual_sequence->push_back(possible_moves[i]); // adds this manoeuvre to the actual sequence
 
 			// recursive call
-			Card ** child_seq;
-			int child_length;
-			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
-			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
+			child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
 
 			// restore the status
 			actual_sequence->pop_back();
@@ -168,7 +183,18 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			this->_aiplane->setT(restore_pos[2]);
 
 			// analyze this child
+			new_record = false;
 			if(alpha < child_heur){
+				new_record = true;
+			}
+			if(alpha == child_heur){
+				fate = trueOrFalse();
+				if(fate){
+					new_record = true;
+				}
+			}
+			if(new_record){
+				there_have_been_improvements = true;
 				alpha = child_heur;
 				delete[] choice;
 				choice = child_seq;
@@ -204,6 +230,13 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			return (MAX_HEURISTIC);
 		}
 
+		// instantiate some useful variables, in order to avoid reinstantiating it for every child
+		bool new_record;	// 'new_record' and 'fate' are used for adding some indeterminity to the moves choice
+		bool fate;
+		float restore_pos[3];	// used to revert plane position after children analysis
+		Card ** child_seq;	// child_seq, child_length and child heur are used to store results of the research in the children
+		int child_length;
+		int child_heur;
 		bool opponent_damaged = false, ai_damaged = false;
 
 		for (int i = 0; i < possible_moves_number; i++) {
@@ -211,7 +244,6 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			ai_damaged = false;
 
 			// modify the status
-			float restore_pos[3];
 			this->_opponent->getPosition(restore_pos);
 			this->_opponent->move(possible_moves[i]); // applies a move card
 			if (this->_aiplane->canShootTo(_opponent)) { // if there are damages to be inflicted, inflict them
@@ -224,11 +256,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			}
 
 			// recursive call
-			Card ** child_seq;
-			int child_length;
-			int child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
-
-			//			std::cout << "child returned: "; child_sequence->print(); std::cout << std::endl;
+			child_heur = alphaBetaPruningStep((depth + 1), !maximizing, alpha, beta, actual_sequence, child_seq, child_length);
 
 			// restore the status
 			this->_opponent->setX(restore_pos[0]);
@@ -238,8 +266,18 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 			if (ai_damaged) _aiplane->heal_damage(this->expectedDamage());
 
 			// analyze this child
-
+			new_record = false;
 			if(beta > child_heur){
+				new_record = true;
+			}
+			if(beta == child_heur){
+				fate = trueOrFalse();
+				if(fate){
+					new_record = true;
+				}
+			}
+			if(new_record){
+				there_have_been_improvements = true;
 				beta = child_heur;
 				delete[] choice;
 				choice = child_seq;
@@ -257,8 +295,10 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 	}
 
 	delete[] possible_moves;
-	//	std::cout << "returning: "; ret->print(); std::cout << std::endl;
-	return (maximizing? alpha : beta);
+	if(there_have_been_improvements){
+		return (maximizing? alpha : beta);
+	}
+	return (maximizing? MIN_HEURISTIC : MAX_HEURISTIC);
 }
 
 // this finds a sequence of moves that brings the airplane inside the field, and ensures that from that position the plane will be able to do some manoeuvre to remain inside the field

@@ -11,8 +11,6 @@
 #define CHOICES_PER_TURN 2 // can be at most 1/2 * SEARCH_DEPTH
 #define MAX_HEURISTIC 1000000
 #define MIN_HEURISTIC (-1000000)
-//#define MAX_PLAYER_OUT_HEUR (MIN_HEURISTIC+1)
-//#define MIN_PLAYER_OUT_HEUR (MAX_HEURISTIC-1)
 #define MAX_THINK_TIME 10 // seconds limit for the AI to choose a move
 
 class Sequence{
