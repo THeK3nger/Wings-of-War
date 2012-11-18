@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
 	moves_change = max(moves_change, 0);
 	moves_change = min(moves_change, 100);
 	cout << "Enemy weights D[" <<distance<<"] V["<<visibility<<"] H["<<health<<"]" <<endl;
-	cout << "Enemy moves variety: " << moves_change << std::endl;
+	cout << "Enemy changes his mind " << moves_change << "\% of the times" << std::endl;
 
 	Game* gioco = new Game(600, 800, 32);
 
