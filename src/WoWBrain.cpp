@@ -15,7 +15,7 @@ bool trueOrFalse(){
 }
 
 WoWBrain::WoWBrain(Plane* plane, World * world) :
-_aiplane(plane), _current_world(world)
+  _aiplane(plane), _current_world(world), search_depth(6)
 {
 	std::vector<Plane *> * planes = this->_current_world->getPlanes();
 	for (int i = 0; i < planes->size(); i++) {
@@ -41,8 +41,7 @@ WoWBrain::WoWBrain(const WoWBrain& orig) {
 
 WoWBrain::~WoWBrain() {
 	delete _current_world;
-	delete _weights;
-}
+	delete _weights;}
 
 Plane* WoWBrain::getAIPlane() {
 	return this->_aiplane;
@@ -124,7 +123,7 @@ int WoWBrain::alphaBetaPruningStep(int depth, bool maximizing, int alpha, int be
 	choice = new Card*[CHOICES_PER_TURN];	// this is the returned pointer
 	choice_lenght = -1;
 
-	if(depth == Game::conf.search_depth) { // leaf node
+	if(depth == this->search_depth) { // leaf node
 		for(unsigned int i=0; i<CHOICES_PER_TURN; i++){
 			choice[i] = (*actual_sequence)[i];
 		}

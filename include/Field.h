@@ -128,9 +128,10 @@ private:
 	Plane* _preview_plane_b;
 
 	/*!
-	 * \brief theBrain stores a reference to WoW AI.
+	 * \brief brains store a reference to WoW AIs.
 	 */
-	WoWBrain* _theBrain;
+	WoWBrain* _brain1;
+	WoWBrain* _brain2;
 
 	/*!
 	 * \brief theWorld stores a reference to Game World.
@@ -155,7 +156,7 @@ private:
 	 * \brief The States enum represent the game internal status.
 	 */
 	enum States {
-		INIT, PLAYER_SELECT, PREVIEW_MOVES, BRAIN_SELECT, APPLY_MOVES, ANIM_MOVES, BULLET_ANIM, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
+		INIT, AI1_SELECT, AI2_SELECT, APPLY_MOVES, ANIM_MOVES, BULLET_ANIM, COMPUTE_DAMAGES, ANIM_DAMAGES, CHECK_FINISH, SHOW_INFOS
 	};
 
 	/*!
@@ -203,15 +204,16 @@ private:
 	int cardCounter;
 
 	bool game_finished; // will be TRUE when the game has ended
-
+	bool _paused;	// used to interrupt the AI vs AI match
+	
 	float p1pos [3];    // these two arrays will keep track of the displayed position of the planes in the window
 	float p2pos [3];    // WARNING: I think that these should stay in Plane class...
 
 	bool plane1_out;    // these two booleans are used to signal that planes have gone out of bounds
 	bool plane2_out;
 
-	std::vector<Card*> player_choices; // used to store player's choices
-	std::vector<Card*> ai_choices; // used to ask to THE BRAIN which cards should be chosen
+	std::vector<Card*> ai1_choices; // used to store AI1 choices
+	std::vector<Card*> ai2_choices; // used to store AI2 choices
 
 	int moves_counter;      // used to understand how many move cards have already been applied
 	bool something_moved;       // used to signal animations are over

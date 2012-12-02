@@ -42,8 +42,10 @@ int main(int argc, char** argv) {
 	char path[100];
 	sprintf(path,"conf/%s",gameString.c_str());
 	cfg.readFile(path);
-	int search_depth=cfg.lookup("game.depth");
-	cout << "Search depth: " <<search_depth<<endl;
+	int search_depth_1=cfg.lookup("game.ai1_depth");
+	int search_depth_2=cfg.lookup("game.ai2_depth");
+	cout << "Search depth AI1: " <<search_depth_1<<endl;
+	cout << "Search depth AI2: " <<search_depth_2<<endl;
 	//============================================================================
 	//Enemy conf
 	sprintf(path,"conf/%s",enemyString.c_str());
@@ -59,7 +61,8 @@ int main(int argc, char** argv) {
 
 	Game* gioco = new Game(600, 800, 32);
 
-	gioco->conf.search_depth=search_depth;
+	gioco->conf.ai1_search_depth=search_depth_1;
+	gioco->conf.ai2_search_depth=search_depth_2;
 	gioco->conf.moves_change = moves_change;
 	gioco->conf.E_distance=distance;
 	gioco->conf.E_visibility=visibility;
